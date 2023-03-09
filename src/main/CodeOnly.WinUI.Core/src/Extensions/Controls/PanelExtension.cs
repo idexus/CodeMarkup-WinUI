@@ -6,12 +6,12 @@ namespace CodeOnly.WinUI.Core
 {
     public static partial class PanelExtension
 	{
-        public static void Add<T>(this T self, IEnumerable<UIElement> items)
-            where T : Panel
-        {
-            foreach (var item in items)
-                self.Children.Add(item);
-        }
+        //public static void Add<T>(this T self, IEnumerable<UIElement> items)
+        //    where T : Panel
+        //{
+        //    foreach (var item in items)
+        //        self.Children.Add(item);
+        //}
     }
 }
 

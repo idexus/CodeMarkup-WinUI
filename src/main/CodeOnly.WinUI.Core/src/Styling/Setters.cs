@@ -15,5 +15,12 @@ namespace CodeOnly.WinUI.Core
             buildSetters?.Invoke(null);
             FluentStyling.Setters = null;            
         }
+
+        public Setters(T target, Func<T, T> buildSetters)
+        {
+            FluentStyling.Setters = this;
+            buildSetters?.Invoke(null);
+            FluentStyling.Setters = null;
+        }
     }
 }

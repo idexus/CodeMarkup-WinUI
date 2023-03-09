@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using System.Collections.Generic;
 using CodeOnly.WinUI.Core.Internal;
+using Microsoft.UI.Xaml.Controls;
 
 namespace CodeOnly.WinUI.Core
 {    
@@ -8,7 +9,7 @@ namespace CodeOnly.WinUI.Core
     {
         public static T SetValueOrAddSetter<T>(this T self, DependencyProperty property, object value) where T : DependencyObject
         {
-            var setters = FluentStyling.Setters as IList<SetterBase>;
+            var setters = FluentStyling.Setters;
             if (setters != null)
                 setters.Add(new Setter { Property = property, Value = value });
             else

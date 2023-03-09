@@ -154,9 +154,12 @@ namespace CodeOnly.WinUI.Generator.SharpObjects
         {
             this.GenerateContainerUsingsIfNeeded();
             builder.AppendLine($@"
+using Microsoft.UI.Xaml.Data;
+
 namespace {mainSymbol.ContainingNamespace.ToDisplayString()}
 {{
-	{GetUsingString()}public partial class {symbolName}{BaseString()}
+	{GetUsingString()}[Bindable]
+    public partial class {symbolName}{BaseString()}
 	{{");
             GenerateClassBody();
             builder.AppendLine($@"
@@ -172,8 +175,7 @@ namespace {mainSymbol.ContainingNamespace.ToDisplayString()}
                 builder.AppendLine($@"
 using System.Collections;
 using System.Collections.ObjectModel;
-using System.Collections.Generic;
-");
+using System.Collections.Generic;");
         }
 
         // ------- base string -------

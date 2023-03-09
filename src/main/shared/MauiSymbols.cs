@@ -10,6 +10,7 @@ namespace CodeOnly.WinUI.Core.Internal
 	{
         Microsoft.UI.Xaml.VisualStateGroup visualStateGroup;
         Microsoft.UI.Xaml.VisualState visualState;
+        Microsoft.UI.Xaml.Setter setter;
 
         Microsoft.UI.Xaml.StateTrigger stateTrigger;
         Microsoft.UI.Xaml.AdaptiveTrigger adaptiveTrigger;

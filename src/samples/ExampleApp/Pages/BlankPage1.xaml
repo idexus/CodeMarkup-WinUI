@@ -27,7 +27,6 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <StackPanel x:Name="myPanel" Orientation="Vertical">
-            <root:MyButtonControlTemplateRoot />
             <TextBlock x:Name="myTextBlock1" Text="Block 1" MaxLines="5" Style="{ThemeResource BodyTextBlockStyle}"/>
             <TextBlock x:Name="myTextBlock2" Text="Block 2" MaxLines="5" Style="{ThemeResource BodyTextBlockStyle}"/>
             <TextBlock x:Name="myTextBlock3" Text="Block 3" MaxLines="5" Style="{ThemeResource BodyTextBlockStyle}"/>
