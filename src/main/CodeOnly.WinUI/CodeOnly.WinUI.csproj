@@ -2,13 +2,10 @@
   <PropertyGroup>
     <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-    <RootNamespace>CodeOnly.WinUI.Core</RootNamespace>
+    <RootNamespace>CodeOnly.WinUI</RootNamespace>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="..\shared\MauiSymbols.cs" Link="MauiSymbols.cs" />
-  </ItemGroup>
 
   <ItemGroup>
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
@@ -16,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\generators\CodeOnly.WinUI.Generator.Extensions\CodeOnly.WinUI.Generator.Extensions.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\..\generators\CodeOnly.WinUI.Generator.SharpObjects\CodeOnly.WinUI.Generator.SharpObjects.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\CodeOnly.WinUI.Core\CodeOnly.WinUI.Core.csproj" />
   </ItemGroup>
-  
+
 </Project>

@@ -20,8 +20,10 @@ namespace CodeOnly.WinUI.Generator
         public static void WaitForDebugger(CancellationToken cancellationToken)
         {
 #if DEBUG
-            while (!Debugger.IsAttached && !cancellationToken.IsCancellationRequested)
-                Task.Delay(1000).Wait(cancellationToken);
+            if (!Debugger.IsAttached)
+            {
+                Debugger.Launch();
+            }
 #endif
         }
 
@@ -36,7 +38,7 @@ namespace CodeOnly.WinUI.Generator
         {
             var type = symbol;
             var endLoop = false;
-            while (!endLoop && type != null && !type.Name.Equals("Object", StringComparison.Ordinal))
+            while (!endLoop && type != null && !type.Name.Equals("Object", StringComparison.OrdinalIgnoreCase))
             {
                 endLoop = func(type);
                 type = type.BaseType;
@@ -88,19 +90,6 @@ namespace CodeOnly.WinUI.Generator
             return isIEnumerable;
         }
 
-        public static bool IsVisualElement(INamedTypeSymbol symbol)
-        {
-            var isNavigableElement = false;
-
-            LoopDownToObject(symbol, type =>
-            {
-                if (type.ToDisplayString().Equals("Microsoft.Maui.Controls.VisualElement", StringComparison.Ordinal)) isNavigableElement = true;
-                return isNavigableElement;
-            });
-
-            return isNavigableElement;
-        }
-
         public static bool IsBaseImplementationOfInterface(INamedTypeSymbol symbol, string name)
         {
             var count = 0;
@@ -122,22 +111,7 @@ namespace CodeOnly.WinUI.Generator
         public static string GetNormalizedClassName(INamedTypeSymbol type)
         {
             var tail = type.IsGenericType ? $"Of{type.TypeArguments.FirstOrDefault().Name}" : "";
-            var prefix = type.ToDisplayString().Contains(".Shapes.") ? "Shapes" : "";
-            prefix = type.ToDisplayString().Contains(".Compatibility.") ? "Compatibility" : "";
-            return $"{prefix}{type.Name}{tail}";
-        }
-
-        public static bool IsFrameworkElement(INamedTypeSymbol symbol)
-        {
-            var isBindable = false;
-
-            LoopDownToObject(symbol, type =>
-            {
-                if (type.ToDisplayString().Equals("Microsoft.UI.Xaml.FrameworkElement", StringComparison.Ordinal)) isBindable = true;
-                return isBindable;
-            });
-
-            return isBindable;
+            return $"{type.Name}{tail}";
         }
     }
 }

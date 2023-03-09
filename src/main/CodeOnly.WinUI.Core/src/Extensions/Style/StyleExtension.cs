@@ -1,4 +1,6 @@
-﻿namespace CodeOnly.WinUI.Core
+﻿using Microsoft.UI.Xaml;
+
+namespace CodeOnly.WinUI.Core
 {
     /*
     public static class StyleExtension

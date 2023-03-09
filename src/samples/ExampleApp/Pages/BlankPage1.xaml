@@ -1,0 +1,38 @@
+<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<Page
+    x:Class="ExampleApp.BlankPage1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ExampleApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:root="using:ExampleApp"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <!-- VisualState to be triggered when window width is >=720 effective pixels -->
+                        <AdaptiveTrigger MinWindowWidth="720"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="myPanel.Orientation" Value="Horizontal"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <StackPanel x:Name="myPanel" Orientation="Vertical">
+            <root:MyTemplate />
+            <TextBlock x:Name="myTextBlock1" Text="Block 1" MaxLines="5" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <TextBlock x:Name="myTextBlock2" Text="Block 2" MaxLines="5" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <TextBlock x:Name="myTextBlock3" Text="Block 3" MaxLines="5" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <TextBlock x:Name="myTextBlock4" Text="Block 4" MaxLines="5" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <TextBlock x:Name="myTextBlock5" Text="Block 5" MaxLines="5" Style="{ThemeResource BodyTextBlockStyle}"/>
+        </StackPanel>
+    </Grid>
+</Page>

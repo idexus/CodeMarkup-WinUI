@@ -1,39 +1,36 @@
-﻿using System;
+﻿using CodeOnly.WinUI.Core.Internal;
+using Microsoft.UI.Xaml;
+using System;
 using System.Collections;
+using System.Linq;
 
 namespace CodeOnly.WinUI.Core
 {
-    /*
+    
     public partial class Style<T> : IEnumerable
-        where T : BindableObject
+        where T : FrameworkElement
     {
-        readonly static BindableProperty AttachedStyleInvokeProperty =
-            BindableProperty.CreateAttached($"{nameof(Style<T>)}.AttachedInvokeProperty", typeof(Action<T>), typeof(Style<T>), null, propertyChanged: OnAttachedInvokeChanged);
+        readonly static DependencyProperty AttachedStyleInvokeProperty =
+            DependencyProperty.RegisterAttached($"{nameof(Style<T>)}.AttachedInvokeProperty", typeof(Action<T>), typeof(Style<T>), new PropertyMetadata(null, OnAttachedInvokeChanged));
 
-        static void OnAttachedInvokeChanged(BindableObject obj, object oldValue, object newValue)
+        private static void OnAttachedInvokeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var action = newValue as Action<T>;
-            if (obj is VisualElement visualElement && visualElement.Handler != null)
-                action?.Invoke(obj as T);
+            var action = e.NewValue as Action<T>;
+            if (action != null)
+                action?.Invoke(d as T);
         }
 
-        Microsoft.Maui.Controls.Style mauiStyle;
-        public static implicit operator Style(Style<T> style) => style.mauiStyle;
+        Microsoft.UI.Xaml.Style xamlStyle;
+        public static implicit operator Style(Style<T> style) => style.xamlStyle;
 
         public Style()
         {
-            this.mauiStyle = new Microsoft.Maui.Controls.Style(typeof(T));
+            this.xamlStyle = new Microsoft.UI.Xaml.Style(typeof(T));
         }
 
         public Style(Style basedOn) : this()
         {
-            foreach (var setter in basedOn.Setters) this.mauiStyle.Setters.Add(setter);
-            foreach (var trigger in basedOn.Triggers) this.mauiStyle.Triggers.Add(trigger);
-        }
-
-        public Style(bool applyToDerivedTypes) : this()
-        {
-            mauiStyle.ApplyToDerivedTypes = applyToDerivedTypes;
+            foreach (var setter in basedOn.Setters) this.xamlStyle.Setters.Add(setter);
         }
 
         public Style(Func<T,T> buildSetters) : this()
@@ -41,55 +38,39 @@ namespace CodeOnly.WinUI.Core
             BuildSetters(buildSetters);
         }
 
-        public Style(bool applyToDerivedTypes, Func<T, T> styleElement) : this()
-        {
-            mauiStyle.ApplyToDerivedTypes = applyToDerivedTypes;
-            BuildSetters(styleElement);
-        }
-
-        public Style(Style<T> basedOn, bool applyToDerivedTypes) : this(basedOn)
-        {
-            mauiStyle.ApplyToDerivedTypes = applyToDerivedTypes;
-        }
-
         public Style(Style<T> basedOn, Func<T, T> buildSetters) : this(basedOn)
         {
             BuildSetters(buildSetters);
         }
 
-        public Style(Style<T> basedOn, bool applyToDerivedTypes, Func<T, T> styleElement) : this(basedOn)
-        {
-            mauiStyle.ApplyToDerivedTypes = applyToDerivedTypes;
-            BuildSetters(styleElement);
-        }
-
         void BuildSetters(Func<T,T> buildSetters)
         {
-            FluentStyling.Setters = mauiStyle.Setters;
+            FluentStyling.Setters = xamlStyle.Setters;
             buildSetters?.Invoke(null);
             FluentStyling.Setters = null;        
         }
 
         public void Add(Action<T> invokeOnElement)
         {
-            mauiStyle.Setters.Add(new Setter { Property = AttachedStyleInvokeProperty, Value = invokeOnElement });
+            xamlStyle.Setters.Add(new Setter { Property = AttachedStyleInvokeProperty, Value = invokeOnElement });
         }
 
-        public void Add(Setter setter) => this.mauiStyle.Setters.Add(setter);
-        public void Add(TriggerBase trigger) => this.mauiStyle.Triggers.Add(trigger);
+        public void Add(Setter setter) => this.xamlStyle.Setters.Add(setter);
 
-        public void Add(VisualStateGroup group)
-        {
-            mauiStyle.GetVisualStateGroupList().Add(group);
-        }
+        //public void Add(TriggerBase trigger) => this.mauiStyle.Triggers.Add(trigger);
 
-        public void Add(VisualState visualState)
-        {
-            var visualStateGroupList = mauiStyle.GetVisualStateGroupList();
-            visualStateGroupList.GetCommonStatesVisualStateGroup().States.Add(visualState);
-        }
+        //public void Add(VisualStateGroup group)
+        //{
+        //    mauiStyle.GetVisualStateGroupList().Add(group);
+        //}
 
-        IEnumerator IEnumerable.GetEnumerator() => mauiStyle.Setters.GetEnumerator();
+        //public void Add(VisualState visualState)
+        //{
+        //    var visualStateGroupList = mauiStyle.GetVisualStateGroupList();
+        //    visualStateGroupList.GetCommonStatesVisualStateGroup().States.Add(visualState);
+        //}
+
+        IEnumerator IEnumerable.GetEnumerator() => xamlStyle.Setters.GetEnumerator();
     }
-    */
+    
 }

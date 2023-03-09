@@ -1,6 +1,6 @@
 ﻿namespace CodeOnly.WinUI.Core
 {
-    /*
+    
     public class VisualStates
     {
         //------ const -------
@@ -53,6 +53,6 @@
             public const string Pressed = "Pressed";
         }        
     }
-    */
+    
 }
 

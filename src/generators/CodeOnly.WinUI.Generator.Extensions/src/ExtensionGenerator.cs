@@ -1,12 +1,11 @@
 ﻿//
-// MIT License
+// Apache 2.0 License
 // Copyright Pawel Krzywdzinski
 //
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using Microsoft.CodeAnalysis;
 
@@ -20,8 +19,7 @@ namespace CodeOnly.WinUI.Generator.Extensions
         readonly GeneratorExecutionContext context;
         readonly INamedTypeSymbol mainSymbol;
         readonly AttributeData attachedInterfacesAttribute;
-        readonly bool isBindableObject;
-        readonly bool isVisualElement;
+        readonly bool isDependencyObject;
 
         StringBuilder builder;
         bool isExtensionMethodsGenerated;
@@ -31,8 +29,7 @@ namespace CodeOnly.WinUI.Generator.Extensions
             this.context = context;
             this.attachedInterfacesAttribute = Shared.GetAttachedInterfacesAttributeData(symbol);
             this.mainSymbol = attachedInterfacesAttribute == null ? symbol : attachedInterfacesAttribute.ConstructorArguments[0].Value as INamedTypeSymbol;
-            this.isBindableObject = Helpers.IsFrameworkElement(mainSymbol);
-            this.isVisualElement = Helpers.IsVisualElement(mainSymbol);
+            this.isDependencyObject = Shared.IsDependencyObject(mainSymbol);
         }
 
         public void Build()
@@ -100,20 +97,20 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(WinUIPre
 }}");
         }
 
-        List<string> bindablePropertyNames;
+        List<string> dependencyPropertyNames;
 
         void GenerateClassExtensionBody()
         {
-            bindablePropertyNames = new List<string>();
-            var bindableProperties = mainSymbol
+            dependencyPropertyNames = new List<string>();
+            var dependencyProperties = mainSymbol
                     .GetMembers()
                     .Where(e => e.IsStatic && e.Name.EndsWith("Property") && e.DeclaredAccessibility == Accessibility.Public).ToList();
 
-            bindablePropertyNames.Clear();
-            foreach (var prop in bindableProperties)
+            dependencyPropertyNames.Clear();
+            foreach (var prop in dependencyProperties)
             {
                 var name = prop.Name.Substring(0, prop.Name.Length - "Property".Length);
-                bindablePropertyNames.Add(name);
+                dependencyPropertyNames.Add(name);
             }
 
             var properties = mainSymbol
@@ -130,10 +127,7 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(WinUIPre
             foreach (var @event in events)
                 GenerateEventMethod(@event);
 
-            //if (Helpers.IsBaseImplementationOfInterface(mainSymbol, "ITextAlignment"))
-            //    GenerateExtensionMethods_ITextAlignment(mainSymbol);
-
-            GenerateBindablePropertyExtensionsFromInterface();
+            GenerateDependencyPropertyExtensionsFromInterface();
         }
 
 
@@ -141,10 +135,10 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(WinUIPre
         {
             public INamedTypeSymbol MainSymbol { get; set; }
             public IPropertySymbol PropertySymbol { get; set; }
-            public List<string> BindableProperties { get; set; }
-            public bool IsBindableObject { get; set; }
-            public bool IsBindableProperty { get; set; }
-            public string BindablePropertyName { get; set; }
+            public List<string> DependencyProperties { get; set; }
+            public bool IsDependencyObject { get; set; }
+            public bool IsDependencyProperty { get; set; }
+            public string DependencyPropertyName { get; set; }
 
             public string propertyName;
             public string accessedWith;
@@ -152,7 +146,6 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(WinUIPre
             public string camelCaseName;
             public string symbolTypeName;
             public string valueAssignmentString;
-            public string dataTemplateAssignmentString;
             public string fluentStylingCheckString;
 
             public void Build()
@@ -162,27 +155,23 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(WinUIPre
                 propertyName = PropertySymbol.Name.Split(new[] { "." }, StringSplitOptions.None).Last();
                 propertyName = propertyName.Equals("class", StringComparison.Ordinal) ? "@class" : propertyName;
 
-                if (BindablePropertyName == null)
+                if (DependencyPropertyName == null)
                 {
-                    if (BindableProperties != null) IsBindableProperty = BindableProperties.Contains(propertyName);
+                    if (DependencyProperties != null) IsDependencyProperty = DependencyProperties.Contains(propertyName);
                     accessedWith = PropertySymbol.IsStatic ? $"{MainSymbol.ToDisplayString()}" : "self";
-                    BindablePropertyName = $"{MainSymbol.ToDisplayString()}.{propertyName}Property";
+                    DependencyPropertyName = $"{MainSymbol.ToDisplayString()}.{propertyName}Property";
                 }
                 else
-                    IsBindableObject = true;
+                    IsDependencyObject = true;
                 
                 propertyTypeName = PropertySymbol.Type.ToDisplayString();
                 camelCaseName = Helpers.CamelCase(propertyName);
 
-                valueAssignmentString = IsBindableProperty  ?
-                    $@"self.SetValueOrAddSetter({BindablePropertyName}, {camelCaseName});" :
+                valueAssignmentString = IsDependencyProperty  ?
+                    $@"self.SetValueOrAddSetter({DependencyPropertyName}, {camelCaseName});" :
                     $"{accessedWith}.{propertyName} = {camelCaseName};";
 
-                dataTemplateAssignmentString = IsBindableProperty ?
-                    $@"self.SetValueOrAddSetter({BindablePropertyName}, new DataTemplate(loadTemplate));" :
-                    $@"{accessedWith}.{propertyName} = new DataTemplate(loadTemplate);";
-
-                fluentStylingCheckString = IsBindableObject && !IsBindableProperty ?
+                fluentStylingCheckString = IsDependencyObject && !IsDependencyProperty ?
             $@"if (FluentStyling.Setters != null) throw new ArgumentException(""Fluent styling not available for property {propertyName}"");
             " : "";
 
@@ -195,12 +184,12 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(WinUIPre
             Helpers.LoopDownToObject(mainSymbol.BaseType, type =>
             {
                 existInBaseClasses = (type
-                            .GetMembers()
-                            .FirstOrDefault(e =>
-                                e.Kind == SymbolKind.Property &&
-                                e.DeclaredAccessibility == Accessibility.Public &&
-                                (((IPropertySymbol)e).SetMethod != null || !getterAndSetter) &&
-                                e.Name.Equals(propertyName, StringComparison.Ordinal)) != null);
+                    .GetMembers()
+                    .FirstOrDefault(e =>
+                        e.Kind == SymbolKind.Property &&
+                        e.DeclaredAccessibility == Accessibility.Public &&
+                        (((IPropertySymbol)e).SetMethod != null || !getterAndSetter) &&
+                        e.Name.Equals(propertyName, StringComparison.Ordinal)) != null);
 
                 return existInBaseClasses;
             });
@@ -248,7 +237,7 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(WinUIPre
                                 var propertySymbol = (IPropertySymbol)prop;
                                 var attachedName = Shared.GetAttachedPropertyName(propertySymbol);
                                 var fullPropertyName = $"{attachedType.ToDisplayString()}.{attachedName}";
-                                GenerateExtensionMethodForBindableFromInterface(propertySymbol, fullPropertyName);
+                                GenerateExtensionMethodForDependencyFromInterface(propertySymbol, fullPropertyName);
                             }
                         }
                     }
@@ -257,15 +246,15 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(WinUIPre
         }
 
         // --------------------------------------------------
-        // ----- bindable from interface fluent methods -----    
+        // ----- dependency from interface fluent methods -----    
         // --------------------------------------------------
 
-        void GenerateBindablePropertyExtensionsFromInterface()
+        void GenerateDependencyPropertyExtensionsFromInterface()
         {
-            // generate using bindable interface
+            // generate using dependency interface
             var interfaces = mainSymbol
                 .Interfaces
-                .Where(e => e.GetAttributes().FirstOrDefault(e => e.AttributeClass.Name.Equals(Shared.BindablePropertiesAttributeString, StringComparison.Ordinal)) != null);
+                .Where(e => e.GetAttributes().FirstOrDefault(e => e.AttributeClass.Name.Equals(Shared.DependencyPropertiesAttributeString, StringComparison.Ordinal)) != null);
 
             foreach (var inter in interfaces)
             {
@@ -277,34 +266,31 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(WinUIPre
                 {
                     var propertySymbol = (IPropertySymbol)prop;
                     var fullPropertyName = $"{mainSymbol.ToDisplayString()}.{prop.Name}";
-                    GenerateExtensionMethodForBindableFromInterface(propertySymbol);
+                    GenerateExtensionMethodForDependencyFromInterface(propertySymbol);
                 }
             }
         }
 
-        // ------------------------------------------
-        // ----- bindable from interface (both) -----    
-        // ------------------------------------------
+        // -------------------------------------------------------
+        // ----- dependency properties from interface (both) -----    
+        // -------------------------------------------------------
 
-        void GenerateExtensionMethodForBindableFromInterface(IPropertySymbol propertySymbol, string bindablePropertyName = null)
+        void GenerateExtensionMethodForDependencyFromInterface(IPropertySymbol propertySymbol, string dependencyPropertyName = null)
         {
             var info = new PropertyInfo
             {
                 MainSymbol = mainSymbol,
-                BindablePropertyName = bindablePropertyName,
+                DependencyPropertyName = dependencyPropertyName,
                 PropertySymbol = propertySymbol,
-                IsBindableProperty = true,
-                IsBindableObject = true
+                IsDependencyProperty = true,
+                IsDependencyObject = true
             };
             info.Build();
 
             if (!Shared.NotGenerateList.Contains(info.propertyName))
             {
                 GenerateExtensionMethod_Value(info);
-                GenerateExtensionMethod_BindablePropertyBuilder(info);
-
-                //if (info.propertyTypeName.Contains("DataTemplate"))
-                //    GenerateExtensionMethod_DataTemplate(info);
+                GenerateExtensionMethod_DependencyPropertyBuilder(info);
 
                 if (attachedInterfacesAttribute != null)
                     GenerateExtensionMethod_GetValue(info);
@@ -321,8 +307,8 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(WinUIPre
             {
                 MainSymbol = mainSymbol,
                 PropertySymbol = property,
-                BindableProperties = bindablePropertyNames,
-                IsBindableObject = isBindableObject
+                DependencyProperties = dependencyPropertyNames,
+                IsDependencyObject = isDependencyObject
             };
             info.Build();
 
@@ -338,20 +324,8 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(WinUIPre
                 {
                     GenerateExtensionMethod_Value(info);
 
-                    if (info.IsBindableProperty)
-                        GenerateExtensionMethod_BindablePropertyBuilder(info);
-
-                    //if (info.propertyTypeName.Equals("Microsoft.Maui.Controls.DataTemplate"))
-                    //    GenerateExtensionMethod_DataTemplate(info);
-
-                    //if (isVisualElement)
-                    //{
-                    //    if (info.propertyTypeName.Equals("double"))
-                    //        GenerateExtensionMethod_AnimateTo(info, "DoubleTransform");
-
-                    //    if (info.propertyTypeName.Equals("Microsoft.Maui.Graphics.Color"))
-                    //        GenerateExtensionMethod_AnimateTo(info, "ColorTransform");
-                    //}
+                    if (info.IsDependencyProperty)
+                        GenerateExtensionMethod_DependencyPropertyBuilder(info);
                 }
                 else if (isGenericIList &&
                     info.PropertySymbol.GetMethod != null &&
@@ -359,8 +333,8 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(WinUIPre
                     !ExistInBaseClasses(info.propertyName, getterAndSetter: false))
                 {
                     GenerateExtensionMethod_List(info, elementType.ToDisplayString());
-                    if (info.IsBindableProperty)
-                        GenerateExtensionMethod_BindablePropertyBuilder(info);
+                    if (info.IsDependencyProperty)
+                        GenerateExtensionMethod_DependencyPropertyBuilder(info);
                 }
             }
         }
@@ -414,7 +388,7 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(WinUIPre
             builder.Append($@"
         public static {info.propertyTypeName} Get{info.propertyName}Value<T>(this {info.symbolTypeName} self)
         {{
-            return ({info.propertyTypeName})self.GetValue({info.BindablePropertyName});
+            return ({info.propertyTypeName})self.GetValue({info.DependencyPropertyName});
         }}
         ");
         }
@@ -426,109 +400,47 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(WinUIPre
         public static {info.propertyTypeName} Get{info.propertyName}Value<T>(this T self)
             where T : {info.symbolTypeName}
         {{
-            return ({info.propertyTypeName})self.GetValue({info.BindablePropertyName});
+            return ({info.propertyTypeName})self.GetValue({info.DependencyPropertyName});
         }}
         ");
         }
-
-        // Animate To
-
-        /*
-        void GenerateExtensionMethod_AnimateTo(PropertyInfo info, string transformationName)
-        {
-            isExtensionMethodsGenerated = true;
-
-            if (mainSymbol.IsSealed)
-                builder.Append($@"
-        public static Task<bool> Animate{info.propertyName}To(this {info.symbolTypeName} self, {info.propertyTypeName} value, uint length = 250, Easing? easing = null)");
-            else
-                builder.Append($@"
-        public static Task<bool> Animate{info.propertyName}To<T>(this T self, {info.propertyTypeName} value, uint length = 250, Easing? easing = null)
-            where T : {info.symbolTypeName}");
-
-
-            builder.Append($@"
-        {{
-            {info.propertyTypeName} fromValue = self.{info.propertyName};
-            var transform = (double t) => Transformations.{transformationName}(fromValue, value, t);
-            var callback = ({info.propertyTypeName} actValue) => {{ self.{info.propertyName} = actValue; }};
-            return Transformations.AnimateAsync<{info.propertyTypeName}>(self, ""Animate{info.propertyName}To"", transform, callback, length, easing);
-        }}
-        ");
-        }
-        */
 
         // binding builder
 
-        void GenerateExtensionMethod_BindablePropertyBuilder(PropertyInfo info)
+        void GenerateExtensionMethod_DependencyPropertyBuilder(PropertyInfo info)
         {
             if (mainSymbol.IsSealed)
-                GenerateExtensionMethod_BindablePropertyBuilder_Sealed(info);
+                GenerateExtensionMethod_DependencyPropertyBuilder_Sealed(info);
             else
-                GenerateExtensionMethod_BindablePropertyBuilder_Normal(info);
+                GenerateExtensionMethod_DependencyPropertyBuilder_Normal(info);
         }
 
-        void GenerateExtensionMethod_BindablePropertyBuilder_Sealed(PropertyInfo info)
+        void GenerateExtensionMethod_DependencyPropertyBuilder_Sealed(PropertyInfo info)
         {
             isExtensionMethodsGenerated = true;
             builder.Append($@"
         public static {info.symbolTypeName} {info.propertyName}(this {info.symbolTypeName} self, Func<PropertyContext<{info.propertyTypeName}>, IPropertyBuilder<{info.propertyTypeName}>> configure)
         {{
-            var context = new PropertyContext<{info.propertyTypeName}>(self, {info.BindablePropertyName});
+            var context = new PropertyContext<{info.propertyTypeName}>(self, {info.DependencyPropertyName});
             configure(context).Build();
             return self;
         }}
         ");
         }
 
-        void GenerateExtensionMethod_BindablePropertyBuilder_Normal(PropertyInfo info)
+        void GenerateExtensionMethod_DependencyPropertyBuilder_Normal(PropertyInfo info)
         {
             isExtensionMethodsGenerated = true;
             builder.Append($@"
         public static T {info.propertyName}<T>(this T self, Func<PropertyContext<{info.propertyTypeName}>, IPropertyBuilder<{info.propertyTypeName}>> configure)
             where T : {info.symbolTypeName}
         {{
-            var context = new PropertyContext<{info.propertyTypeName}>(self, {info.BindablePropertyName});
+            var context = new PropertyContext<{info.propertyTypeName}>(self, {info.DependencyPropertyName});
             configure(context).Build();
             return self;
         }}
         ");
         }
-
-        /*
-        void GenerateExtensionMethod_DataTemplate(PropertyInfo info)
-        {
-            if (mainSymbol.IsSealed)
-                GenerateExtensionMethod_DataTemplate_Sealed(info);
-            else
-                GenerateExtensionMethod_DataTemplate_Normal(info);
-        }
-
-        void GenerateExtensionMethod_DataTemplate_Sealed(PropertyInfo info)
-        {
-            isExtensionMethodsGenerated = true;
-            builder.Append($@"
-        public static {info.symbolTypeName} {info.propertyName}<T>(this {info.symbolTypeName} self, System.Func<object> loadTemplate)
-        {{
-            {info.dataTemplateAssignmentString}
-            return self;
-        }}
-        ");
-        }
-
-        void GenerateExtensionMethod_DataTemplate_Normal(PropertyInfo info)
-        {
-            isExtensionMethodsGenerated = true;
-            builder.Append($@"
-        public static T {info.propertyName}<T>(this T self, System.Func<object> loadTemplate)
-            where T : {info.symbolTypeName}
-        {{
-            {info.dataTemplateAssignmentString}
-            return self;
-        }}
-        ");
-        }
-        */
 
         // -------------------------------
         // ----- list fluent methods -----    
