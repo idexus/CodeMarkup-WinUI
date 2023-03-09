@@ -30,6 +30,7 @@ namespace ExampleApp
     {
         public MyTemplate()
         {
+            
             this.RegisterPropertyChangedCallback(MyTemplate.TemplatedParentProperty, (sender, e) =>
             {
                 this.Add(
@@ -86,7 +87,7 @@ namespace ExampleApp
                     .Content("Hello Button")
                     .Width(300)
                     .Height(300)
-                    .Template(GetTemplate()),//(ControlTemplate)null),
+                    .Template(GetTemplate()),
 
                 new StackPanel(out var myPanel, e => e.Orientation(Orientation.Horizontal))
                 {
@@ -100,7 +101,6 @@ namespace ExampleApp
             {
                 new VisualState<StackPanel>()
                 {
-                    //new Setter { Target = new TargetPropertyPath { Path = new PropertyPath("FontSize"), Target = button }, Value = 48 },
                     new Setter { Target = new TargetPropertyPath { Path = new PropertyPath("Orientation"), Target = myPanel }, Value = Orientation.Vertical },
                     new AdaptiveTrigger().MinWindowWidth(720)
                 }
