@@ -1,56 +1,75 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.UI.Xaml.Controls;
 using CodeOnly.WinUI.Core;
 using Microsoft.UI.Xaml;
+using Microsoft.UI;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
 
 namespace ExampleApp
 {
     using CodeOnly.WinUI;
-    using Microsoft.UI;
-    using Microsoft.UI.Xaml.Data;
-    using Microsoft.UI.Xaml.Markup;
-    using Microsoft.UI.Xaml.Media;
-    using System.Reflection.Emit;
-    using System.Security;
-    using System.Xml.Linq;
+    using System.Runtime.CompilerServices;
 
-
-    [DependencyProperties]
-    public interface IMyTemplate
+    public class ControlTemplateRoot : Grid
     {
-        public FrameworkElement TemplatedParent { get; set; }
+        public static readonly DependencyProperty TemplatedParentProperty =
+            DependencyProperty.Register(nameof(TemplatedParent),
+            typeof(FrameworkElement),
+            typeof(ControlTemplateRoot),
+            new PropertyMetadata(default(FrameworkElement)));
+
+        public FrameworkElement TemplatedParent
+        {
+            get => (FrameworkElement)GetValue(TemplatedParentProperty);
+            set => SetValue(TemplatedParentProperty, value);
+        }
+
+        public ControlTemplateRoot()
+        {
+            this.RegisterPropertyChangedCallback(ControlTemplateRoot.TemplatedParentProperty, (sender, e) =>
+            {
+                BuildTemplate();
+            });
+        }
+
+        public virtual void BuildTemplate() { }
     }
 
-    [SharpObject]
-    public partial class MyTemplate : Grid, IMyTemplate
+    public class ControlTemplate<TElement, TRoot>
+        where TRoot : ControlTemplateRoot
     {
-        public MyTemplate()
+        string templateXamlString =>
+        $@"<ControlTemplate TargetType=""{typeof(TElement).Name}""
+            xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+            xmlns:root=""using:{typeof(TRoot).Namespace}"">
+            <root:{typeof(TRoot).Name} TemplatedParent=""{{Binding RelativeSource={{RelativeSource TemplatedParent}}}}""/>
+        </ControlTemplate>";
+
+        ControlTemplate xamlControlTemplate => (ControlTemplate)XamlReader.Load(templateXamlString);
+        public static implicit operator ControlTemplate(ControlTemplate<TElement, TRoot> templateBuilder) => templateBuilder.xamlControlTemplate;
+    }
+
+    public partial class MyButtonControlTemplateRoot : ControlTemplateRoot
+    {
+        public override void BuildTemplate()
         {
-            
-            this.RegisterPropertyChangedCallback(MyTemplate.TemplatedParentProperty, (sender, e) =>
+            this.Add(new Grid(e => e.VerticalAlignment(VerticalAlignment.Center))
             {
-                this.Add(
-                    new Grid(e => e.VerticalAlignment(VerticalAlignment.Center))
-                    {
-                        new TextBlock().Text(e => e.Path("Content").Source(TemplatedParent))                        
-                    });
+                new TextBlock().Text(e => e.Path("Content").Source(TemplatedParent))
+            });
 
-                this.AddVisualStateGroup("CommonStates", new List<VisualState>
+            this.AddVisualStateGroup("CommonStates", new List<VisualState>
+            {
+                new VisualState<Button>("PointerOver")
                 {
-                    new VisualState<Button>("PointerOver")
-                    {
-                        new Setter { Target = new TargetPropertyPath { Path = new PropertyPath("Background"), Target = this }, Value = new SolidColorBrush(Colors.Red) },
-                    },
+                    new Setter { Target = new TargetPropertyPath { Path = new PropertyPath("Background"), Target = this }, Value = new SolidColorBrush(Colors.Red) },
+                },
 
-                    new VisualState<Button>("Normal")
-                    {
-                        new Setter { Target = new TargetPropertyPath { Path = new PropertyPath("Background"), Target = this }, Value = new SolidColorBrush(Colors.Gray) },
-                    }
-                });
+                new VisualState<Button>("Normal")
+                {
+                    new Setter { Target = new TargetPropertyPath { Path = new PropertyPath("Background"), Target = this }, Value = new SolidColorBrush(Colors.Gray) },
+                }
             });
         }
     }
@@ -60,25 +79,8 @@ namespace ExampleApp
         private readonly Button button;
 
         
-        private ControlTemplate GetTemplate()
-        {
-            string template =
-                $@"
-                <ControlTemplate TargetType =""Button""
-                    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-                    xmlns:root=""using:{this.GetType().Namespace}"">
-                    
-                    <root:MyTemplate TemplatedParent=""{{Binding RelativeSource={{RelativeSource TemplatedParent}}}}""/>
-
-                </ControlTemplate>";
-             return (ControlTemplate)XamlReader.Load(template);
-        }
-
-
         public CodePage() 
         {
-            var buttonControlTemplate = new ControlTemplate { TargetType = typeof(Button) };
-
             this.Content = new StackPanel
             {
                 new Button()
@@ -87,7 +89,7 @@ namespace ExampleApp
                     .Content("Hello Button")
                     .Width(300)
                     .Height(300)
-                    .Template(GetTemplate()),
+                    .Template(new ControlTemplate<Button, MyButtonControlTemplateRoot>()),
 
                 new StackPanel(out var myPanel, e => e.Orientation(Orientation.Horizontal))
                 {
@@ -105,6 +107,19 @@ namespace ExampleApp
                     new AdaptiveTrigger().MinWindowWidth(720)
                 }
             });
+
+            //this.AddVisualStateGroup("CommonStates", new List<VisualState>
+            //    {
+            //        new VisualState<Button>("PointerOver")
+            //        {
+            //            new Setter { Target = new TargetPropertyPath { Path = new PropertyPath("Background"), Target = this }, Value = new SolidColorBrush(Colors.Red) },
+            //        },
+
+            //        new VisualState<Button>("Normal")
+            //        {
+            //            new Setter { Target = new TargetPropertyPath { Path = new PropertyPath("Background"), Target = this }, Value = new SolidColorBrush(Colors.Gray) },
+            //        }
+            //    });
         }
     }
 }
