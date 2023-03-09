@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Media;
 namespace ExampleApp
 {
     using CodeOnly.WinUI;
+    using System;
     using System.Runtime.CompilerServices;
 
     public class ControlTemplateRoot : Grid
@@ -17,13 +18,20 @@ namespace ExampleApp
             DependencyProperty.Register(nameof(TemplatedParent),
             typeof(FrameworkElement),
             typeof(ControlTemplateRoot),
-            new PropertyMetadata(default(FrameworkElement)));
+            new PropertyMetadata(default(FrameworkElement), TemplatedParentCallback));
 
         public FrameworkElement TemplatedParent
         {
             get => (FrameworkElement)GetValue(TemplatedParentProperty);
             set => SetValue(TemplatedParentProperty, value);
         }
+
+        private static void TemplatedParentCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+
 
         public ControlTemplateRoot()
         {
