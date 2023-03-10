@@ -19,7 +19,7 @@ namespace CodeOnly.WinUI.Generator.Extensions
             // Helpers.WaitForDebugger(context.CancellationToken);
 
             var winUISymbolTypes = context.Compilation.GetSymbolsWithName(s => true, filter: SymbolFilter.Type)
-                .Where(e => e.ToDisplayString().Equals("CodeOnly.WinUI.Core.Internal.WinUISymbols"))
+                .Where(e => e.ToDisplayString().Equals("CodeOnly.WinUI.Internal.WinUISymbols"))
                 .ToList()
                 .FirstOrDefault() as INamedTypeSymbol;
 

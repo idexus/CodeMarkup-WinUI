@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using CodeOnly.WinUI.Core;
+using CodeOnly.WinUI;
 
 namespace ExampleApp
 {

@@ -1,9 +1,9 @@
-﻿using CodeOnly.WinUI.Core.Internal;
+﻿using CodeOnly.WinUI.Internal;
 using Microsoft.UI.Xaml;
 using System;
 using System.Collections;
 
-namespace CodeOnly.WinUI.Core
+namespace CodeOnly.WinUI
 {
     
     public partial class VisualState<T> : IEnumerable

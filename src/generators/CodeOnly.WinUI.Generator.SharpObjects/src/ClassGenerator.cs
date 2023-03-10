@@ -51,7 +51,7 @@ namespace CodeOnly.WinUI.Generator.SharpObjects
             }
             else
             {
-                if (!isNewPropertyContainer && mainSymbol.ContainingNamespace.ToDisplayString().Equals(Shared.LibPrefix))
+                if (!isNewPropertyContainer && mainSymbol.ContainingNamespace.ToDisplayString().Equals(Shared.ControlsLibPrefix))
                 {
                     this.contentPropertyName = FindContentPropertyName();
                 }
@@ -143,8 +143,8 @@ namespace CodeOnly.WinUI.Generator.SharpObjects
 
         public string GetUsingString()
         {
-            if (mainSymbol.ContainingNamespace.ToDisplayString().Equals(Shared.LibPrefix))
-                return  $@"using {Shared.LibPrefix};
+            if (mainSymbol.ContainingNamespace.ToDisplayString().Equals(Shared.ControlsLibPrefix))
+                return  $@"using {Shared.ControlsLibPrefix};
 
     ";
             return "";

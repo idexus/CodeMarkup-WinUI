@@ -7,7 +7,8 @@ namespace CodeOnly.WinUI.Generator
 	public class Shared
 	{
         public const string WinUIPrefix = "Microsoft.UI.Xaml";
-        public const string LibPrefix = "CodeOnly.WinUI";
+        public const string ControlsLibPrefix = "CodeOnly.WinUI.Controls";
+        public const string CoreLibPrefix = "CodeOnly.WinUI";
 
         public const string DependencyObjectName = "Microsoft.UI.Xaml.DependencyObject";
 

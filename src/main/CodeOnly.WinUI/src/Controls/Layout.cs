@@ -1,7 +1,7 @@
-﻿using CodeOnly.WinUI.Core;
+﻿using CodeOnly.WinUI;
 
 
-namespace CodeOnly.WinUI
+namespace CodeOnly.WinUI.Controls
 {
     [SharpObject]
     public partial class Grid : Microsoft.UI.Xaml.Controls.Grid { }

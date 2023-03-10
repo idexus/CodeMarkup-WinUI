@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace CodeOnly.WinUI.Core.Internal
+namespace CodeOnly.WinUI.Internal
 {
     class WinUISymbols
 	{

@@ -1,10 +1,10 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using CodeOnly.WinUI.Core;
+using CodeOnly.WinUI;
 
 namespace ExampleApp
 {
-    using CodeOnly.WinUI;
+    using CodeOnly.WinUI.Controls;
     using Microsoft.UI;
     using Microsoft.UI.Xaml.Media;
     using Microsoft.UI.Xaml.Media.Animation;

@@ -16,7 +16,7 @@ namespace CodeOnly.WinUI.Generator.SharpObjects
 
         public void Execute(GeneratorExecutionContext context)
         {
-            // Helpers.WaitForDebugger(context.CancellationToken);
+            //Helpers.WaitForDebugger(context.CancellationToken);
 
             var sharpSymbols = context.Compilation.GetSymbolsWithName((s) => true, filter: SymbolFilter.Type)
                 .Where(e => !e.IsStatic && e.GetAttributes().FirstOrDefault(e => e.AttributeClass.Name.Equals(Shared.SharpObjectAttributeString)) != null)

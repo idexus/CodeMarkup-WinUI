@@ -1,8 +1,8 @@
-﻿using CodeOnly.WinUI.Core;
+﻿using CodeOnly.WinUI;
 using Microsoft.UI.Xaml;
 using System;
 
-namespace CodeOnly.WinUI
+namespace CodeOnly.WinUI.Controls
 {
     [SharpObject]
     public partial class NavigationView : Microsoft.UI.Xaml.Controls.NavigationView { }
@@ -25,11 +25,6 @@ namespace CodeOnly.WinUI
     //    public Button()
     //    {
     //        this.DefaultStyleKey = typeof(Button);
-    //        var template = new Microsoft.UI.Xaml.Controls.ControlTemplate
-    //        {
-    //            TargetType = typeof(Button),
-        
-    //        };
     //    }
     //}
 }
