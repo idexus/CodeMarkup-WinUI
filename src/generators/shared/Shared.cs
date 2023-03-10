@@ -2,21 +2,21 @@
 using System.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace CodeOnly.WinUI.Generator
+namespace CodeMarkup.WinUI.Generator
 {
 	public class Shared
 	{
         public const string WinUIPrefix = "Microsoft.UI.Xaml";
-        public const string ControlsLibPrefix = "CodeOnly.WinUI.Controls";
-        public const string CoreLibPrefix = "CodeOnly.WinUI";
+        public const string ControlsLibPrefix = "CodeMarkup.WinUI.Controls";
+        public const string CoreLibPrefix = "CodeMarkup.WinUI";
 
         public const string DependencyObjectName = "Microsoft.UI.Xaml.DependencyObject";
 
         public static string[] NotGenerateList = { "this[]" };
 
-        public const string ContentPropertyAttributeString = "ContentPropertyAttribute";
+        public const string ContainerPropertyAttributeString = "ContainerPropertyAttribute";
         public const string DependencyPropertiesAttributeString = "DependencyPropertiesAttribute";
-        public const string SharpObjectAttributeString = "SharpObjectAttribute";
+        public const string CodeMarkupAttributeString = "CodeMarkupAttribute";
         public const string AttachedPropertiesAttributeString = "AttachedPropertiesAttribute";
         public const string AttachedInterfacesAttributeString = "AttachedInterfacesAttribute";
         public const string AttachedNameAttributeString = "AttachedNameAttribute";

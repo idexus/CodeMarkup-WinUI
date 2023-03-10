@@ -11,7 +11,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CodeOnly.WinUI.Generator
+namespace CodeMarkup.WinUI.Generator
 {
     public static class Helpers
     {
