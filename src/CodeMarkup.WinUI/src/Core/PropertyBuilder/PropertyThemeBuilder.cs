@@ -24,7 +24,7 @@ namespace CodeMarkup.WinUI
         public bool Build()
         {
             if (buildValue)
-                Context.Element.SetValueOrAddSetter(Context.Property, newValue);
+                Context.Element.SetValue(Context.Property, newValue);
             else if (!isSet)
             {
                 if (defaultIsSet)
@@ -32,7 +32,7 @@ namespace CodeMarkup.WinUI
                     if (defaultConfigure != null)
                         isSet = defaultConfigure(Context).Build();
                     else
-                        Context.Element.SetValueOrAddSetter(Context.Property, defaultValue);
+                        Context.Element.SetValue(Context.Property, defaultValue);
                 }
 
             }

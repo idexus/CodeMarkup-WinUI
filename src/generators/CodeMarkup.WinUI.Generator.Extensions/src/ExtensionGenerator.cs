@@ -127,7 +127,6 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.W
             GenerateDependencyPropertyExtensionsFromInterface();
         }
 
-
         class PropertyInfo
         {
             public INamedTypeSymbol MainSymbol { get; set; }
@@ -143,7 +142,6 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.W
             public string camelCaseName;
             public string symbolTypeName;
             public string valueAssignmentString;
-            public string fluentStylingCheckString;
 
             public void Build()
             {
@@ -165,13 +163,8 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.W
                 camelCaseName = Helpers.CamelCase(propertyName);
 
                 valueAssignmentString = IsDependencyProperty  ?
-                    $@"self.SetValueOrAddSetter({DependencyPropertyName}, {camelCaseName});" :
+                    $@"self.SetValue({DependencyPropertyName}, {camelCaseName});" :
                     $"{accessedWith}.{propertyName} = {camelCaseName};";
-
-                fluentStylingCheckString = IsDependencyObject && !IsDependencyProperty ?
-            $@"if (FluentStyling.Setters != null) throw new ArgumentException(""Fluent styling not available for property {propertyName}"");
-            " : "";
-
             }
         }
 
@@ -288,6 +281,7 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.W
             {
                 GenerateExtensionMethod_Value(info);
                 GenerateExtensionMethod_DependencyPropertyBuilder(info);
+                GenerateExtensionMethod_Setters(info);
 
                 if (attachedInterfacesAttribute != null)
                     GenerateExtensionMethod_GetValue(info);
@@ -322,7 +316,10 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.W
                     GenerateExtensionMethod_Value(info);
 
                     if (info.IsDependencyProperty)
+                    {
                         GenerateExtensionMethod_DependencyPropertyBuilder(info);
+                        GenerateExtensionMethod_Setters(info);
+                    }
                 }
                 else if (isGenericIList &&
                     info.PropertySymbol.GetMethod != null &&
@@ -331,7 +328,10 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.W
                 {
                     GenerateExtensionMethod_List(info, elementType.ToDisplayString());
                     if (info.IsDependencyProperty)
+                    {
                         GenerateExtensionMethod_DependencyPropertyBuilder(info);
+                        GenerateExtensionMethod_Setters(info);
+                    }
                 }
             }
         }
@@ -351,7 +351,7 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.W
         public static {info.symbolTypeName} {info.propertyName}(this {info.symbolTypeName} self,
             {info.propertyTypeName} {info.camelCaseName})
         {{
-            {info.fluentStylingCheckString}{info.valueAssignmentString}
+            {info.valueAssignmentString}
             return self;
         }}
         ");
@@ -365,7 +365,7 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.W
             {info.propertyTypeName} {info.camelCaseName})
             where T : {info.symbolTypeName}
         {{
-            {info.fluentStylingCheckString}{info.valueAssignmentString}
+            {info.valueAssignmentString}
             return self;
         }}
         ");
@@ -402,7 +402,7 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.W
         ");
         }
 
-        // binding builder
+        // ---- dependency property builder ---
 
         void GenerateExtensionMethod_DependencyPropertyBuilder(PropertyInfo info)
         {
@@ -434,6 +434,49 @@ namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.W
         {{
             var context = new PropertyContext<{info.propertyTypeName}>(self, {info.DependencyPropertyName});
             configure(context).Build();
+            return self;
+        }}
+        ");
+        }
+
+        // --- setter property builder ---
+
+        void GenerateExtensionMethod_Setters(PropertyInfo info)
+        {
+            if (mainSymbol.IsSealed)
+                GenerateExtensionMethod_Setters_Sealed(info);
+            else
+                GenerateExtensionMethod_Setters_Normal(info);
+        }
+
+        void GenerateExtensionMethod_Setters_Sealed(PropertyInfo info)
+        {
+            isExtensionMethodsGenerated = true;
+            builder.Append($@"
+        public static SettersContext<{info.symbolTypeName}> {info.propertyName}(this SettersContext<{info.symbolTypeName}> self,
+            {info.propertyTypeName} {info.camelCaseName})
+        {{
+            if (self.Target != null)
+                self.XamlSetters.Add(new Setter {{ Target = new TargetPropertyPath {{ Path = new PropertyPath(""{info.propertyName}""), Target = self.Target }}, Value = {info.camelCaseName} }});
+            else
+                self.XamlSetters.Add(new Setter {{ Property = {info.DependencyPropertyName}, Value = {info.camelCaseName} }});
+            return self;
+        }}
+        ");
+        }
+
+        void GenerateExtensionMethod_Setters_Normal(PropertyInfo info)
+        {
+            isExtensionMethodsGenerated = true;
+            builder.Append($@"
+        public static SettersContext<T> {info.propertyName}<T>(this SettersContext<T> self,
+            {info.propertyTypeName} {info.camelCaseName})
+            where T : {info.symbolTypeName}
+        {{
+            if (self.Target != null)
+                self.XamlSetters.Add(new Setter {{ Target = new TargetPropertyPath {{ Path = new PropertyPath(""{info.propertyName}""), Target = self.Target }}, Value = {info.camelCaseName} }});
+            else
+                self.XamlSetters.Add(new Setter {{ Property = {info.DependencyPropertyName}, Value = {info.camelCaseName} }});
             return self;
         }}
         ");

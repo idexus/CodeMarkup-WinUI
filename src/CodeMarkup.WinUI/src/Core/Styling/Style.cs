@@ -20,7 +20,7 @@ namespace CodeMarkup.WinUI
                 action?.Invoke(d as T);
         }
 
-        Microsoft.UI.Xaml.Style xamlStyle;
+        readonly Microsoft.UI.Xaml.Style xamlStyle;
         public static implicit operator Style(Style<T> style) => style.xamlStyle;
 
         public Style()
@@ -28,26 +28,37 @@ namespace CodeMarkup.WinUI
             this.xamlStyle = new Microsoft.UI.Xaml.Style(typeof(T));
         }
 
-        public Style(Style basedOn) : this()
+        public Style(Style<T> basedOn) : this()
         {
-            foreach (var setter in basedOn.Setters) this.xamlStyle.Setters.Add(setter);
+            foreach (var setter in basedOn.xamlStyle.Setters) this.xamlStyle.Setters.Add(setter);
         }
 
-        public Style(Func<T,T> buildSetters) : this()
+        public Style(Func<SettersContext<T>,SettersContext<T>> buildSetters) : this()
         {
             BuildSetters(buildSetters);
         }
 
-        public Style(Style<T> basedOn, Func<T, T> buildSetters) : this(basedOn)
+        public Style(Style<T> basedOn, Func<SettersContext<T>, SettersContext<T>> buildSetters) : this(basedOn)
         {
             BuildSetters(buildSetters);
         }
 
-        void BuildSetters(Func<T,T> buildSetters)
+        public Style(T target, Func<SettersContext<T>, SettersContext<T>> buildSetters) : this()
         {
-            FluentStyling.Setters = xamlStyle.Setters;
-            buildSetters?.Invoke(null);
-            FluentStyling.Setters = null;        
+            BuildSetters(buildSetters, target);
+        }
+
+        public Style(Style<T> basedOn, T target, Func<SettersContext<T>, SettersContext<T>> buildSetters) : this(basedOn)
+        {
+            BuildSetters(buildSetters, target);
+        }
+
+        void BuildSetters(Func<SettersContext<T>, SettersContext<T>> buildSetters, FrameworkElement target = null)
+        {
+            var settersContext = new SettersContext<T> { Target = target };
+            buildSetters(settersContext);
+            foreach (var setter in settersContext.XamlSetters)
+                this.xamlStyle.Setters.Add(setter);
         }
 
         public void Add(Action<T> invokeOnElement)
@@ -56,17 +67,12 @@ namespace CodeMarkup.WinUI
         }
 
         public void Add(Setter setter) => this.xamlStyle.Setters.Add(setter);
-
-        //public void Add(VisualStateGroup group)
-        //{
-        //    mauiStyle.GetVisualStateGroupList().Add(group);
-        //}
-
-        //public void Add(VisualState visualState)
-        //{
-        //    var visualStateGroupList = mauiStyle.GetVisualStateGroupList();
-        //    visualStateGroupList.GetCommonStatesVisualStateGroup().States.Add(visualState);
-        //}
+        
+        public void Add(Setters<T> setters)
+        {
+            foreach(var setter in setters.settersContext.XamlSetters)
+                this.xamlStyle.Setters.Add(setter);
+        }
 
         IEnumerator IEnumerable.GetEnumerator() => xamlStyle.Setters.GetEnumerator();
     }

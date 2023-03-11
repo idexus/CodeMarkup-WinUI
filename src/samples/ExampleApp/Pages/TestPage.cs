@@ -11,20 +11,25 @@ namespace ExampleApp
 
     internal class TestPage : Page
     {
+        ResourceDictionary res = new()
+        {
+            new Style<TextBlock>(e => e.FontSize(28))
+        };
+
         readonly ControlTemplate buttonTemplate = new ControlTemplate<Button, Grid>((parent, root) => {
 
-            root.AddVisualStateList(VisualStates.CommonStates, new List<VisualState>
+            root.AddVisualStateList(VisualState.CommonStates, new List<VisualState>
             {
-                new VisualState<Button>(VisualStates.Button.PointerOver) {
-                    new Setter().Target(root, nameof(Button.Background)).Value(new SolidColorBrush(Colors.Red)),
+                new VisualState(VisualState.Button.PointerOver) {               
+                    new Setters<Grid>(root, e => e.Background(new SolidColorBrush(Colors.Red)))
                 },
 
-                new VisualState<Button>(VisualStates.Button.Normal) {
-                    new Setter().Target(root, nameof(Button.Background)).Value(new SolidColorBrush(Colors.Gray)),
+                new VisualState(VisualState.Button.Normal) {
+                    new Setters<Grid>(root, e => e.Background(new SolidColorBrush(Colors.Gray)))
                 }
             });
             
-            root.Add( 
+            root.Add(
                 new Grid(e => e
                     .RowDefinitions(e => e.Auto(count: 2))
                     .VerticalAlignment(VerticalAlignment.Center)
@@ -35,8 +40,9 @@ namespace ExampleApp
                 });
         });
 
-        public TestPage() 
+        public TestPage()
         {
+            this.Resources = res;
             this.Content = new StackPanel(e => e.HorizontalAlignment(HorizontalAlignment.Right))
             {
                 new Button()
@@ -51,14 +57,26 @@ namespace ExampleApp
                     new TextBlock().Text("Text 1"),
                     new TextBlock().Text("Text 2"),
                     new TextBlock().Text("Text 3"),
-                    new TextBlock().Text("Text 4"),                    
+                    new TextBlock().Text("Text 4")
+                },
+
+                new DropDownButton
+                {
+                    e => e.Content("Choose"),
+
+                    new MenuFlyout
+                    {
+                         new MenuFlyoutItem().Text("Item 1"),
+                         new MenuFlyoutItem().Text("Item 2"),
+                         new MenuFlyoutItem().Text("Item 3"),
+                    }
                 }
             }
             .AddVisualStateList(new List<VisualState> // must be defined in direct child of Page
             {
-                new VisualState<StackPanel>()
-                {
-                    new Setter().Target(myPanel, nameof(StackPanel.Orientation)).Value(Orientation.Vertical),
+                new VisualState()
+                {      
+                    new Setters<StackPanel>(myPanel, e => e.Orientation(Orientation.Vertical)),
                     new AdaptiveTrigger().MinWindowWidth(720)
                 }
             });

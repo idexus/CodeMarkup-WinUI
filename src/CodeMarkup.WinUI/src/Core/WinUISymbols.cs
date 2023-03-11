@@ -20,6 +20,11 @@ namespace CodeMarkup.WinUI.Internal
 
         Microsoft.UI.Xaml.Controls.StackPanel stackPanel;
         Microsoft.UI.Xaml.Controls.Grid grid;
+        // 
+        Microsoft.UI.Xaml.Controls.Button button;
+        Microsoft.UI.Xaml.Controls.DropDownButton DropDownButton;
+        Microsoft.UI.Xaml.Controls.MenuFlyout MenuFlyout;
+        Microsoft.UI.Xaml.Controls.MenuFlyoutItem MenuFlyoutItem;
 
         // Navigation
 
@@ -28,7 +33,6 @@ namespace CodeMarkup.WinUI.Internal
         Microsoft.UI.Xaml.Controls.Pivot pivot;
         Microsoft.UI.Xaml.Controls.TabView tabView;
 
-        Microsoft.UI.Xaml.Controls.Button button;
         Microsoft.UI.Xaml.Controls.TextBox textBox;
         Microsoft.UI.Xaml.Controls.TextBlock textBlock;
     }

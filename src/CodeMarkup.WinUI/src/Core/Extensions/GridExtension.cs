@@ -28,16 +28,16 @@ namespace CodeMarkup.WinUI
         public static T Spacing<T>(this T self, double columnSpacing, double rowSpacing)
             where T : Grid
         {
-            self.SetValueOrAddSetter(Grid.ColumnSpacingProperty, columnSpacing);
-            self.SetValueOrAddSetter(Grid.RowSpacingProperty, rowSpacing);
+            self.SetValue(Grid.ColumnSpacingProperty, columnSpacing);
+            self.SetValue(Grid.RowSpacingProperty, rowSpacing);
             return self;
         }
 
         public static T Spacing<T>(this T self, double spacing)
             where T : Grid
         {
-            self.SetValueOrAddSetter(Grid.ColumnSpacingProperty, spacing);
-            self.SetValueOrAddSetter(Grid.RowSpacingProperty, spacing);
+            self.SetValue(Grid.ColumnSpacingProperty, spacing);
+            self.SetValue(Grid.RowSpacingProperty, spacing);
             return self;
         }
     }

@@ -1,26 +1,47 @@
-﻿using Microsoft.UI.Xaml;
+﻿using CodeMarkup.WinUI.Internal;
+using Microsoft.UI.Xaml;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using CodeMarkup.WinUI.Internal;
-
+using System.Linq;
 
 namespace CodeMarkup.WinUI
 {
-    public class Setters<T> : List<SetterBase>
-        where T : UIElement
-	{
-        public Setters(Func<T,T> buildSetters)
+    public partial class Setters<T> : IEnumerable
+        where T : FrameworkElement
+    {
+        readonly static DependencyProperty AttachedStyleInvokeProperty =
+            DependencyProperty.RegisterAttached($"{nameof(Setters<T>)}.AttachedInvokeProperty", typeof(Action<T>), typeof(Setters<T>), new PropertyMetadata(null, OnAttachedInvokeChanged));
+
+        private static void OnAttachedInvokeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            FluentStyling.Setters = this;
-            buildSetters?.Invoke(null);
-            FluentStyling.Setters = null;            
+            var action = e.NewValue as Action<T>;
+            if (action != null)
+                action?.Invoke(d as T);
         }
 
-        public Setters(T target, Func<T, T> buildSetters)
+        internal SettersContext<T> settersContext = new();
+
+        public Setters() { }
+
+        public Setters(Func<SettersContext<T>,SettersContext<T>> buildSetters)
         {
-            FluentStyling.Setters = this;
-            buildSetters?.Invoke(null);
-            FluentStyling.Setters = null;
+            buildSetters(settersContext);            
         }
+
+        public Setters(T target, Func<SettersContext<T>, SettersContext<T>> buildSetters)
+        {
+            settersContext.Target = target;
+            buildSetters(settersContext);
+        }
+
+        public void Add(Action<T> invokeOnElement)
+        {
+            if (settersContext.Target != null)
+                settersContext.XamlSetters.Add(new Setter { Property = AttachedStyleInvokeProperty, Value = invokeOnElement });
+        }
+
+        public void Add(Setter setter) => settersContext.XamlSetters.Add(setter);
+        IEnumerator IEnumerable.GetEnumerator() => settersContext.XamlSetters.GetEnumerator();
     }
 }
