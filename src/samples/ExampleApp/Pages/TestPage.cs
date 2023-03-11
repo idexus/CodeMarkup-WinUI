@@ -33,7 +33,7 @@ namespace ExampleApp
                     .HorizontalAlignment(HorizontalAlignment.Center))
                 {
                     new TextBlock().Text(e => e.Path(nameof(Button.Content)).Source(parent)).Row(0),
-                    new TextBlock().Text("Sub").Row(1)
+                    new TextBlock().Text("Sub title").Row(1).FontSize(20)
                 });
         }
     }
@@ -49,7 +49,7 @@ namespace ExampleApp
                 // run code block with style on element
                 tb =>
                 {
-                    if (tb.Text == "Text 3") tb.FontSize(30);
+                    if (tb.Text == "Text 3") tb.FontSize(40);
                 }
             }
         };
@@ -57,13 +57,17 @@ namespace ExampleApp
         public TestPage()
         {
             this.Resources = res;
+            
+            this.HorizontalAlignment = HorizontalAlignment.Center;
+            this.VerticalAlignment = VerticalAlignment.Center;
+
             this.Content = new StackPanel(e => e.HorizontalAlignment(HorizontalAlignment.Right))
             {
                 new Button()
                     .FontSize(40)
-                    .Content("Hello Button")
+                    .Content("Hello, World!")
                     .Width(300)
-                    .Height(300),
+                    .Height(120),
 
                 new StackPanel(out var myPanel, e => e.Orientation(Orientation.Horizontal))
                 {

@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using CodeMarkup.WinUI.Controls;
+using Microsoft.UI.Xaml;
 
 namespace ExampleApp
 {
@@ -7,7 +8,7 @@ namespace ExampleApp
         public MainWindow()
         {            
             ExtendsContentIntoTitleBar = true;
-            Content = new MainPage();
+            Content = new Frame { new MainPage() };
         }
     }
 }

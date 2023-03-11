@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+using CodeMarkup.WinUI.HotReload;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -34,8 +35,9 @@ namespace ExampleApp
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
-        {
+        {            
             this.InitializeComponent();
+            HotReloadContext.Handler = HotReload.InitHotReloadKit<App>(HotReloadSupport.IdeIPs);
         }
 
         /// <summary>

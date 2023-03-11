@@ -15,7 +15,7 @@ namespace ExampleApp
         {
             this.Content = new NavigationView
             {
-                new NavigationViewItem().Content("Basic Input").Icon(new SymbolIcon(Symbol.Home)),
+                new NavigationViewItem().Content("Home").Icon(new SymbolIcon(Symbol.Home)),
                 new NavigationViewItem()
                 {
                     e => e.Content("Basic Input").Icon(new SymbolIcon(Symbol.Page)),

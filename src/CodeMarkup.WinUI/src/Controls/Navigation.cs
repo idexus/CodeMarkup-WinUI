@@ -25,7 +25,4 @@ namespace CodeMarkup.WinUI.Controls
     [CodeMarkup]
     public partial class TabView : Microsoft.UI.Xaml.Controls.TabView { }
 
-    [CodeMarkup]
-    public partial class Page : Microsoft.UI.Xaml.Controls.Page { }
-
 }
