@@ -12,7 +12,7 @@ namespace ExampleApp
 
     internal class TestPage : Page
     {
-        static ControlTemplate buttonTemplate = new ControlTemplate<Button, Grid>((parent, root) => {
+        readonly static ControlTemplate buttonTemplate = new ControlTemplate<Button, Grid>((parent, root) => {
 
             root.AddVisualStateList(VisualState.CommonStates, new List<VisualState>
             {
