@@ -18,28 +18,28 @@ namespace CodeMarkup.WinUI.Generator.Extensions
         {
             // Helpers.WaitForDebugger(context.CancellationToken);
 
-            var winUISymbolTypes = context.Compilation.GetSymbolsWithName(s => true, filter: SymbolFilter.Type)
+            var winUISymbolsClass = context.Compilation.GetSymbolsWithName(s => true, filter: SymbolFilter.Type)
                 .Where(e => e.ToDisplayString().Equals($"{Shared.CoreLibPrefix}.Internal.WinUISymbols"))
                 .ToList()
                 .FirstOrDefault() as INamedTypeSymbol;
 
-            if (winUISymbolTypes != null)
+            if (winUISymbolsClass != null)
             {
-                var mauiSymbols = winUISymbolTypes
+                var winUISymbols = winUISymbolsClass
                     .GetMembers()
                     .Where(e => e.Kind == SymbolKind.Field)
                     .Select(e => (e as IFieldSymbol).Type as INamedTypeSymbol)
                     .ToList();
 
                 var baseSymbols = new List<INamedTypeSymbol>();
-                foreach (var symbol in mauiSymbols)
+                foreach (var symbol in winUISymbols)
                     Helpers.LoopDownToObject(symbol.BaseType, type =>
                     {
-                        if (!baseSymbols.Contains(type) && !mauiSymbols.Contains(type)) baseSymbols.Add(type);
+                        if (!baseSymbols.Contains(type) && !winUISymbols.Contains(type)) baseSymbols.Add(type);
                         return false;
                     });
 
-                var allSymbols = mauiSymbols.ToList();
+                var allSymbols = winUISymbols.ToList();
                 allSymbols.AddRange(baseSymbols);
 
                 foreach (var symbol in allSymbols)

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
@@ -37,13 +37,17 @@
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
   </ItemGroup>
+  
+  
   <ItemGroup>
-    <ProjectReference Include="..\..\CodeMarkup.WinUI\CodeMarkup.WinUI.csproj" />
+    <ProjectReference Include="..\..\main\CodeMarkup.WinUI\CodeMarkup.WinUI.csproj" />
+    <ProjectReference Include="..\..\main\CodeMarkup.WinUI.HotReload\CodeMarkup.WinUI.HotReload.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\generators\CodeMarkup.WinUI.Generator.SharpObjects\CodeMarkup.WinUI.Generator.Classes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\..\generators\CodeMarkup.WinUI.Generator.Extensions\CodeMarkup.WinUI.Generator.Extensions.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\..\main\CodeMarkup.WinUI.HotReload\CodeMarkup.WinUI.HotReload.csproj" />
   </ItemGroup>
 
   

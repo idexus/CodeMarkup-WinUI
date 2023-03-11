@@ -20,6 +20,7 @@ namespace CodeMarkup.WinUI.Generator.Extensions
 
         StringBuilder builder;
         bool isExtensionMethodsGenerated;
+        string namespaceName = null;
 
         public ExtensionGenerator(GeneratorExecutionContext context, INamedTypeSymbol symbol)
         {
@@ -27,6 +28,7 @@ namespace CodeMarkup.WinUI.Generator.Extensions
             this.attachedInterfacesAttribute = Shared.GetAttachedInterfacesAttributeData(symbol);
             this.mainSymbol = attachedInterfacesAttribute == null ? symbol : attachedInterfacesAttribute.ConstructorArguments[0].Value as INamedTypeSymbol;
             this.isDependencyObject = Shared.IsDependencyObject(mainSymbol);
+            this.namespaceName = mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.WinUIPrefix) ? Shared.ControlsLibPrefix : mainSymbol.ContainingNamespace.ToDisplayString();
         }
 
         public void Build()
@@ -66,7 +68,7 @@ namespace CodeMarkup.WinUI.Generator.Extensions
 
         public  string GetUsingString()
         {
-            if (!mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.WinUIPrefix))
+            if (!namespaceName.Equals(Shared.ControlsLibPrefix))
                 return $@"using {Shared.CoreLibPrefix};
     ";
             return "";
@@ -77,9 +79,8 @@ namespace CodeMarkup.WinUI.Generator.Extensions
             var className = $"{Helpers.GetNormalizedClassName(mainSymbol)}Extension";
 
             builder.Append($@"
-namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.WinUIPrefix) ? Shared.CoreLibPrefix : mainSymbol.ContainingNamespace.ToDisplayString())}
+namespace {namespaceName}
 {{
-    using {Shared.CoreLibPrefix}.Internal;
     using {Shared.CoreLibPrefix}.Styling;
     {GetUsingString()}
     public static partial class {className}

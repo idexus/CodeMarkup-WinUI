@@ -17,12 +17,4 @@ namespace CodeMarkup.WinUI.Controls
     [ContainerProperty(nameof(Content))]
     public partial class Frame : Microsoft.UI.Xaml.Controls.Frame { }
 
-    //---
-
-    [CodeMarkup]
-    public partial class Pivot : Microsoft.UI.Xaml.Controls.Pivot { }
-
-    [CodeMarkup]
-    public partial class TabView : Microsoft.UI.Xaml.Controls.TabView { }
-
 }

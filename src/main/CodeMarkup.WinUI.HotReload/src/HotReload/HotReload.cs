@@ -35,7 +35,7 @@ namespace CodeMarkup.WinUI.HotReload
 
         // --------- public -----------
 
-        public static List<IHotReloadHandler> Handlers { get; } = new List<IHotReloadHandler>();
+        public static List<IHotReloadHandler> ReloadHandlers { get; } = new List<IHotReloadHandler>();
 
         public static void UpdateApplication(Type[] types)
         {
@@ -60,9 +60,9 @@ namespace CodeMarkup.WinUI.HotReload
         public static Action<FrameworkElement> InitHotReload()
         {
             isEnabled = true;
-            Handlers.Clear();
-            Handlers.Add(new PageInFrameHotReloadHandler());
-            return RegisterElementHandler;
+            ReloadHandlers.Clear();
+            ReloadHandlers.Add(new PageInFrameHotReloadHandler());
+            return RegisterHandler;
         }
 
         public static Action<FrameworkElement> InitHotReloadKit<T>(IPAddress[] IdeIPs)
@@ -79,10 +79,10 @@ namespace CodeMarkup.WinUI.HotReload
         static bool isEnabled = false;
         static object DataContext = null;
 
-        static List<FrameworkElement> registeredElements = new List<FrameworkElement>();
-        static Dictionary<string, Type> ReplacedTypesDict = new Dictionary<string, Type>();
+        readonly static List<FrameworkElement> registeredElements = new();
+        readonly static Dictionary<string, Type> ReplacedTypesDict = new();
 
-        static void RegisterElementHandler(FrameworkElement element)
+        static void RegisterHandler(FrameworkElement element)
         {
             if (registeredElements.Contains(element)) return;
             registeredElements.Add(element);
@@ -113,7 +113,7 @@ namespace CodeMarkup.WinUI.HotReload
                                     DataContext = oldElement.DataContext;
 
                                     bool replaced = false;
-                                    foreach (var handler in Handlers)
+                                    foreach (var handler in ReloadHandlers)
                                     {
                                         replaced = handler.ReplaceVisualElement(oldElement, newElement);
                                         if (replaced) break;

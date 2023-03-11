@@ -3,13 +3,13 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Data;
 
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
     using CodeMarkup.WinUI.Styling;
-    using Microsoft.UI.Xaml.Data;
     
     [Bindable]
     public class CustomButton : Grid, IFrameworkTemplate
@@ -49,7 +49,7 @@ namespace ExampleApp
                 // run code block with style on element
                 tb =>
                 {
-                    if (tb.Text == "Text 3") tb.FontSize(40);
+                    if (tb.Text == "Text 3") tb.FontSize(20);
                 }
             }
         };
@@ -77,16 +77,16 @@ namespace ExampleApp
                     new TextBlock().Text("Text 4")
                 },
 
-                new DropDownButton
+                new DropDownButton(out var dropDown)
                 {
                     e => e.Content("Choose"),
 
-                    new MenuFlyout
-                    {
-                         new MenuFlyoutItem().Text("Item 1"),
-                         new MenuFlyoutItem().Text("Item 2"),
-                         new MenuFlyoutItem().Text("Item 3"),
-                    }
+                    //new MenuFlyout
+                    //{
+                    //     new MenuFlyoutItem().Text("Item 1").OnClick(e => {dropDown.Content = "Selected 1"; }),
+                    //     new MenuFlyoutItem().Text("Item 2").OnClick(e => {dropDown.Content = "Selected 2"; }),
+                    //     new MenuFlyoutItem().Text("Item 3").OnClick(e => {dropDown.Content = "Selected 3"; }),
+                    //}
                 }
             }
             .AddVisualStateGroup(new List<VisualState> // must be defined in direct child of Page

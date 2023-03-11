@@ -18,14 +18,35 @@ namespace CodeMarkup.WinUI.Generator.SharpObjects
         {
             //Helpers.WaitForDebugger(context.CancellationToken);
 
-            var sharpSymbols = context.Compilation.GetSymbolsWithName((s) => true, filter: SymbolFilter.Type)
-                .Where(e => !e.IsStatic && e.GetAttributes().FirstOrDefault(e => e.AttributeClass.Name.Equals(Shared.CodeMarkupAttributeString)) != null)
-                .Select(e => e as INamedTypeSymbol);            
+            var winUISymbolsClass = context.Compilation.GetSymbolsWithName(s => true, filter: SymbolFilter.Type)
+                .Where(e => e.ToDisplayString().Equals($"{Shared.CoreLibPrefix}.Internal.WinUISymbols"))
+                .ToList()
+                .FirstOrDefault() as INamedTypeSymbol;
 
-            foreach (var symbol in sharpSymbols)
+            var winUISymbols = winUISymbolsClass
+                .GetMembers()
+                .Where(e => e.Kind == SymbolKind.Field)
+                .Select(e => (e as IFieldSymbol).Type as INamedTypeSymbol)
+                .Where(e => !e.IsSealed)
+                .ToList();
+
+            var codeMarkupSymbols = context.Compilation.GetSymbolsWithName((s) => true, filter: SymbolFilter.Type)
+                .Where(e => !e.IsStatic && e.GetAttributes().FirstOrDefault(e => e.AttributeClass.Name.Equals(Shared.CodeMarkupAttributeString)) != null)
+                .Select(e => e as INamedTypeSymbol);
+
+            var codeMarkupSymbolsBases = codeMarkupSymbols.Select(e => e.BaseType as INamedTypeSymbol).ToList();
+
+            foreach (var symbol in codeMarkupSymbols)
             {
-                new ClassGenerator(context, symbol).Build();
+                new ClassGenerator(context, symbol, true).Build();
             }
+
+            foreach (var symbol in winUISymbols)
+            {
+                if (!codeMarkupSymbolsBases.Contains(symbol))
+                    new ClassGenerator(context, symbol, false).Build();
+            }
+
         }
     }
 }

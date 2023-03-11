@@ -20,17 +20,21 @@ namespace CodeMarkup.WinUI.Generator.SharpObjects
 
         string symbolName = null;
         string contentPropertyName = null;
+        string namespaceName = null;
         bool isSingleItemContainer = false;
         string containerOfTypeName = null;
         bool isNewPropertyContainer = false;
         bool isAlreadyContainerOfThis = false;
+        bool isCustomized = false;
 
-        public ClassGenerator(GeneratorExecutionContext context, INamedTypeSymbol symbol)
+        public ClassGenerator(GeneratorExecutionContext context, INamedTypeSymbol symbol, bool isCustomized)
         {
             this.context = context;
             this.mainSymbol = symbol;
+            this.isCustomized = isCustomized;
 
             this.symbolName = symbol.ToDisplayString().Split('.').Last();
+            this.namespaceName = mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.WinUIPrefix) ? Shared.ControlsLibPrefix : mainSymbol.ContainingNamespace.ToDisplayString();
 
             SetupContainerIfNeeded();
         }
@@ -143,7 +147,7 @@ namespace CodeMarkup.WinUI.Generator.SharpObjects
 
         public string GetUsingString()
         {
-            if (mainSymbol.ContainingNamespace.ToDisplayString().Equals(Shared.ControlsLibPrefix))
+            if (!namespaceName.Equals(Shared.ControlsLibPrefix))
                 return  $@"using {Shared.ControlsLibPrefix};
 
     ";
@@ -156,7 +160,7 @@ namespace CodeMarkup.WinUI.Generator.SharpObjects
             builder.AppendLine($@"
 using Microsoft.UI.Xaml.Data;
 
-namespace {mainSymbol.ContainingNamespace.ToDisplayString()}
+namespace {namespaceName}
 {{
 	{GetUsingString()}[Bindable]
     public partial class {symbolName}{BaseString()}
@@ -182,14 +186,15 @@ using System.Collections.Generic;");
 
         string BaseString()
         {
-            if (containerOfTypeName != null)
+            if (containerOfTypeName != null && !isAlreadyContainerOfThis)
             {
+                var baseClass = isCustomized ? "" : $"{mainSymbol.ToDisplayString()}, ";
                 if (isSingleItemContainer)
-                    return $" : IEnumerable";
+                    return $" : {baseClass}IEnumerable";
                 else
-                    return $" : IList<{containerOfTypeName}>";
+                    return $" : {baseClass}IList<{containerOfTypeName}>";
             }
-            return "";
+            return isCustomized ? "" : $" : {mainSymbol.ToDisplayString()}";
         }
 
         void GenerateClassBody()
@@ -268,11 +273,17 @@ using System.Collections.Generic;");
             var argsString = "";
             var baseArgsString = "";
             var thisTail = ": this()";
+            var baseTail = ": base()";
             var objectTail = "";
             var camelCaseName = Helpers.CamelCase(mainSymbol.Name);
 
             var buildAdditionalConstructor = () =>
             {
+                if (!isCustomized)
+                    builder.AppendLine($@"
+        public {mainSymbol.Name}({(argsString == "" ? "" : argsString.Substring(0,argsString.Length-2))}) {baseTail} {{ }}
+        ");
+
                 builder.AppendLine($@"
         public {mainSymbol.Name}({argsString}out {symbolName} {camelCaseName}{objectTail}) {thisTail}
         {{
@@ -296,19 +307,31 @@ using System.Collections.Generic;");
             builder.AppendLine($@"
         // ----- constructors -----");
 
-            var isNoParamInParent = mainSymbol.BaseType.Constructors.FirstOrDefault(e => e.DeclaredAccessibility == Accessibility.Public && e.Parameters.Count() == 0) != null;
-
             var isExplicitlyDeclared = mainSymbol.Constructors.FirstOrDefault(e => e.DeclaredAccessibility == Accessibility.Public && e.Parameters.Count() == 0 && !e.IsImplicitlyDeclared) != null;
             var isImplicitlyDeclared = mainSymbol.Constructors.FirstOrDefault(e => e.DeclaredAccessibility == Accessibility.Public && e.Parameters.Count() == 0 && e.IsImplicitlyDeclared) != null;
 
-            // this() constructor
-            if (isImplicitlyDeclared || (isNoParamInParent && !isExplicitlyDeclared))
+            if (isCustomized)
             {
-                GenerateNoParamConstructor();
-                thisTail = "";
+                var isNoParamInParent = mainSymbol.BaseType.Constructors.FirstOrDefault(e => e.DeclaredAccessibility == Accessibility.Public && e.Parameters.Count() == 0) != null;
+            
+                // this() constructor
+                if (isImplicitlyDeclared || (isNoParamInParent && !isExplicitlyDeclared))
+                {
+                    GenerateNoParamConstructor();
+                    thisTail = "";
+                }
+                if (isImplicitlyDeclared || isExplicitlyDeclared || (isNoParamInParent && !isExplicitlyDeclared))
+                    buildAdditionalConstructor();
             }
-            if (isImplicitlyDeclared || isExplicitlyDeclared || (isNoParamInParent && !isExplicitlyDeclared))
-                buildAdditionalConstructor();
+            else
+            {
+                if (isImplicitlyDeclared || isExplicitlyDeclared)
+                {
+                    thisTail = "";
+                    baseTail = "";
+                    buildAdditionalConstructor();
+                }
+            }
 
             // this(...) constructors
             var constructors = mainSymbol.Constructors.Where(e => e.DeclaredAccessibility == Accessibility.Public && e.Parameters.Count() > 0 && !e.IsImplicitlyDeclared);
@@ -331,6 +354,7 @@ using System.Collections.Generic;");
                 }
 
                 thisTail = $": this({baseArgsString})";
+                baseTail = $": base({baseArgsString})";
                 objectTail = argsList.Contains(camelCaseName, StringComparer.Ordinal) ? "Object" : "";
                 buildAdditionalConstructor();
             }
