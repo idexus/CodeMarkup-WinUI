@@ -33,9 +33,9 @@ namespace CodeMarkup.WinUI
             if (obj is FrameworkElement root &&
                 args.NewValue is FrameworkElement parent &&
                 root.GetValue(MethodIdProperty) is string handlerId &&
-                HandlerMethods.TryGetValue(handlerId, out var handler))
+                HandlerMethods.TryGetValue(handlerId, out var handlerMethod))
             {
-                handler(parent, root);
+                handlerMethod(parent, root);
             }
         }
 

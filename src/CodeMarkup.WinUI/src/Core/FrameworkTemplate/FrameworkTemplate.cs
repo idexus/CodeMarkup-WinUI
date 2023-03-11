@@ -21,11 +21,11 @@ namespace CodeMarkup.WinUI
 $@"<{typeof(TTemplate).Name}
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:root=""using:{typeof(TRoot).Namespace}""
-    xmlns:handler=""using:{typeof(FrameworkTempateManager).Namespace}"">
+    xmlns:manager=""using:{typeof(FrameworkTempateManager).Namespace}"">
 
     <root:{typeof(TRoot).Name} 
-        handler:{typeof(FrameworkTempateManager).Name}.MethodId=""{guid}"" 
-        handler:{typeof(FrameworkTempateManager).Name}.TemplatedParent=""{{Binding RelativeSource={{RelativeSource TemplatedParent}}}}""/>
+        manager:{typeof(FrameworkTempateManager).Name}.MethodId=""{guid}"" 
+        manager:{typeof(FrameworkTempateManager).Name}.TemplatedParent=""{{Binding RelativeSource={{RelativeSource TemplatedParent}}}}""/>
 
 </{typeof(TTemplate).Name}>";
             xamlFrameworkTemplate = (TTemplate)XamlReader.Load(xamlControlTemplateString);

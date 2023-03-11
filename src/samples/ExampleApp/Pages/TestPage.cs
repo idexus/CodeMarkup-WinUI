@@ -17,7 +17,6 @@ namespace ExampleApp
         void IFrameworkTemplate.BuildTemplate(FrameworkElement parent)
         {
             this.AddVisualStateGroup(VisualState.CommonStates, new List<VisualState> {
-
                 new VisualState(VisualState.Button.PointerOver) {
                     new Setters<Grid>(this, e => e.Background(new SolidColorBrush(Colors.Red))),
                 },
