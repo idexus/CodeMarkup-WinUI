@@ -1,45 +1,53 @@
 ﻿using System.Collections.Generic;
 using Microsoft.UI.Xaml.Controls;
-using CodeMarkup.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Media;
 
 namespace ExampleApp
 {
+    using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
     using CodeMarkup.WinUI.Styling;
-
-    internal class TestPage : Page
+    using Microsoft.UI.Xaml.Data;
+    
+    [Bindable]
+    public class CustomButton : Grid, IFrameworkTemplate
     {
-        readonly static ControlTemplate buttonTemplate = new ControlTemplate<Button, Grid>((parent, root) => {
+        void IFrameworkTemplate.BuildTemplate(FrameworkElement parent)
+        {
+            this.AddVisualStateGroup(VisualState.CommonStates, new List<VisualState> {
 
-            root.AddVisualStateList(VisualState.CommonStates, new List<VisualState>
-            {
-                new VisualState(VisualState.Button.PointerOver) {               
-                    new Setters<Grid>(root, e => e.Background(new SolidColorBrush(Colors.Red)))
+                new VisualState(VisualState.Button.PointerOver) {
+                    new Setters<Grid>(this, e => e.Background(new SolidColorBrush(Colors.Red))),
                 },
 
                 new VisualState(VisualState.Button.Normal) {
-                    new Setters<Grid>(root, e => e.Background(new SolidColorBrush(Colors.Gray)))
+                    new Setters<Grid>(this, e => e.Background(new SolidColorBrush(Colors.Gray)))
                 }
             });
-            
-            root.Add(
+
+            this.Add(
                 new Grid(e => e
                     .RowDefinitions(e => e.Auto(count: 2))
                     .VerticalAlignment(VerticalAlignment.Center)
-                    .HorizontalAlignment(HorizontalAlignment.Center)) 
+                    .HorizontalAlignment(HorizontalAlignment.Center))
                 {
                     new TextBlock().Text(e => e.Path(nameof(Button.Content)).Source(parent)).Row(0),
                     new TextBlock().Text("Sub").Row(1)
                 });
-        });
+        }
+    }
+
+    internal class TestPage : Page
+    {
+        readonly static ControlTemplate buttonTemplate = new ControlTemplate<CustomButton>();
 
         readonly ResourceDictionary res = new() {
             new Style<Button>(e => e.Template(buttonTemplate)),
             new Style<TextBlock>
             {
+                // run code block with style on element
                 tb =>
                 {
                     if (tb.Text == "Text 3") tb.FontSize(30);
@@ -78,7 +86,7 @@ namespace ExampleApp
                     }
                 }
             }
-            .AddVisualStateList(new List<VisualState> // must be defined in direct child of Page
+            .AddVisualStateGroup(new List<VisualState> // must be defined in direct child of Page
             {
                 new VisualState()
                 {      

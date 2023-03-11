@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 
 namespace CodeMarkup.WinUI
 {
     [Bindable]
-    public class ControlTemplateHandler
+    public class FrameworkTempateManager
     {
-        internal static Dictionary<string, Action<FrameworkElement, Panel>> HandlerMethods = new Dictionary<string, Action<FrameworkElement, Panel>>();
+        internal static Dictionary<string, Action<FrameworkElement, FrameworkElement>> HandlerMethods = new Dictionary<string, Action<FrameworkElement, FrameworkElement>>();
 
         // TemplatedParent
 
         public static readonly DependencyProperty TemplatedParentProperty =
             DependencyProperty.RegisterAttached("TemplatedParent",
             typeof(FrameworkElement),
-            typeof(ControlTemplateHandler),
+            typeof(FrameworkTempateManager),
             new PropertyMetadata(default(FrameworkElement), TemplatedParentCallback));
 
         public static void SetTemplatedParent(DependencyObject obj, FrameworkElement value)
@@ -29,15 +28,14 @@ namespace CodeMarkup.WinUI
             return (FrameworkElement)obj.GetValue(TemplatedParentProperty);
         }
 
-        private static void TemplatedParentCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void TemplatedParentCallback(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            var handlerId = d.GetValue(MethodIdProperty) as string;
-            if (handlerId != null && d is Panel panel)
+            if (obj is FrameworkElement root &&
+                args.NewValue is FrameworkElement parent &&
+                root.GetValue(MethodIdProperty) is string handlerId &&
+                HandlerMethods.TryGetValue(handlerId, out var handler))
             {
-                if (HandlerMethods.TryGetValue(handlerId, out var handler))
-                {
-                    handler(e.NewValue as FrameworkElement, panel);
-                }
+                handler(parent, root);
             }
         }
 
@@ -46,7 +44,7 @@ namespace CodeMarkup.WinUI
         public static readonly DependencyProperty MethodIdProperty =
             DependencyProperty.RegisterAttached("MethodId",
             typeof(string),
-            typeof(ControlTemplateHandler),
+            typeof(FrameworkTempateManager),
             new PropertyMetadata(default(string)));
 
         public static void SetMethodId(DependencyObject obj, string value)
