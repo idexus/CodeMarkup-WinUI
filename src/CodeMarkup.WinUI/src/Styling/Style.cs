@@ -4,14 +4,13 @@ using System;
 using System.Collections;
 using System.Linq;
 
-namespace CodeMarkup.WinUI
+namespace CodeMarkup.WinUI.Styling
 {
-    
     public partial class Style<T> : IEnumerable
         where T : FrameworkElement
     {
         readonly static DependencyProperty AttachedStyleInvokeProperty =
-            DependencyProperty.RegisterAttached($"{nameof(Style<T>)}.AttachedInvokeProperty", typeof(Action<T>), typeof(Style<T>), new PropertyMetadata(null, OnAttachedInvokeChanged));
+            DependencyProperty.RegisterAttached($"AttachedInvokeProperty", typeof(Action<T>), typeof(Style<T>), new PropertyMetadata(null, OnAttachedInvokeChanged));
 
         private static void OnAttachedInvokeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

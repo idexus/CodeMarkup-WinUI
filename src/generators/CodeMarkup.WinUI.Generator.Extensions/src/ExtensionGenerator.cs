@@ -80,6 +80,7 @@ namespace CodeMarkup.WinUI.Generator.Extensions
 namespace {(mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.WinUIPrefix) ? Shared.CoreLibPrefix : mainSymbol.ContainingNamespace.ToDisplayString())}
 {{
     using {Shared.CoreLibPrefix}.Internal;
+    using {Shared.CoreLibPrefix}.Styling;
     {GetUsingString()}
     public static partial class {className}
     {{");

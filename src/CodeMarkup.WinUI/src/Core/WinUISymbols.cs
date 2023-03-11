@@ -3,14 +3,15 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace CodeMarkup.WinUI.Internal
 {
     class WinUISymbols
 	{
-        Microsoft.UI.Xaml.VisualStateGroup visualStateGroup;
-        Microsoft.UI.Xaml.VisualState visualState;
-        Microsoft.UI.Xaml.Setter setter;
+
+        Microsoft.UI.Xaml.Setter Setter;
+        Microsoft.UI.Xaml.Media.Animation.Storyboard Storyboard;
 
         Microsoft.UI.Xaml.StateTrigger stateTrigger;
         Microsoft.UI.Xaml.AdaptiveTrigger adaptiveTrigger;

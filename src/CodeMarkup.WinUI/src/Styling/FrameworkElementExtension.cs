@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using System.Collections.Generic;
 
-namespace CodeMarkup.WinUI.Controls
+namespace CodeMarkup.WinUI.Styling
 {
     public static partial class FrameworkElementExtension
     {

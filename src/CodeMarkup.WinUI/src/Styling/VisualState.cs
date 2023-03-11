@@ -1,9 +1,10 @@
 ﻿using CodeMarkup.WinUI.Internal;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Animation;
 using System;
 using System.Collections;
 
-namespace CodeMarkup.WinUI.Controls
+namespace CodeMarkup.WinUI.Styling
 {
     public partial class VisualState : IEnumerable
     {
@@ -31,13 +32,14 @@ namespace CodeMarkup.WinUI.Controls
 
         public void Add(SetterBase setter) => this.xamlVisualState.Setters.Add(setter);
         public void Add(StateTriggerBase triggerBase) => this.xamlVisualState.StateTriggers.Add(triggerBase);
+        public void Add(Storyboard storyboard) => this.xamlVisualState.Storyboard = storyboard;
 
         public void Add<Q>(Setters<Q> setters)
             where Q : FrameworkElement
         {
             if (setters.settersContext.Target == null) throw new NullReferenceException("VisualState setters must have target defined");
             foreach (var setter in setters.settersContext.XamlSetters)
-                this.xamlVisualState.Setters.Add(setter);
+                this.xamlVisualState.Setters.Add(setter);            
         }
 
         public VisualState(string name = null)

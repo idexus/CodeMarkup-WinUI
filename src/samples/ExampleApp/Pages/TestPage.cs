@@ -8,15 +8,11 @@ using Microsoft.UI.Xaml.Media;
 namespace ExampleApp
 {
     using CodeMarkup.WinUI.Controls;
+    using CodeMarkup.WinUI.Styling;
 
     internal class TestPage : Page
     {
-        ResourceDictionary res = new()
-        {
-            new Style<TextBlock>(e => e.FontSize(28))
-        };
-
-        readonly ControlTemplate buttonTemplate = new ControlTemplate<Button, Grid>((parent, root) => {
+        static ControlTemplate buttonTemplate = new ControlTemplate<Button, Grid>((parent, root) => {
 
             root.AddVisualStateList(VisualState.CommonStates, new List<VisualState>
             {
@@ -40,6 +36,17 @@ namespace ExampleApp
                 });
         });
 
+        readonly ResourceDictionary res = new() {
+            new Style<Button>(e => e.Template(buttonTemplate)),
+            new Style<TextBlock>
+            {
+                tb =>
+                {
+                    if (tb.Text == "Text 3") tb.FontSize(30);
+                }
+            }
+        };
+
         public TestPage()
         {
             this.Resources = res;
@@ -49,8 +56,7 @@ namespace ExampleApp
                     .FontSize(40)
                     .Content("Hello Button")
                     .Width(300)
-                    .Height(300)
-                    .Template(buttonTemplate),
+                    .Height(300),
 
                 new StackPanel(out var myPanel, e => e.Orientation(Orientation.Horizontal))
                 {

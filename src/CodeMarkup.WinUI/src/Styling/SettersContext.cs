@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using CodeMarkup.WinUI.Internal;
 
 
-namespace CodeMarkup.WinUI
+namespace CodeMarkup.WinUI.Styling
 {
     public class SettersContext<T> 
         where T : DependencyObject

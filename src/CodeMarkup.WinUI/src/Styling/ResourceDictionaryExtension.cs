@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 
-namespace CodeMarkup.WinUI
+namespace CodeMarkup.WinUI.Styling
 {
     public static partial class ResourceDictionaryExtension
     {

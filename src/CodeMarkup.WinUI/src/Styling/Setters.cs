@@ -5,13 +5,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CodeMarkup.WinUI
+namespace CodeMarkup.WinUI.Styling
 {
     public partial class Setters<T> : IEnumerable
         where T : FrameworkElement
     {
         readonly static DependencyProperty AttachedStyleInvokeProperty =
-            DependencyProperty.RegisterAttached($"{nameof(Setters<T>)}.AttachedInvokeProperty", typeof(Action<T>), typeof(Setters<T>), new PropertyMetadata(null, OnAttachedInvokeChanged));
+            DependencyProperty.RegisterAttached($"AttachedInvokeProperty", typeof(Action<T>), typeof(Setters<T>), new PropertyMetadata(null, OnAttachedInvokeChanged));
 
         private static void OnAttachedInvokeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -37,8 +37,8 @@ namespace CodeMarkup.WinUI
 
         public void Add(Action<T> invokeOnElement)
         {
-            if (settersContext.Target != null)
-                settersContext.XamlSetters.Add(new Setter { Property = AttachedStyleInvokeProperty, Value = invokeOnElement });
+            if (settersContext.Target != null) throw new NullReferenceException("VisualState setters do not allow to create invokeOnElement action");
+            settersContext.XamlSetters.Add(new Setter { Property = AttachedStyleInvokeProperty, Value = invokeOnElement });
         }
 
         public void Add(Setter setter) => settersContext.XamlSetters.Add(setter);
