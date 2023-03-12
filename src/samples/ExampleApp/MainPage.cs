@@ -11,16 +11,18 @@ namespace ExampleApp
 
     internal class MainPage : Page
     {
+        Frame frame;
+
         public MainPage() 
         {
-            this.Content = new NavigationView
+            this.Content = new NavigationView(out var navigation)
             {
-                new NavigationViewItem().Content("Home").Icon(new SymbolIcon(Symbol.Home)),
+                new NavigationViewItem().Content("Home").Icon(new SymbolIcon(Symbol.Home)).OnTapped(e => frame.Content = new TestPage()),
                 new NavigationViewItem()
                 {
                     e => e.Content("Basic Input").Icon(new SymbolIcon(Symbol.Page)),
 
-                    new NavigationViewItem().Content("Button"),
+                    new NavigationViewItem().Content("Button").OnTapped(e => frame.Content = new ButtonPage()),
                     new NavigationViewItem().Content("DropDownButton"),
                     new NavigationViewItem().Content("HyperlinkButton"),
                     new NavigationViewItem().Content("RepeatButton"),
@@ -38,7 +40,7 @@ namespace ExampleApp
                 new NavigationViewItem().Content("Navigation").Icon(new SymbolIcon(Symbol.GlobalNavigationButton)),
                 new NavigationViewItem().Content("Text").Icon(new SymbolIcon(Symbol.Read))
             }
-            .Content(new Frame 
+            .Content(new Frame(out frame) 
             {
                 new TestPage()
             });                

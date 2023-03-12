@@ -36,6 +36,11 @@ namespace CodeMarkup.WinUI.Generator.SharpObjects
             this.symbolName = symbol.ToDisplayString().Split('.').Last();
             this.namespaceName = mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.WinUIPrefix) ? Shared.ControlsLibPrefix : mainSymbol.ContainingNamespace.ToDisplayString();
 
+            if (symbolName == "Test")
+            {
+
+            }
+
             SetupContainerIfNeeded();
         }
 

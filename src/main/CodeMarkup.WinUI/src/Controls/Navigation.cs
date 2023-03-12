@@ -1,9 +1,4 @@
-﻿using CodeMarkup.WinUI;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Markup;
-using System;
-
-namespace CodeMarkup.WinUI.Controls
+﻿namespace CodeMarkup.WinUI.Controls
 {
     [CodeMarkup]
     [ContainerProperty(nameof(MenuItems))]
@@ -16,5 +11,4 @@ namespace CodeMarkup.WinUI.Controls
     [CodeMarkup]
     [ContainerProperty(nameof(Content))]
     public partial class Frame : Microsoft.UI.Xaml.Controls.Frame { }
-
 }

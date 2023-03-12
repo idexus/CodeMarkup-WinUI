@@ -1,7 +1,4 @@
-﻿using CodeMarkup.WinUI;
-
-
-namespace CodeMarkup.WinUI.Controls
+﻿namespace CodeMarkup.WinUI.Controls
 {
     [CodeMarkup]
     [ContainerProperty(nameof(Children))]

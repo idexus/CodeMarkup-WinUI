@@ -10,7 +10,8 @@ namespace ExampleApp
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
     using CodeMarkup.WinUI.Styling;
-    
+
+
     [Bindable]
     public class CustomButton : Grid, IFrameworkTemplate
     {
@@ -26,7 +27,7 @@ namespace ExampleApp
                 }
             });
 
-            this.Add(
+            this.Add( 
                 new Grid(e => e
                     .RowDefinitions(e => e.Auto(count: 2))
                     .VerticalAlignment(VerticalAlignment.Center)
@@ -36,9 +37,9 @@ namespace ExampleApp
                     new TextBlock().Text("Sub title").Row(1).FontSize(20)
                 });
         }
-    }
+    } 
 
-    internal class TestPage : Page
+    public class TestPage : Page
     {
         readonly static ControlTemplate buttonTemplate = new ControlTemplate<CustomButton>();
 
@@ -49,10 +50,10 @@ namespace ExampleApp
                 // run code block with style on element
                 tb =>
                 {
-                    if (tb.Text == "Text 3") tb.FontSize(20);
+                    if (tb.Text == "Text 3") tb.FontSize(20); 
                 }
             }
-        };
+        }; 
 
         public TestPage()
         {
@@ -65,9 +66,9 @@ namespace ExampleApp
             {
                 new Button()
                     .FontSize(40)
-                    .Content("Hello, World!")
+                    .Content("Hello, World!") 
                     .Width(300)
-                    .Height(120),
+                    .Height(100),
 
                 new StackPanel(out var myPanel, e => e.Orientation(Orientation.Horizontal))
                 {
@@ -81,12 +82,12 @@ namespace ExampleApp
                 {
                     e => e.Content("Choose"),
 
-                    //new MenuFlyout
-                    //{
-                    //     new MenuFlyoutItem().Text("Item 1").OnClick(e => {dropDown.Content = "Selected 1"; }),
-                    //     new MenuFlyoutItem().Text("Item 2").OnClick(e => {dropDown.Content = "Selected 2"; }),
-                    //     new MenuFlyoutItem().Text("Item 3").OnClick(e => {dropDown.Content = "Selected 3"; }),
-                    //}
+                    new MenuFlyout
+                    {
+                         new MenuFlyoutItem().Text("Item 1").OnClick(e => {dropDown.Content = "Selected 1"; }),
+                         new MenuFlyoutItem().Text("Item 2").OnClick(e => {dropDown.Content = "Selected 2"; }),
+                         new MenuFlyoutItem().Text("Item 3").OnClick(e => {dropDown.Content = "Selected 3"; }),
+                    }
                 }
             }
             .AddVisualStateGroup(new List<VisualState> // must be defined in direct child of Page
