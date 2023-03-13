@@ -37,12 +37,22 @@ namespace CodeMarkup.WinUI.HotReload
 
         public static List<IHotReloadHandler> ReloadHandlers { get; } = new List<IHotReloadHandler>();
 
-        public static void UpdateApplication(Type[] types)
+        public static void UpdateApplicationd(Type[] types)
         {
             if (isEnabled)
             {
                 foreach (var type in types)
                     ReplacedTypesDict[type.FullName] = type;
+                InvokeHotReload();
+            }
+        }
+
+        public static void UpdateApplication(HotReloadTypeData[] dataList)
+        {
+            if (isEnabled)
+            {
+                foreach (var data in dataList.Where(e => e.IsFromChangedFile))
+                    ReplacedTypesDict[data.Type.FullName] = data.Type;
                 InvokeHotReload();
             }
         }

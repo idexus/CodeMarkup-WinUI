@@ -9,7 +9,7 @@ namespace ExampleApp
         public MainWindow()
         {            
             ExtendsContentIntoTitleBar = true;
-            Content = new MainPage();
+            Content = new Frame { new MainPage() };
         }
     }
 }

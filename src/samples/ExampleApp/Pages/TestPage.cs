@@ -66,8 +66,8 @@ namespace ExampleApp
             {
                 new Button()
                     .FontSize(40)
-                    .Content("Hello, World!") 
-                    .Width(300)
+                    .Content("Hello, World, it's my App!") 
+                    .Width(500)
                     .Height(100),
 
                 new StackPanel(out var myPanel, e => e.Orientation(Orientation.Horizontal))
