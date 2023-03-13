@@ -18,7 +18,7 @@ namespace ExampleApp
             Content = new ScrollViewer()
                 .Content(new VStack(e => e.Margin(new Thickness(40,0, 40, 40)))
                 {
-                    new Example
+                    new Example(e => e.IsExpanded(true))
                     {
                         new StackPanel
                         {
@@ -34,7 +34,7 @@ namespace ExampleApp
 
                             new Button()
                                 .Content("Click me")
-                                .Margin(new Thickness(0,40,0,20))
+                                .Margin(new Thickness(0,35,0,15))
                                 .FontSize(20)
                                 .HorizontalAlignment(HorizontalAlignment.Center)
                                 .OnClick(button =>

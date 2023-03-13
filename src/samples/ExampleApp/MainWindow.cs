@@ -1,17 +1,12 @@
-﻿using Microsoft.UI.Xaml;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System;
-
-
-
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
+using Windows.Graphics;
 
 namespace ExampleApp
 {
     using CodeMarkup.WinUI.Controls;
-    using Microsoft.UI;
-    using Microsoft.UI.Windowing;
-    using System;
-    using Windows.Graphics;
 
     internal class MainWindow : Window
     {

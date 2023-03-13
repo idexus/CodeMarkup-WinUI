@@ -14,6 +14,7 @@ namespace ExampleApp
     public interface IExample
     {
         public string Title { get; set; }
+        public bool IsExpanded { get; set; }
 
         public UIElement ExampleContent { get; set; }
 
@@ -57,7 +58,7 @@ namespace ExampleApp
                     .Padding(new Thickness(10, 0, 10, 0))
                     .Width(int.MaxValue)
                 }
-                .IsExpanded(false)
+                .IsExpanded(e => e.Path(nameof(IsExpanded)).Source(this))
                 .HorizontalAlignment(HorizontalAlignment.Stretch)
                 .ExpandDirection(ExpandDirection.Down)
                 .Header("Source code")
