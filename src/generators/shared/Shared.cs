@@ -16,7 +16,7 @@ namespace CodeMarkup.WinUI.Generator
 
         public const string ContainerPropertyAttributeString = "ContainerPropertyAttribute";
         public const string DependencyPropertiesAttributeString = "DependencyPropertiesAttribute";
-        public const string CodeMarkupAttributeString = "CodeMarkupAttribute";
+        public const string MarkupObjectAttributeString = "MarkupObjectAttribute";
         public const string AttachedPropertiesAttributeString = "AttachedPropertiesAttribute";
         public const string AttachedInterfacesAttributeString = "AttachedInterfacesAttribute";
         public const string AttachedNameAttributeString = "AttachedNameAttribute";

@@ -2,7 +2,7 @@
 
 namespace CodeMarkup.WinUI.Controls
 {
-    [CodeMarkup]
+    [MarkupObject]
     [ContainerProperty(nameof(Content))]
     public partial class Page : Microsoft.UI.Xaml.Controls.Page
     {

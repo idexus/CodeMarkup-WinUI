@@ -19,7 +19,7 @@ namespace CodeMarkup.WinUI.Generator.SharpObjects
             //Helpers.WaitForDebugger(context.CancellationToken);
 
             var codeMarkupSymbols = context.Compilation.GetSymbolsWithName((s) => true, filter: SymbolFilter.Type)
-                .Where(e => !e.IsStatic && e.GetAttributes().FirstOrDefault(e => e.AttributeClass.Name.Equals(Shared.CodeMarkupAttributeString)) != null)
+                .Where(e => !e.IsStatic && e.GetAttributes().FirstOrDefault(e => e.AttributeClass.Name.Equals(Shared.MarkupObjectAttributeString)) != null)
                 .Select(e => e as INamedTypeSymbol);
 
 

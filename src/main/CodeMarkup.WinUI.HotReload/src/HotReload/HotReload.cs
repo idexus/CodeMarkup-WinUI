@@ -117,7 +117,8 @@ namespace CodeMarkup.WinUI.HotReload
                         {
                             try
                             {
-                                var newObject = typeToReload.GetConstructors().FirstOrDefault().Invoke(null);
+                                var constructor = typeToReload.GetConstructors().FirstOrDefault();
+                                var newObject = constructor?.Invoke(null);
                                 if (newObject is FrameworkElement newElement)
                                 {
                                     DataContext = oldElement.DataContext;
@@ -134,6 +135,10 @@ namespace CodeMarkup.WinUI.HotReload
                                     else
                                         Debug.WriteLine($"HotReload - no handler for element type: {oldElement.GetType()} parent: {oldElement.Parent.GetType()}");
                                 }
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine(ex);
                             }
                             finally
                             {

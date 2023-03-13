@@ -1,6 +1,6 @@
 ﻿namespace CodeMarkup.WinUI.Controls
 {
-    [CodeMarkup]
+    [MarkupObject]
     [ContainerProperty(nameof(Items))]
     public partial class MenuFlyout : Microsoft.UI.Xaml.Controls.MenuFlyout { }
 }

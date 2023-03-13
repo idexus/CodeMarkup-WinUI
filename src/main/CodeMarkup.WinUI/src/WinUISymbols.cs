@@ -162,15 +162,10 @@ namespace CodeMarkup.WinUI.Internal
 
         AnimatedIcon AnimatedIcon;
         SymbolIcon SymbolIcon;
-        SymbolIconSource SymbolIconSource;
         BitmapIcon BitmapIcon;
-        BitmapIconSource BitmapIconSource;
         FontIcon FontIcon;
-        FontIconSource FontIconSource;
         PathIcon PathIcon;
-        PathIconSource PathIconSource;
         ImageIcon ImageIcon;
-        ImageIconSource ImageIconSource;
         RadialGradientBrush RadialGradientBrush;
 
         // ------ Shapes -------
@@ -202,7 +197,6 @@ namespace CodeMarkup.WinUI.Internal
         // ------ Windowing -------
 
         Window Window;
-
     }
 }
 

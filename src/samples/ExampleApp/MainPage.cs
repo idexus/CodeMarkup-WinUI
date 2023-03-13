@@ -17,13 +17,13 @@ namespace ExampleApp
         {
             this.Content = new NavigationView(out var navigation)
             {
-                new NavigationViewItem().Content("Home").Icon(new SymbolIcon(Symbol.Home)).OnTapped(e => frame.Content = new TestPage()),
+                new NavigationViewItem().Content("Home").Icon(new SymbolIcon(Symbol.Home)).OnTapped(e => frame.Content = new HomePage()),
                 new NavigationViewItem()
                 {
                     e => e.Content("Basic Input").Icon(new SymbolIcon(Symbol.Page)),
 
                     new NavigationViewItem().Content("Button").OnTapped(e => frame.Content = new ButtonPage()),
-                    new NavigationViewItem().Content("DropDownButton"),
+                    new NavigationViewItem().Content("DropDownButton").OnTapped(e => frame.Content = new DropDownButtonPage()),
                     new NavigationViewItem().Content("HyperlinkButton"),
                     new NavigationViewItem().Content("RepeatButton"),
                     new NavigationViewItem().Content("ToggleButton"),
@@ -42,7 +42,7 @@ namespace ExampleApp
             }
             .Content(new Frame(out frame) 
             {
-                new TestPage()
+                new HomePage()
             });                
         }
     }
