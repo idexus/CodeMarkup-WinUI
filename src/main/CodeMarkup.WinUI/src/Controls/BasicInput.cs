@@ -7,4 +7,8 @@
     [MarkupObject]
     [ContainerProperty(nameof(Flyout))]
     public partial class DropDownButton : Microsoft.UI.Xaml.Controls.DropDownButton { }
+
+    [MarkupObject]
+    [ContainerProperty(nameof(Items))]
+    public partial class ComboBox : Microsoft.UI.Xaml.Controls.ComboBox { }
 }

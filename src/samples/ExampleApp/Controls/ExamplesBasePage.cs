@@ -49,8 +49,13 @@ namespace ExampleApp
             var basePage = (ExamplesBasePage)sender;
             var examples = e.NewValue as List<Example>;
             basePage.vstack.Children.Clear();
-            foreach (var example in examples) 
+            bool first = true;
+            foreach (var example in examples)
+            {
+                example.IsExpanded = first;
                 basePage.vstack.Children.Add(example);
+                first = false;
+            }
         }
     }
 }
