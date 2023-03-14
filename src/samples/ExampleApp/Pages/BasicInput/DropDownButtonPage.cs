@@ -14,7 +14,7 @@ namespace ExampleApp
     {
         public DropDownButtonPage()
         {
-            Title = "DropDownButton";
+            Type = typeof(DropDownButton);
 
             Examples = new()
             {

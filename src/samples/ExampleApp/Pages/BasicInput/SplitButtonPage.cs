@@ -15,7 +15,7 @@ namespace ExampleApp
     {
         public SplitButtonPage()
         {
-            Title = "SplitButton";
+            Type = typeof(SplitButton);
 
             Examples = new()
             {

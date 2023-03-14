@@ -15,7 +15,7 @@ namespace ExampleApp
     {
         public ColorPickerPage()
         {
-            Title = "ColorPicker";
+            Type = typeof(ColorPicker);
 
             Examples = new()
             {
@@ -32,7 +32,7 @@ namespace ExampleApp
                         .IsAlphaTextInputVisible(true),
                 }
                 .Title("A ColorPicker")
-                .SourceText(Sources.SimpleButton),
+                .SourceText(Sources.ColorPickerSource),
             };
         }
     }

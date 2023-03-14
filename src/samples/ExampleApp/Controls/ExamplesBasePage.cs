@@ -6,12 +6,14 @@ namespace ExampleApp
 {
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
+    using System;
+    using Windows.UI.Text;
 
     [DependencyProperties]
     public interface IExamplesBasePage
     {
-        [PropertyCallbacks(nameof(ExamplesBasePage.TitleChanged))]
-        public string Title { get; set; }
+        [PropertyCallbacks(nameof(ExamplesBasePage.TypeChanged))]
+        public Type Type { get; set; }
 
         [PropertyCallbacks(nameof(ExamplesBasePage.ExamplesChanged))]
         public List<Example> Examples { get; set; }
@@ -22,6 +24,7 @@ namespace ExampleApp
     {
         private readonly VStack vstack;
         private readonly TextBlock titleTextBlock;
+        private readonly TextBlock typeTextBlock;
 
         public ExamplesBasePage()
         {
@@ -31,17 +34,25 @@ namespace ExampleApp
                     new TextBlock()
                         .Assign(out titleTextBlock)
                         .FontSize(60)
-                        .Margin(new Thickness(0,0,0,20)),
+                        .Margin(new Thickness(5,0,0,2)),
+                    
+                    new TextBlock()
+                        .Assign(out typeTextBlock)
+                        .FontWeight(new FontWeight(100))
+                        .FontSize(13)
+                        .Margin(new Thickness(10,0,0,25)),
 
-                    new VStack(out vstack)
+                    new VStack(out vstack) 
                 });
         }
 
-        public static void TitleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        public static void TypeChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var basePage = (ExamplesBasePage)sender;
-            var title = e.NewValue as string;
-            basePage.titleTextBlock.Text = title;
+            var type = (Type)e.NewValue;
+            basePage.typeTextBlock.Text = type.Namespace.ToString();
+            basePage.titleTextBlock.Text = type.Name;
+
         }
 
         public static void ExamplesChanged(object sender, DependencyPropertyChangedEventArgs e)

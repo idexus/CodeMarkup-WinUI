@@ -12,7 +12,7 @@ namespace ExampleApp
     {
         public ButtonPage()
         {
-            Title = "Button";
+            Type = typeof(Button);
 
             Examples = new()
             {
@@ -31,7 +31,7 @@ namespace ExampleApp
                 new Example
                 {
                     new Button
-                    {
+                    { 
                         new Image()
                             .Width(50)
                             .Source(new BitmapImage(new Uri("ms-appx:///Assets/StoreLogo.png")))

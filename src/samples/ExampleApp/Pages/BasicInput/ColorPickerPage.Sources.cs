@@ -4,7 +4,7 @@
     {
         class Sources
         {
-            public const string SimpleButton =
+            public const string ColorPickerSource =
 $@"new ColorPicker()
     .ColorSpectrumShape(ColorSpectrumShape.Ring)
     .IsMoreButtonVisible(true)

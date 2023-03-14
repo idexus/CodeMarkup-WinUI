@@ -1,19 +1,14 @@
-﻿using System;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Controls.Primitives;
+﻿
 
 namespace ExampleApp
 {
-    using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
-    using Microsoft.UI.Xaml;
 
     public partial class ToggleButtonPage : ExamplesBasePage
     {
         public ToggleButtonPage()
         {
-            Title = "ToggleButton";
+            Type = typeof(ToggleButton);
 
             Examples = new()
             {

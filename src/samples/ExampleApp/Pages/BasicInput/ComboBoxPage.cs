@@ -25,8 +25,7 @@ namespace ExampleApp
 
         public ComboBoxPage()
         {
-            Title = "ComboBox";
-
+            Type = typeof(ComboBox);
            
             Examples = new()
             {

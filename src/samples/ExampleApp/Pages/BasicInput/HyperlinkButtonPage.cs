@@ -12,7 +12,7 @@ namespace ExampleApp
     {
         public HyperlinkButtonPage()
         {
-            Title = "HyperlinkButton";
+            Type = typeof(HyperlinkButton);
 
             Examples = new()
             {

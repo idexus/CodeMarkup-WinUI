@@ -13,7 +13,7 @@ namespace ExampleApp
     {
         public CheckBoxPage()
         {
-            Title = "CheckBox";
+            Type = typeof(CheckBox);
 
             Examples = new()
             {

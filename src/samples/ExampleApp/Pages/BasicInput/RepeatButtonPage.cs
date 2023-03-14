@@ -16,7 +16,7 @@ namespace ExampleApp
 
         public RepeatButtonPage()
         {
-            Title = "RepeatButton";
+            Type = typeof(RepeatButton);
 
             Examples = new()
             {
