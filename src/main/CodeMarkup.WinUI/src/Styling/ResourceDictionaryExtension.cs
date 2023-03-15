@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace CodeMarkup.WinUI.Styling
 {
+
     public static partial class ResourceDictionaryExtension
     {
         public static void Add<T>(this ResourceDictionary self, Style<T> style) where T : FrameworkElement

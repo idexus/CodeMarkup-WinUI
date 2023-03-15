@@ -3,9 +3,9 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using System;
+using Windows.UI.ViewManagement;
 
-
-namespace CodeMarkup.WinUI
+namespace CodeMarkup.WinUI.Styling
 {
     public sealed class PropertyThemeBuilder<T> : IPropertyBuilder<T>
     {
@@ -32,7 +32,7 @@ namespace CodeMarkup.WinUI
         public PropertyContext<T> Context { get; set; }
 
         string key = null;
-        object source = null;
+        FrameworkElement source = null;
 
         public PropertyThemeBuilder(PropertyContext<T> context)
         {
@@ -41,20 +41,27 @@ namespace CodeMarkup.WinUI
 
         public bool Build()
         {
-            if (key != null && source is IThemeSource)
+            if (key != null && source != null)
             {
                 if (Context.Element is FrameworkElement element)
                 {
+                    var manager = source.GetValue(ThemeResourcesManager.DefaultManagerProperty);
+                    if (manager == null)
+                    {
+                        manager = new ThemeResourcesManager { Element = source };
+                        source.SetValue(ThemeResourcesManager.DefaultManagerProperty, manager);
+                    }
+
                     element.SetBinding(
                         dp: Context.Property,
                         binding: new Binding
-                        {
+                        {                           
                             Path = new PropertyPath("ThemeResources"),
                             Mode = Microsoft.UI.Xaml.Data.BindingMode.OneWay,
                             Converter = new DictionaryKeyConverter(),
                             ConverterParameter = key,
                             ConverterLanguage = null,
-                            Source = source
+                            Source = manager
                         });
                     return true;
                 }
@@ -63,6 +70,6 @@ namespace CodeMarkup.WinUI
         }
 
         public PropertyThemeBuilder<T> ThemeResource(string key) { this.key = key; return this; }
-        public PropertyThemeBuilder<T> Source(IThemeSource source) { this.source = source; return this; }
+        public PropertyThemeBuilder<T> Source(FrameworkElement source) { this.source = source; return this; }
     }
 }

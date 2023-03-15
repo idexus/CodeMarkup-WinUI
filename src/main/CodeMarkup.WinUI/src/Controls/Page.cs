@@ -7,27 +7,11 @@ namespace CodeMarkup.WinUI.Controls
 {
     [MarkupObject]
     [ContainerProperty(nameof(Content))]
-    public partial class Page : Microsoft.UI.Xaml.Controls.Page, IThemeSource
+    public partial class Page : Microsoft.UI.Xaml.Controls.Page
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public ResourceDictionary ThemeResources => Resources;
-        private UISettings _uiSettings;
-
         public Page()
         {
             HotReloadContext.Handler?.Invoke(this);
-
-            _uiSettings = new UISettings();
-            _uiSettings.ColorValuesChanged += _uiSettings_ColorValuesChangedAsync;
-        }
-
-        void _uiSettings_ColorValuesChangedAsync(UISettings sender, object args)
-        {
-            this.DispatcherQueue.TryEnqueue(() =>
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ThemeResources)));
-            });
         }
     }
 }

@@ -36,11 +36,6 @@ namespace CodeMarkup.WinUI.Generator.SharpObjects
             this.symbolName = symbol.ToDisplayString().Split('.').Last();
             this.namespaceName = mainSymbol.ContainingNamespace.ToDisplayString().StartsWith(Shared.WinUIPrefix) ? Shared.ControlsLibPrefix : mainSymbol.ContainingNamespace.ToDisplayString();
 
-            if (symbolName == "Test")
-            {
-
-            }
-
             SetupContainerIfNeeded();
         }
 
@@ -140,11 +135,15 @@ namespace CodeMarkup.WinUI.Generator.SharpObjects
             builder.AppendLine();
 
             builder.AppendLine("#nullable enable");
+            if (!namespaceName.Equals(Shared.ControlsLibPrefix))
+                builder.AppendLine("#pragma warning disable CS0108");
             builder.AppendLine();
 
             GenerateClassNamespace();
 
             builder.AppendLine();
+            if (!namespaceName.Equals(Shared.ControlsLibPrefix))
+                builder.AppendLine("#pragma warning restore CS0108");
             builder.AppendLine("#nullable restore");
 
             context.AddSource($"{mainSymbol.ContainingNamespace.ToDisplayString()}.{Helpers.GetNormalizedFileName(mainSymbol)}.g.cs", builder.ToString());

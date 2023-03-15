@@ -1,29 +1,17 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml;
 using System.Collections.Generic;
+using Microsoft.UI;
+using System;
+using System.ComponentModel;
+using Windows.UI.Text;
+
 
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
     using CodeMarkup.WinUI.Styling;
-    using Microsoft.UI;
-    using Microsoft.UI.Xaml.Data;
-    using Microsoft.UI.Xaml.Media;
-    using System;
-    using System.ComponentModel;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Windows.UI;
-    using Windows.UI.Text;
-    using Windows.UI.ViewManagement;
-
-
-
-    public class ThemeDictionary : ResourceDictionary, INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-    }
 
     [DependencyProperties]
     public interface IExamplesBasePage
