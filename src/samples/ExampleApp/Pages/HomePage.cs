@@ -8,6 +8,8 @@ namespace ExampleApp
     using Microsoft.UI.Xaml.Media;
     using Microsoft.UI;
     using Microsoft.UI.Xaml.Media.Imaging;
+    using CodeMarkup.WinUI;
+    using CodeMarkup.WinUI.Styling;
 
     public partial class HomePage : Page
     {
@@ -15,6 +17,11 @@ namespace ExampleApp
 
         public HomePage()
         {
+            this.Resources = new()
+            {
+                new ThemeColor { Key = "HeaderColor", Light = Colors.Navy, Dark = Colors.Aqua }
+            };
+
             this.VerticalAlignment = VerticalAlignment.Center;
 
             Content = new ScrollViewer()
@@ -28,7 +35,7 @@ namespace ExampleApp
                                 .FontSize(60)                                
                                 .Text("Hello, World!")
                                 .TextAlignment(TextAlignment.Center)
-                                .Foreground(Colors.LightSkyBlue),
+                                .Foreground(e => e.ThemeResource("HeaderColor").Source(this)),
 
                             new TextBlock()
                                 .FontSize(20)

@@ -12,17 +12,8 @@ namespace CodeMarkup.WinUI
      
         // -- PropertyThemeBuilder --
 
-        public static PropertyThemeBuilder<T> OnLight<T>(this PropertyContext<T> self, T value)
-            => new PropertyThemeBuilder<T>(self).OnLight(value);
-
-        public static PropertyThemeBuilder<T> OnLight<T>(this PropertyContext<T> self, Func<PropertyContext<T>, IPropertyBuilder<T>> configure)
-            => new PropertyThemeBuilder<T>(self).OnLight(configure);
-
-        public static PropertyThemeBuilder<T> OnDark<T>(this PropertyContext<T> self, T value)
-            => new PropertyThemeBuilder<T>(self).OnDark(value);
-
-        public static PropertyThemeBuilder<T> OnDark<T>(this PropertyContext<T> self, Func<PropertyContext<T>, IPropertyBuilder<T>> configure)
-            => new PropertyThemeBuilder<T>(self).OnDark(configure);
+        public static PropertyThemeBuilder<T> ThemeResource<T>(this PropertyContext<T> self, string key)
+            => new PropertyThemeBuilder<T>(self).ThemeResource(key);
 
     }
 }

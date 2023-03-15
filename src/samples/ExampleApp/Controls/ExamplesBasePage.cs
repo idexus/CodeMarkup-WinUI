@@ -6,6 +6,7 @@ namespace ExampleApp
 {
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
+    using CodeMarkup.WinUI.Styling;
     using Microsoft.UI;
     using Microsoft.UI.Xaml.Data;
     using Microsoft.UI.Xaml.Media;
@@ -17,22 +18,7 @@ namespace ExampleApp
     using Windows.UI.Text;
     using Windows.UI.ViewManagement;
 
-    public class DictionaryKeyConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            if (value is ResourceDictionary dictionary && parameter is string key)
-            {
-                return dictionary[key];
-            }
-            return null;
-        }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
-        }
-    }
 
     public class ThemeDictionary : ResourceDictionary, INotifyPropertyChanged
     {
@@ -57,25 +43,21 @@ namespace ExampleApp
         private readonly TextBlock typeTextBlock;
         private readonly TextBlock sealedTextBlock;
 
-
         public ExamplesBasePage()
         {
-            this.Resources.ThemeDictionaries["Light"] = new ResourceDictionary
-            {
-                ["HeaderColor"] = new SolidColorBrush(Colors.Blue)
-            };
 
-            this.Resources.ThemeDictionaries["Dark"] = new ResourceDictionary
+            this.Resources = new()
             {
-                ["HeaderColor"] = new SolidColorBrush(Colors.Red)
-            };            
+                new ThemeColor { Key = "HeaderColor", Light = Colors.Navy, Dark = Colors.Aqua },
+                new ThemeColor { Key = "NamespaceColor", Light = Colors.Black, Dark = Colors.GhostWhite }
+            }; 
 
             Content = new ScrollViewer()
                 .Content(new VStack(e => e.Margin(40))
                 {
                     new TextBlock()
                         .Assign(out titleTextBlock)
-                        .Foreground(e => e.Path(nameof(ThemeResources)).Source(this).DictionaryKey("HeaderColor"))
+                        .Foreground(e => e.ThemeResource("HeaderColor").Source(this))
                         .FontSize(60)
                         .Margin(5,0,0,2),
                     
@@ -83,15 +65,15 @@ namespace ExampleApp
                     {
                         new TextBlock()
                             .Assign(out typeTextBlock)
-                            .FontWeight(new FontWeight(150))
-                            .Foreground(Colors.GhostWhite)
+                            .FontWeight(new FontWeight(200))
+                            .Foreground(e => e.ThemeResource("NamespaceColor").Source(this))
                             .FontSize(13),
 
                         new TextBlock()
                             .Assign(out sealedTextBlock)
                             .FontWeight(new FontWeight(700))
                             .Foreground(Colors.Red)
-                            .Margin(10,0,0,0)
+                            .Margin(7,0,0,0)
                             .FontSize(13),
                     },
 

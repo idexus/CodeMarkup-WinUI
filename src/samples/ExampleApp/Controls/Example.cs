@@ -9,6 +9,7 @@ using ColorCode;
 namespace ExampleApp
 {
     using CodeMarkup.WinUI.Controls;
+    using CodeMarkup.WinUI.Styling;
     using System;
 
     [DependencyProperties]
@@ -30,7 +31,12 @@ namespace ExampleApp
         private readonly RichTextBlock sourceTextBlock;        
 
         public Example()
-        {            
+        {
+            this.Resources = new()
+            {
+                new ThemeColor { Key = "BackgroundColor", Light = Colors.LightBlue, Dark = Colors.MidnightBlue }
+            };
+
             Content = new VStack(e => e.Padding(10))
             {
                 new TextBlock()
@@ -46,7 +52,7 @@ namespace ExampleApp
                 }
                 .Margin(1, 0, 1, 0)
                 .Padding(20)
-                .Background(Colors.MidnightBlue),                
+                .Background(e => e.ThemeResource("BackgroundColor").Source(this)),                
                 
                 new Expander
                 {

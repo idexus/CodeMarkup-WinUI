@@ -1,4 +1,7 @@
-﻿using Microsoft.UI.Xaml;
+﻿using CodeMarkup.WinUI.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media;
 using System;
 
 
@@ -6,15 +9,30 @@ namespace CodeMarkup.WinUI
 {
     public sealed class PropertyThemeBuilder<T> : IPropertyBuilder<T>
     {
+        class DictionaryKeyConverter : IValueConverter
+        {
+            public object Convert(object value, Type targetType, object parameter, string language)
+            {
+                if (value is ResourceDictionary dictionary && parameter is string key)
+                {
+                    var obj = dictionary[key];
+                    if (obj is Windows.UI.Color color)
+                        return new SolidColorBrush(color);
+                    return obj;
+                }
+                return null;
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, string language)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public PropertyContext<T> Context { get; set; }
 
-        T newValue;
-        T defaultValue;
-        Func<PropertyContext<T>, IPropertyBuilder<T>> defaultConfigure;
-
-        bool isSet;
-        bool defaultIsSet;
-        bool buildValue;
+        string key = null;
+        object source = null;
 
         public PropertyThemeBuilder(PropertyContext<T> context)
         {
@@ -23,82 +41,28 @@ namespace CodeMarkup.WinUI
 
         public bool Build()
         {
-            if (buildValue)
-                Context.Element.SetValue(Context.Property, newValue);
-            else if (!isSet)
+            if (key != null && source is IThemeSource)
             {
-                if (defaultIsSet)
+                if (Context.Element is FrameworkElement element)
                 {
-                    if (defaultConfigure != null)
-                        isSet = defaultConfigure(Context).Build();
-                    else
-                        Context.Element.SetValue(Context.Property, defaultValue);
+                    element.SetBinding(
+                        dp: Context.Property,
+                        binding: new Binding
+                        {
+                            Path = new PropertyPath("ThemeResources"),
+                            Mode = Microsoft.UI.Xaml.Data.BindingMode.OneWay,
+                            Converter = new DictionaryKeyConverter(),
+                            ConverterParameter = key,
+                            ConverterLanguage = null,
+                            Source = source
+                        });
+                    return true;
                 }
-
             }
-            return isSet;
+            return false;
         }
 
-        // Default
-
-        public PropertyThemeBuilder<T> Default(T value)
-        {
-            if (!defaultIsSet)
-            {
-                this.defaultValue = value;
-                this.defaultIsSet = true;
-            }
-            return this;
-        }
-
-        public PropertyThemeBuilder<T> Default(Func<PropertyContext<T>, IPropertyBuilder<T>> configure)
-        {
-            if (!defaultIsSet)
-            {
-                this.defaultConfigure = configure;
-                this.defaultIsSet = true;
-            }
-            return this;
-        }
-
-        // OnLight
-
-        public PropertyThemeBuilder<T> OnLight(T value)
-        {
-            if (!isSet && Application.Current.RequestedTheme == ApplicationTheme.Light)
-            {
-                newValue = value;
-                buildValue = true;
-                isSet = true;
-            }
-            return this;
-        }
-
-        public PropertyThemeBuilder<T> OnLight(Func<PropertyContext<T>, IPropertyBuilder<T>> configure)
-        {
-            if (!isSet && Application.Current.RequestedTheme == ApplicationTheme.Light)
-                isSet = configure(Context).Build();
-            return this;
-        }
-
-        // OnDark
-
-        public PropertyThemeBuilder<T> OnDark(T value)
-        {
-            if (!isSet && Application.Current.RequestedTheme == ApplicationTheme.Dark)
-            {
-                newValue = value;
-                buildValue = true;
-                isSet = true;
-            }
-            return this;
-        }
-
-        public PropertyThemeBuilder<T> OnDark(Func<PropertyContext<T>, IPropertyBuilder<T>> configure)
-        {
-            if (!isSet && Application.Current.RequestedTheme == ApplicationTheme.Dark)
-                isSet = configure(Context).Build();
-            return this;
-        }
+        public PropertyThemeBuilder<T> ThemeResource(string key) { this.key = key; return this; }
+        public PropertyThemeBuilder<T> Source(IThemeSource source) { this.source = source; return this; }
     }
 }

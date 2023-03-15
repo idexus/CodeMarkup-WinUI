@@ -1,23 +1,20 @@
-﻿using CodeMarkup.WinUI.HotReload;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
+using System.Collections;
 using System.ComponentModel;
 using Windows.UI.ViewManagement;
 
 namespace CodeMarkup.WinUI.Controls
 {
     [MarkupObject]
-    [ContainerProperty(nameof(Content))]
-    public partial class Page : Microsoft.UI.Xaml.Controls.Page, IThemeSource
+    public partial class Frame : Microsoft.UI.Xaml.Controls.Frame, IEnumerable, IThemeSource
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ResourceDictionary ThemeResources => Resources;
         private UISettings _uiSettings;
 
-        public Page()
+        public Frame()
         {
-            HotReloadContext.Handler?.Invoke(this);
-
             _uiSettings = new UISettings();
             _uiSettings.ColorValuesChanged += _uiSettings_ColorValuesChangedAsync;
         }
@@ -29,5 +26,10 @@ namespace CodeMarkup.WinUI.Controls
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ThemeResources)));
             });
         }
+
+        // ----- single item container -----
+
+        IEnumerator IEnumerable.GetEnumerator() { yield return this.Content; }
+        public void Add(UIElement content) => this.Content = content;
     }
 }

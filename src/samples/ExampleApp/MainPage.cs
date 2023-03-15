@@ -4,6 +4,10 @@ using CodeMarkup.WinUI;
 namespace ExampleApp
 {
     using CodeMarkup.WinUI.Controls;
+    using CodeMarkup.WinUI.Styling;
+    using Microsoft.UI.Xaml.Media;
+    using Microsoft.UI.Xaml;
+    using Microsoft.UI;
 
     internal class MainPage : Page
     {
@@ -11,6 +15,11 @@ namespace ExampleApp
 
         public MainPage() 
         {
+            this.Resources = new()
+            {
+                new ThemeColor { Key = "BackgroundColor", Dark = Colors.Black, Light = Colors.LightBlue }
+            };
+
             this.Content = new NavigationView(out var navigation)
             {
                 new NavigationViewItem().Content("Home").Icon(new SymbolIcon(Symbol.Home)).OnTapped(e => frame.Content = new HomePage()),
@@ -47,6 +56,7 @@ namespace ExampleApp
                 new NavigationViewItem().Content("Navigation").Icon(new SymbolIcon(Symbol.GlobalNavigationButton)),
                 new NavigationViewItem().Content("Text").Icon(new SymbolIcon(Symbol.Read))
             }
+            .Background(e => e.ThemeResource("BackgroundColor").Source(this))
             .Content(new Frame(out frame) 
             {
                 new HomePage()
