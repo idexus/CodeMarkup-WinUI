@@ -143,7 +143,7 @@ namespace {namespaceName}
             public string propertyTypeName;
             public string camelCaseName;
             public string symbolTypeName;
-            public string valueAssignmentString;
+            public string valueAssignmentString;           
 
             public void Build()
             {
@@ -282,6 +282,8 @@ namespace {namespaceName}
             if (!Shared.NotGenerateList.Contains(info.propertyName))
             {
                 GenerateExtensionMethod_Value(info);
+                GenerateReplacedTypesMethodsIfNeeded(info);
+
                 GenerateExtensionMethod_DependencyPropertyBuilder(info);
                 GenerateExtensionMethod_Setters(info);
 
@@ -316,6 +318,7 @@ namespace {namespaceName}
                     !ExistInBaseClasses(info.propertyName, getterAndSetter: true))
                 {
                     GenerateExtensionMethod_Value(info);
+                    GenerateReplacedTypesMethodsIfNeeded(info);
 
                     if (info.IsDependencyProperty)
                     {
@@ -337,6 +340,66 @@ namespace {namespaceName}
                 }
             }
         }
+
+        void GenerateReplacedTypesMethodsIfNeeded(PropertyInfo info)
+        {
+            GenerateThicknessMethodsIfNeeded(info);
+            GenerateBrushMethodsIfNeeded(info);
+        }
+
+        void GenerateThicknessMethodsIfNeeded(PropertyInfo info)
+        {
+            var typeName = "Microsoft.UI.Xaml.Thickness";
+            if (info.propertyTypeName == typeName)
+            {
+                GenerateExtensionMethod_ReplacedType(info,
+                    $"double uniformLength",
+                    $"new {typeName}(uniformLength)");
+
+                GenerateExtensionMethod_ReplacedType(info, 
+                    $"double horizontal, double vertical", 
+                    $"new {typeName}(horizontal, vertical, horizontal, vertical)");
+
+                GenerateExtensionMethod_ReplacedType(info,
+                    $"double left, double top, double right, double bottom",
+                    $"new {typeName}(left, top, right, bottom)");
+
+                if (info.IsDependencyProperty)
+                {
+                    GenerateExtensionMethod_Setters_ReplacedType(info,
+                    $"double uniformLength",
+                    $"new {typeName}(uniformLength)");
+
+                    GenerateExtensionMethod_Setters_ReplacedType(info,
+                        $"double horizontal, double vertical",
+                        $"new {typeName}(horizontal, vertical, horizontal, vertical)");
+
+                    GenerateExtensionMethod_Setters_ReplacedType(info,
+                        $"double left, double top, double right, double bottom",
+                        $"new {typeName}(left, top, right, bottom)");
+                }
+            }
+        }
+
+        void GenerateBrushMethodsIfNeeded(PropertyInfo info)
+        {
+            var typeName = "Microsoft.UI.Xaml.Media.Brush";
+            if (info.propertyTypeName == typeName)
+            {
+                GenerateExtensionMethod_ReplacedType(info,
+                    $"Windows.UI.Color color",
+                    $"new Microsoft.UI.Xaml.Media.SolidColorBrush(color)");
+
+                if (info.IsDependencyProperty)
+                {
+                    GenerateExtensionMethod_Setters_ReplacedType(info,
+                        $"Windows.UI.Color color",
+                        $"new Microsoft.UI.Xaml.Media.SolidColorBrush(color)");
+                }
+            }
+        }
+
+        // ---------------- Simple Value ----------------
 
         void GenerateExtensionMethod_Value(PropertyInfo info)
         {
@@ -373,6 +436,61 @@ namespace {namespaceName}
         ");
         }
 
+        // ---------------- Simple Value - replaced types ----------------
+
+        void GenerateExtensionMethod_ReplacedType(PropertyInfo info, string argumentList, string valueCreator)
+        {
+            isExtensionMethodsGenerated = true;
+
+            if (mainSymbol.IsSealed)
+                builder.Append($@"
+        public static {info.symbolTypeName} {info.propertyName}(this {info.symbolTypeName} self, {argumentList})");
+            else
+                builder.Append($@"
+        public static T {info.propertyName}<T>(this T self, {argumentList})
+            where T : {info.symbolTypeName}");
+
+            var valueAssignmentString = info.IsDependencyProperty ?
+        $@"self.SetValue({info.DependencyPropertyName}, value);" :
+        $"{info.accessedWith}.{info.propertyName} = value;";
+
+            builder.Append($@"
+        {{
+            var value = {valueCreator};
+            {valueAssignmentString}
+            return self;
+        }}
+        ");
+        }
+
+        // ---------------- Setters methods - replaced type ----------------
+
+        void GenerateExtensionMethod_Setters_ReplacedType(PropertyInfo info, string argumentList, string valueCreator)
+        {
+            isExtensionMethodsGenerated = true;
+
+            if (mainSymbol.IsSealed)
+                builder.Append($@"
+        public static SettersContext<{info.symbolTypeName}> {info.propertyName}(this SettersContext<{info.symbolTypeName}> self, {argumentList})");
+            else
+                builder.Append($@"
+        public static SettersContext<T> {info.propertyName}<T>(this SettersContext<T> self, {argumentList})
+            where T : {info.symbolTypeName}");
+
+            builder.Append($@"
+        {{
+            var value = {valueCreator};
+            if (self.Target != null)
+                self.XamlSetters.Add(new Setter {{ Target = new TargetPropertyPath {{ Path = new PropertyPath(""{info.propertyName}""), Target = self.Target }}, Value = value }});
+            else
+                self.XamlSetters.Add(new Setter {{ Property = {info.DependencyPropertyName}, Value = value }});
+            return self;
+        }}
+        ");
+        }
+
+        // ---------------- Get methods for attached properties ----------------
+
         void GenerateExtensionMethod_GetValue(PropertyInfo info)
         {
             if (mainSymbol.IsSealed)
@@ -404,7 +522,7 @@ namespace {namespaceName}
         ");
         }
 
-        // ---- dependency property builder ---
+        // ---------------- Builders for dependency properties ----------------
 
         void GenerateExtensionMethod_DependencyPropertyBuilder(PropertyInfo info)
         {
@@ -441,7 +559,7 @@ namespace {namespaceName}
         ");
         }
 
-        // --- setter property builder ---
+        // ---------------- Setters methods ----------------
 
         void GenerateExtensionMethod_Setters(PropertyInfo info)
         {
@@ -484,9 +602,7 @@ namespace {namespaceName}
         ");
         }
 
-        // -------------------------------
-        // ----- list fluent methods -----    
-        // -------------------------------
+        // ---------------- List methods ----------------
 
         void GenerateExtensionMethod_List(PropertyInfo info, string elementTypeName)
         {
@@ -544,9 +660,8 @@ namespace {namespaceName}
         ");
         }
 
-        // --------------------------------
-        // ----- event fluent methods -----    
-        // --------------------------------
+        // ---------------- Event methods ----------------
+
 
         void GenerateEventMethod(ISymbol @event)
         {

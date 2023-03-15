@@ -3,12 +3,12 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
 
-namespace CodeMarkup.WinUI
+namespace CodeMarkup.WinUI.Controls
 {
 	public static partial class IEnumerableExtension
 	{
         public static void Add<T>(this T self, Func<T, T> configure)
-            where T : FrameworkElement, IEnumerable
+            where T : DependencyObject, IEnumerable
         {
             configure(self);
         }

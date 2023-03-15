@@ -34,6 +34,15 @@ namespace ExampleApp
                     new NavigationViewItem().Content(nameof(ToggleSwitch)).OnTapped(e => frame.Content = new ToggleSwitchPage()),
                 },
                 new NavigationViewItem().Content("Collections").Icon(new SymbolIcon(Symbol.List)),
+                new NavigationViewItem
+                {
+                    e => e.Content("Layout").Icon(new SymbolIcon(Symbol.AlignLeft)),
+
+                    new NavigationViewItem().Content(nameof(Border)).OnTapped(e => frame.Content = new BorderPage()),
+                    new NavigationViewItem().Content(nameof(Canvas)).OnTapped(e => frame.Content = new CanvasPage()),
+                    new NavigationViewItem().Content(nameof(Expander)).OnTapped(e => frame.Content = new ExpanderPage()),
+                    new NavigationViewItem().Content(nameof(ItemsRepeater))
+                },
                 new NavigationViewItem().Content("Data & Time").Icon(new SymbolIcon(Symbol.CalendarDay)),
                 new NavigationViewItem().Content("Navigation").Icon(new SymbolIcon(Symbol.GlobalNavigationButton)),
                 new NavigationViewItem().Content("Text").Icon(new SymbolIcon(Symbol.Read))

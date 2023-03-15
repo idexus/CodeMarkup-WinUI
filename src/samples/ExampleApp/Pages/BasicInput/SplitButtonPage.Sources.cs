@@ -11,9 +11,9 @@ $@"new SplitButton()
     {{
         new VStack
         {{
-            new Button().Width(70).Height(50).Background(new SolidColorBrush(Colors.Red)),
-            new Button().Width(70).Height(50).Background(new SolidColorBrush(Colors.Green)),
-            new Button().Width(70).Height(50).Background(new SolidColorBrush(Colors.Blue)),
+            new Button().Width(70).Height(50).Background(Colors.Red),
+            new Button().Width(70).Height(50).Background(Colors.Green),
+            new Button().Width(70).Height(50).Background(Colors.Blue),
         }}
     }})";
 

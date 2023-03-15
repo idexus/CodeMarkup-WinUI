@@ -25,4 +25,8 @@
     [MarkupObject]
     [ContainerProperty(nameof(Content))]
     public partial class Expander : Microsoft.UI.Xaml.Controls.Expander { }
+
+    [MarkupObject]
+    [ContainerProperty(nameof(Children))]
+    public partial class Canvas : Microsoft.UI.Xaml.Controls.Canvas { }
 }

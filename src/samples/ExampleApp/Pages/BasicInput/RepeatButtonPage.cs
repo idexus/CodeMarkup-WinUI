@@ -34,7 +34,7 @@ namespace ExampleApp
 
                         new TextBlock()
                             .Assign(out textBlock)
-                            .Margin(new Thickness(10))
+                            .Margin(10)
                     }
                 }
                 .Title("A RepeatButton with click event handler")

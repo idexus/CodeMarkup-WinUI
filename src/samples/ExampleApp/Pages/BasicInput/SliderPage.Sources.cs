@@ -13,7 +13,7 @@
         .StepFrequency(10),
 
     new TextBlock()
-        .Margin(new Thickness(5))
+        .Margin(5)
         .Text(e => e.Path(nameof(slider.Value)).Source(slider))
 }}";
 

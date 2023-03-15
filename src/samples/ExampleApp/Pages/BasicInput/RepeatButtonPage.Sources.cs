@@ -17,7 +17,7 @@ $@"new HStack
 
     new TextBlock()
         .Assign(out textBlock)
-        .Margin(new Thickness(10))
+        .Margin(10)
 }}
 ";
 

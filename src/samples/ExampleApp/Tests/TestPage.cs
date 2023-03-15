@@ -19,11 +19,11 @@ namespace ExampleApp
         {
             this.AddVisualStateGroup(VisualState.CommonStates, new List<VisualState> {
                 new VisualState(VisualState.Button.PointerOver) {
-                    new Setters<Grid>(this, e => e.Background(new SolidColorBrush(Colors.Red))),
+                    new Setters<Grid>(this, e => e.Background(Colors.Red)),
                 },
 
                 new VisualState(VisualState.Button.Normal) {
-                    new Setters<Grid>(this, e => e.Background(new SolidColorBrush(Colors.Gray)))
+                    new Setters<Grid>(this, e => e.Background(Colors.Gray))
                 }
             });
 

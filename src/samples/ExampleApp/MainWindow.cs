@@ -31,7 +31,7 @@ namespace ExampleApp
             appWindow.ResizeClient(size);
 
             //FULL SCREEN
-            //appWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
+            //appWindow.SetPresenter(AppWindowPresenterKind.FullScreen);            
         }
     }
 }

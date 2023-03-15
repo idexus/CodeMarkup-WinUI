@@ -6,6 +6,8 @@ namespace ExampleApp
 {
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
+    using Microsoft.UI;
+    using Microsoft.UI.Xaml.Media;
     using System;
     using Windows.UI.Text;
 
@@ -25,22 +27,34 @@ namespace ExampleApp
         private readonly VStack vstack;
         private readonly TextBlock titleTextBlock;
         private readonly TextBlock typeTextBlock;
+        private readonly TextBlock sealedTextBlock;
 
         public ExamplesBasePage()
         {
             Content = new ScrollViewer()
-                .Content(new VStack(e => e.Margin(new Thickness(40)))
+                .Content(new VStack(e => e.Margin(40))
                 {
                     new TextBlock()
                         .Assign(out titleTextBlock)
+                        .Foreground(Colors.LightSkyBlue)
                         .FontSize(60)
-                        .Margin(new Thickness(5,0,0,2)),
+                        .Margin(5,0,0,2),
                     
-                    new TextBlock()
-                        .Assign(out typeTextBlock)
-                        .FontWeight(new FontWeight(100))
-                        .FontSize(13)
-                        .Margin(new Thickness(10,0,0,25)),
+                    new HStack(e => e.Margin(10,0,0,20))
+                    {
+                        new TextBlock()
+                            .Assign(out typeTextBlock)
+                            .FontWeight(new FontWeight(150))
+                            .Foreground(Colors.GhostWhite)
+                            .FontSize(13),
+
+                        new TextBlock()
+                            .Assign(out sealedTextBlock)
+                            .FontWeight(new FontWeight(700))
+                            .Foreground(Colors.Red)
+                            .Margin(10,0,0,0)
+                            .FontSize(13),
+                    },
 
                     new VStack(out vstack) 
                 });
@@ -52,6 +66,7 @@ namespace ExampleApp
             var type = (Type)e.NewValue;
             basePage.typeTextBlock.Text = type.Namespace.ToString();
             basePage.titleTextBlock.Text = type.Name;
+            basePage.sealedTextBlock.Text = type.IsSealed ? "sealed" : "";
 
         }
 

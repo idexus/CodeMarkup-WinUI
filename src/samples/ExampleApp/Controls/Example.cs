@@ -9,6 +9,7 @@ using ColorCode;
 namespace ExampleApp
 {
     using CodeMarkup.WinUI.Controls;
+    using System;
 
     [DependencyProperties]
     public interface IExample
@@ -26,16 +27,16 @@ namespace ExampleApp
     [ContainerProperty(nameof(ExampleContent))] 
     public partial class Example : Frame, IExample
     {
-        private readonly RichTextBlock sourceTextBlock;
+        private readonly RichTextBlock sourceTextBlock;        
 
         public Example()
-        {
-            Content = new VStack(e => e.Padding(new Thickness(10)))
+        {            
+            Content = new VStack(e => e.Padding(10))
             {
                 new TextBlock()
                     .Text(e => e.Path(nameof(Title)).Source(this))
                     .FontSize(20)
-                    .Margin(new Thickness(0,10,0,10)),
+                    .Margin(0,10,0,10),
 
                 new Grid
                 {
@@ -43,9 +44,9 @@ namespace ExampleApp
                         .Content(e => e.Path(nameof(ExampleContent))
                         .Source(this))
                 }
-                .Margin(new Thickness(1, 0, 1, 0))
-                .Padding(new Thickness(20))
-                .Background(new SolidColorBrush(Colors.MidnightBlue)),                
+                .Margin(1, 0, 1, 0)
+                .Padding(20)
+                .Background(Colors.MidnightBlue),                
                 
                 new Expander
                 {
@@ -55,7 +56,7 @@ namespace ExampleApp
                             .Assign(out sourceTextBlock)
                             .FontFamily(new FontFamily("Consolas"))
                     }
-                    .Padding(new Thickness(10, 0, 10, 0))
+                    .Padding(10, 0, 10, 0)
                     .Width(int.MaxValue)
                 }
                 .IsExpanded(e => e.Path(nameof(IsExpanded)).Source(this))
