@@ -27,7 +27,7 @@
   <ItemGroup>
     <PackageReference Include="ColorCode.WinUI" Version="2.0.14" />
     <PackageReference Include="HotReloadKit" Version="0.5.0-beta" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230217.4" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>

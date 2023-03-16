@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-      <PackageReference Include="HotReloadKit" Version="0.5.0-beta" />
-      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230217.4" />
-      <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+    <PackageReference Include="HotReloadKit" Version="0.5.0-beta" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
   </ItemGroup>
 </Project>
