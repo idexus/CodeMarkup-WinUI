@@ -4,6 +4,10 @@ CodeMarkup.WinUI is a library for the WinUI framework that enables you to build 
 
 <img src="https://github.com/idexus/CodeMarkup.WinUI/raw/main/doc/assets/gallery.jpg" alt="Hot Reload Support" width="800" border="0" />
 
+# Nuget
+
+- [CodeMarkup.WinUI](https://www.nuget.org/packages/CodeMarkup.WinUI)
+
 # Disclaimer
 
 CodeMarkup.WinUI is a proof of concept. There is no official support. Use at your own risk.
