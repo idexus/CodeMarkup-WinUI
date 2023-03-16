@@ -5,6 +5,16 @@
     <RootNamespace>CodeMarkup.WinUI</RootNamespace>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
+
+    <PackageId>CodeMarkup.WinUI</PackageId>
+    <Version>0.2.0-alpha</Version>
+    <Authors>Pawel Krzywdzinski</Authors>
+    <Copyright>Pawel Krzywdzinski</Copyright>
+    <PackageDescription>C# WinUI Markup Library Using Fluent Methods</PackageDescription>
+    <Company></Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,8 +23,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\generators\CodeMarkup.WinUI.Generator.SharpObjects\CodeMarkup.WinUI.Generator.Classes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\..\generators\CodeMarkup.WinUI.Generator.Classes\CodeMarkup.WinUI.Generator.Classes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\..\generators\CodeMarkup.WinUI.Generator.Extensions\CodeMarkup.WinUI.Generator.Extensions.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\..\generators\CodeMarkup.WinUI.Generator.Classes\bin\$(Configuration)\netstandard2.0\CodeMarkup.WinUI.Generator.Classes.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="..\..\generators\CodeMarkup.WinUI.Generator.Extensions\bin\$(Configuration)\netstandard2.0\CodeMarkup.WinUI.Generator.Extensions.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  
 </Project>
