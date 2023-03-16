@@ -1,6 +1,6 @@
 # Overview
 
-__CodeMarkup.WinUI__ is a library for the WinUI framework that enables you to build user interfaces declaratively in C# code using fluent methods. With this library, you can create interfaces without needing to use XAML.
+__CodeMarkup__ for __WinUI__ enables you to build user interfaces declaratively in C# code using fluent methods. With this library, you can create interfaces without needing to use XAML.
 
 <img src="https://github.com/idexus/CodeMarkup.WinUI/raw/main/doc/assets/gallery.jpg" alt="Hot Reload Support" width="800" border="0" />
 
@@ -10,7 +10,7 @@ __CodeMarkup.WinUI__ is a library for the WinUI framework that enables you to bu
 
 # Disclaimer
 
-__CodeMarkup.WinUI__ is a proof of concept. There is no official support. Use at your own risk.
+__CodeMarkup__ for __WinUI__ is a proof of concept. There is no official support. Use at your own risk.
 
 # License 
 
