@@ -10,4 +10,4 @@ CodeMarkup.WinUI is a proof of concept. There is no official support. Use at you
 
 # License 
 
-[The MIT License](LICENSE), Copyright (c) 2022 Pawel Krzywdzinski
+[The MIT License](LICENSE), Copyright (c) 2023 Pawel Krzywdzinski
