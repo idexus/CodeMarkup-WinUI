@@ -8,6 +8,7 @@ namespace ExampleApp
     using Microsoft.UI.Xaml.Media;
     using Microsoft.UI.Xaml;
     using Microsoft.UI;
+    using Windows.UI;
 
     internal class MainPage : Page
     {
@@ -15,14 +16,24 @@ namespace ExampleApp
 
         public MainPage() 
         {
-            this.Resources = new()
+            this.Resources.MergedDictionaries.Add(new()
             {
-                new ThemeColor { Key = "BackgroundColor", Dark = Colors.Black, Light = Colors.LightBlue }
-            };
+                new ThemeValue<Color> { Key = "BackgroundColor", Dark = Colors.Black, Light = Colors.LightBlue }
+            });
 
             this.Content = new NavigationView(out var navigation)
             {
                 new NavigationViewItem().Content("Home").Icon(new SymbolIcon(Symbol.Home)).OnTapped(e => frame.Content = new HomePage()),
+                new NavigationViewItem()
+                {
+                    e => e.Content("Fundamentals").Icon(new SymbolIcon(Symbol.Page)),
+
+                    new NavigationViewItem().Content("Fluent methods").OnTapped(e => frame.Content = new FluentMethodsPage()),
+                    new NavigationViewItem().Content("Containers").OnTapped(e => frame.Content = new ContainersPage()),
+                    new NavigationViewItem().Content("Property Bindings").OnTapped(e => frame.Content = new PropertyBindingsPage()),
+                    new NavigationViewItem().Content("Resources").OnTapped(e => frame.Content = new ResourcesPage()),
+                    new NavigationViewItem().Content("Styling").OnTapped(e => frame.Content = new StylingPage()),
+                },
                 new NavigationViewItem()
                 {
                     e => e.Content("Basic Input").Icon(new SymbolIcon(Symbol.Page)),
@@ -56,7 +67,7 @@ namespace ExampleApp
                 new NavigationViewItem().Content("Navigation").Icon(new SymbolIcon(Symbol.GlobalNavigationButton)),
                 new NavigationViewItem().Content("Text").Icon(new SymbolIcon(Symbol.Read))
             }
-            .Background(e => e.ThemeResource("BackgroundColor").Source(this))
+            .Background(e => e.ResourceKey("BackgroundColor").Source(this))
             .Content(new Frame(out frame) 
             {
                 new HomePage()

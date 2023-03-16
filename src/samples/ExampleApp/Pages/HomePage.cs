@@ -10,6 +10,7 @@ namespace ExampleApp
     using Microsoft.UI.Xaml.Media.Imaging;
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Styling;
+    using Windows.UI;
 
     public partial class HomePage : Page
     {
@@ -19,7 +20,7 @@ namespace ExampleApp
         {
             this.Resources = new()
             {
-                new ThemeColor { Key = "HeaderColor", Light = Colors.Navy, Dark = Colors.Aqua }
+                new ThemeValue<Color> { Key = "HeaderColor", Light = Colors.Navy, Dark = Colors.Aqua }
             };
 
             this.VerticalAlignment = VerticalAlignment.Center;
@@ -35,7 +36,7 @@ namespace ExampleApp
                                 .FontSize(60)                                
                                 .Text("Hello, World!")
                                 .TextAlignment(TextAlignment.Center)
-                                .Foreground(e => e.ThemeResource("HeaderColor").Source(this)),
+                                .Foreground(e => e.ResourceKey("HeaderColor").Source(this)),
 
                             new TextBlock()
                                 .FontSize(20)

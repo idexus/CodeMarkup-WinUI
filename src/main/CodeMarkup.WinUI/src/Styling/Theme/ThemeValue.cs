@@ -2,10 +2,10 @@
 
 namespace CodeMarkup.WinUI.Styling
 {
-    public class ThemeColor
+    public class ThemeValue<T>
     {
         public string Key { get; set; } 
-        public Color Light { get; set; }
-        public Color Dark { get; set; }
+        public T Light { get; set; }
+        public T Dark { get; set; }
     }
 }

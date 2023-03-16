@@ -11,6 +11,7 @@ namespace ExampleApp
     using CodeMarkup.WinUI.Controls;
     using CodeMarkup.WinUI.Styling;
     using System;
+    using Windows.UI;
 
     [DependencyProperties]
     public interface IExample
@@ -32,17 +33,17 @@ namespace ExampleApp
 
         public Example()
         {
-            this.Resources = new()
+            this.Resources.MergedDictionaries.Add(new()
             {
-                new ThemeColor { Key = "BackgroundColor", Light = Colors.LightBlue, Dark = Colors.MidnightBlue }
-            };
+                new ThemeValue<Color> { Key = "BackgroundColor", Light = Colors.LightBlue, Dark = Colors.MidnightBlue }
+            });
 
             Content = new VStack(e => e.Padding(10))
             {
                 new TextBlock()
                     .Text(e => e.Path(nameof(Title)).Source(this))
-                    .FontSize(20)
-                    .Margin(0,10,0,10),
+                    .FontSize(16)
+                    .Margin(0,10,0,7),
 
                 new Grid
                 {
@@ -52,7 +53,7 @@ namespace ExampleApp
                 }
                 .Margin(1, 0, 1, 0)
                 .Padding(20)
-                .Background(e => e.ThemeResource("BackgroundColor").Source(this)),                
+                .Background(e => e.ResourceKey("BackgroundColor").Source(this)),                
                 
                 new Expander
                 {

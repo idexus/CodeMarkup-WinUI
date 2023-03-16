@@ -11,14 +11,14 @@ namespace CodeMarkup.WinUI.Styling
             self[typeof(T)] = (Style)style;       
         }
 
-        public static void Add(this ResourceDictionary self, ThemeColor themeColor)
+        public static void Add<T>(this ResourceDictionary self, ThemeValue<T> themeValue)
         {
             if (!self.ThemeDictionaries.ContainsKey("Light")) self.ThemeDictionaries["Light"] = new ResourceDictionary();
             if (!self.ThemeDictionaries.ContainsKey("Dark")) self.ThemeDictionaries["Dark"] = new ResourceDictionary();
             var lightDictionary = self.ThemeDictionaries["Light"] as ResourceDictionary;
             var darkDictionary = self.ThemeDictionaries["Dark"] as ResourceDictionary;
-            lightDictionary[themeColor.Key] = themeColor.Light;
-            darkDictionary[themeColor.Key] = themeColor.Dark;
+            lightDictionary[themeValue.Key] = themeValue.Light;
+            darkDictionary[themeValue.Key] = themeValue.Dark;
         }
     }
 }

@@ -6,8 +6,8 @@ namespace CodeMarkup.WinUI.Styling
     {
         // -- PropertyThemeBuilder --
 
-        public static PropertyThemeBuilder<T> ThemeResource<T>(this PropertyContext<T> self, string key)
-            => new PropertyThemeBuilder<T>(self).ThemeResource(key);
+        public static PropertyThemeBuilder<T> ResourceKey<T>(this PropertyContext<T> self, string key)
+            => new PropertyThemeBuilder<T>(self).ResourceKey(key);
 
     }
 }

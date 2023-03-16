@@ -69,7 +69,7 @@ namespace CodeMarkup.WinUI.Styling
             return false;
         }
 
-        public PropertyThemeBuilder<T> ThemeResource(string key) { this.key = key; return this; }
+        internal PropertyThemeBuilder<T> ResourceKey(string key) { this.key = key; return this; }
         public PropertyThemeBuilder<T> Source(FrameworkElement source) { this.source = source; return this; }
     }
 }

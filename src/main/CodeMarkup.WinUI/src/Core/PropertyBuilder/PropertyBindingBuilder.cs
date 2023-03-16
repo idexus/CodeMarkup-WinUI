@@ -68,7 +68,7 @@ namespace CodeMarkup.WinUI
             return false;
         }
 
-        public PropertyBindingBuilder<T> Path(string path) { this.path = path; return this; }
+        internal PropertyBindingBuilder<T> Path(string path) { this.path = path; return this; }
         public PropertyBindingBuilder<T> BindingMode(BindingMode bindingMode) { this.bindingMode = bindingMode; return this; }
         public PropertyBindingBuilder<T> Converter(IValueConverter converter) { this.converter = converter; return this; }
         public PropertyBindingBuilder<T> ConverterParameter(string converterParameter) { this.converterParameter = converterParameter; return this; }

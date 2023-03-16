@@ -12,10 +12,14 @@ namespace ExampleApp
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
     using CodeMarkup.WinUI.Styling;
+    using Windows.UI;
 
     [DependencyProperties]
     public interface IExamplesBasePage
     {
+        [PropertyCallbacks(nameof(ExamplesBasePage.TitleChanged))]
+        public string Title { get; set; }
+
         [PropertyCallbacks(nameof(ExamplesBasePage.TypeChanged))]
         public Type Type { get; set; }
 
@@ -30,31 +34,32 @@ namespace ExampleApp
         private readonly TextBlock titleTextBlock;
         private readonly TextBlock typeTextBlock;
         private readonly TextBlock sealedTextBlock;
+        private readonly HStack namespaceHStack;
+        private readonly VStack mainVStack;
 
         public ExamplesBasePage()
         {
-
-            this.Resources = new()
+            this.Resources.MergedDictionaries.Add(new()
             {
-                new ThemeColor { Key = "HeaderColor", Light = Colors.Navy, Dark = Colors.Aqua },
-                new ThemeColor { Key = "NamespaceColor", Light = Colors.Black, Dark = Colors.GhostWhite }
-            }; 
+                new ThemeValue<Color> { Key = "HeaderColor", Light = Colors.Navy, Dark = Colors.Aqua },
+                new ThemeValue<Color> { Key = "NamespaceColor", Light = Colors.Black, Dark = Colors.GhostWhite }
+            });
 
             Content = new ScrollViewer()
-                .Content(new VStack(e => e.Margin(40))
+                .Content(new VStack(out mainVStack, e => e.Margin(40))
                 {
                     new TextBlock()
                         .Assign(out titleTextBlock)
-                        .Foreground(e => e.ThemeResource("HeaderColor").Source(this))
-                        .FontSize(60)
+                        .Foreground(e => e.ResourceKey("HeaderColor").Source(this))
+                        .FontSize(52)
                         .Margin(5,0,0,2),
                     
-                    new HStack(e => e.Margin(10,0,0,20))
+                    new HStack(out namespaceHStack, e => e.Margin(10,0,0,20))
                     {
                         new TextBlock()
                             .Assign(out typeTextBlock)
                             .FontWeight(new FontWeight(200))
-                            .Foreground(e => e.ThemeResource("NamespaceColor").Source(this))
+                            .Foreground(e => e.ResourceKey("NamespaceColor").Source(this))
                             .FontSize(13),
 
                         new TextBlock()
@@ -69,6 +74,13 @@ namespace ExampleApp
                 });
         }
 
+        public static void TitleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var basePage = (ExamplesBasePage)sender;
+            basePage.titleTextBlock.Text = (string)e.NewValue;
+            basePage.mainVStack.Children.Remove(basePage.namespaceHStack);
+        }
+
         public static void TypeChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var basePage = (ExamplesBasePage)sender;
@@ -76,7 +88,6 @@ namespace ExampleApp
             basePage.typeTextBlock.Text = type.Namespace.ToString();
             basePage.titleTextBlock.Text = type.Name;
             basePage.sealedTextBlock.Text = type.IsSealed ? "sealed" : "";
-
         }
 
         public static void ExamplesChanged(object sender, DependencyPropertyChangedEventArgs e)

@@ -28,5 +28,12 @@ namespace CodeMarkup.WinUI
             self.SetValue(Microsoft.UI.Xaml.Controls.Grid.RowSpanProperty, row);
             return self;
         }
+
+        public static T Size<T>(this T self, double width, double height) where T : FrameworkElement
+        {
+            self.SetValue(FrameworkElement.WidthProperty, width);
+            self.SetValue(FrameworkElement.HeightProperty, height);
+            return self;
+        }
     }
 }

@@ -5,7 +5,7 @@
         class Sources
         {
             public const string SimpleButton =
-    $@"new Button()
+$@"new Button()
     .Content(""Click me"")
     .OnClick(button =>
     {{
