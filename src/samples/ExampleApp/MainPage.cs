@@ -26,7 +26,7 @@ namespace ExampleApp
                 new NavigationViewItem().Content("Home").Icon(new SymbolIcon(Symbol.Home)).OnTapped(e => frame.Content = new HomePage()),
                 new NavigationViewItem()
                 {
-                    e => e.Content("Fundamentals").Icon(new SymbolIcon(Symbol.Page)),
+                    e => e.Content("Fundamentals").Icon(new SymbolIcon(Symbol.Priority)),
 
                     new NavigationViewItem().Content("Fluent methods").OnTapped(e => frame.Content = new FluentMethodsPage()),
                     new NavigationViewItem().Content("Containers").OnTapped(e => frame.Content = new ContainersPage()),
@@ -36,7 +36,7 @@ namespace ExampleApp
                 },
                 new NavigationViewItem()
                 {
-                    e => e.Content("Basic Input").Icon(new SymbolIcon(Symbol.Page)),
+                    e => e.Content("Basic Input").Icon(new SymbolIcon(Symbol.Target)),
 
                     new NavigationViewItem().Content(nameof(Button)).OnTapped(e => frame.Content = new ButtonPage()),
                     new NavigationViewItem().Content(nameof(CheckBox)).OnTapped(e => frame.Content = new CheckBoxPage()),
@@ -53,7 +53,6 @@ namespace ExampleApp
                     new NavigationViewItem().Content(nameof(ToggleSplitButton)).OnTapped(e => frame.Content = new ToggleSplitButtonPage()),
                     new NavigationViewItem().Content(nameof(ToggleSwitch)).OnTapped(e => frame.Content = new ToggleSwitchPage()),
                 },
-                new NavigationViewItem().Content("Collections").Icon(new SymbolIcon(Symbol.List)),
                 new NavigationViewItem
                 {
                     e => e.Content("Layout").Icon(new SymbolIcon(Symbol.AlignLeft)),
@@ -61,11 +60,30 @@ namespace ExampleApp
                     new NavigationViewItem().Content(nameof(Border)).OnTapped(e => frame.Content = new BorderPage()),
                     new NavigationViewItem().Content(nameof(Canvas)).OnTapped(e => frame.Content = new CanvasPage()),
                     new NavigationViewItem().Content(nameof(Expander)).OnTapped(e => frame.Content = new ExpanderPage()),
-                    new NavigationViewItem().Content(nameof(ItemsRepeater))
+                    new NavigationViewItem().Content(nameof(ItemsRepeater)).OnTapped(e => frame.Content = new ItemsRepeaterPage()),
+                    new NavigationViewItem().Content(nameof(Grid)).OnTapped(e => frame.Content = new GridPage()),
+                    new NavigationViewItem().Content(nameof(RadioButtons)).OnTapped(e => frame.Content = new RadioButtonsPage()),
+                    new NavigationViewItem().Content(nameof(RelativePanel)).OnTapped(e => frame.Content = new RelativePanelPage()),
+                    new NavigationViewItem().Content(nameof(SplitView)).OnTapped(e => frame.Content = new SplitViewPage()),
+                    new NavigationViewItem().Content(nameof(StackPanel)).OnTapped(e => frame.Content = new StackPanelPage()),
+                    new NavigationViewItem().Content(nameof(VariableSizedWrapGrid)).OnTapped(e => frame.Content = new VariableSizedWrapGridPage()),                    
+                    new NavigationViewItem().Content(nameof(Viewbox)).OnTapped(e => frame.Content = new ViewboxPage()),
                 },
-                new NavigationViewItem().Content("Data & Time").Icon(new SymbolIcon(Symbol.CalendarDay)),
-                new NavigationViewItem().Content("Navigation").Icon(new SymbolIcon(Symbol.GlobalNavigationButton)),
-                new NavigationViewItem().Content("Text").Icon(new SymbolIcon(Symbol.Read))
+                new NavigationViewItem
+                {
+                    e => e.Content("Text").Icon(new SymbolIcon(Symbol.Character)),
+
+                    new NavigationViewItem().Content(nameof(AutoSuggestBox)).OnTapped(e => frame.Content = new AutoSuggestBoxPage()),
+                    new NavigationViewItem().Content(nameof(NumberBox)).OnTapped(e => frame.Content = new NumberBoxPage()),
+                    new NavigationViewItem().Content(nameof(PasswordBox)).OnTapped(e => frame.Content = new PasswordBoxPage()),
+                    new NavigationViewItem().Content(nameof(RichEditBox)).OnTapped(e => frame.Content = new RichEditBoxPage()),
+                    new NavigationViewItem().Content(nameof(RichTextBlock)).OnTapped(e => frame.Content = new RichTextBlockPage()),
+                    new NavigationViewItem().Content(nameof(TextBlock)).OnTapped(e => frame.Content = new TextBlockPage()),
+                    new NavigationViewItem().Content(nameof(TextBox)).OnTapped(e => frame.Content = new TextBoxPage()),
+                }
+                //new NavigationViewItem().Content("Collections").Icon(new SymbolIcon(Symbol.List)),
+                //new NavigationViewItem().Content("Data & Time").Icon(new SymbolIcon(Symbol.CalendarDay)),
+                //new NavigationViewItem().Content("Navigation").Icon(new SymbolIcon(Symbol.GlobalNavigationButton)),
             }
             .Background(e => e.ResourceKey("BackgroundColor").Source(this))
             .Content(new Frame(out frame) 
