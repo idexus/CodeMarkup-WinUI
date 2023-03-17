@@ -29,4 +29,15 @@
     [MarkupObject]
     [ContainerProperty(nameof(Children))]
     public partial class Canvas : Microsoft.UI.Xaml.Controls.Canvas { }
+
+    [MarkupObject]
+    [ContainerProperty(nameof(Items))]
+    public partial class RadioButtons : Microsoft.UI.Xaml.Controls.RadioButtons { }
+
+    [MarkupObject]
+    [ContainerProperty(nameof(Children))]
+    public partial class RelativePanel : Microsoft.UI.Xaml.Controls.RelativePanel { }
+
+    [MarkupObject]
+    public partial class SplitView : Microsoft.UI.Xaml.Controls.SplitView { }
 }

@@ -11,8 +11,4 @@
     [MarkupObject]
     [ContainerProperty(nameof(Items))]
     public partial class ComboBox : Microsoft.UI.Xaml.Controls.ComboBox { }
-
-    [MarkupObject]
-    [ContainerProperty(nameof(Items))]
-    public partial class RadioButtons : Microsoft.UI.Xaml.Controls.RadioButtons { }
 }

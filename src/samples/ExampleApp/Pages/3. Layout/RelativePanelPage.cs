@@ -10,6 +10,7 @@ namespace ExampleApp
 {
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
+    using Microsoft.UI.Xaml.Shapes;
 
     public partial class RelativePanelPage : ExamplesBasePage
     {
@@ -21,7 +22,7 @@ namespace ExampleApp
             {
                 new Example
                 {
-                    
+
                 }
                 .Title("")
                 .SourceText(Sources.Sample1),
