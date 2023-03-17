@@ -24,6 +24,7 @@ namespace ExampleApp
             this.Content = new NavigationView(out var navigation)
             {
                 new NavigationViewItem().Content("Home").Icon(new SymbolIcon(Symbol.Home)).OnTapped(e => frame.Content = new HomePage()),
+                //new NavigationViewItem().Content("Test").OnTapped(e => frame.Content = new TestPage()),
                 new NavigationViewItem()
                 {
                     e => e.Content("Fundamentals").Icon(new SymbolIcon(Symbol.Priority)),
@@ -60,8 +61,8 @@ namespace ExampleApp
                     new NavigationViewItem().Content(nameof(Border)).OnTapped(e => frame.Content = new BorderPage()),
                     new NavigationViewItem().Content(nameof(Canvas)).OnTapped(e => frame.Content = new CanvasPage()),
                     new NavigationViewItem().Content(nameof(Expander)).OnTapped(e => frame.Content = new ExpanderPage()),
-                    new NavigationViewItem().Content(nameof(ItemsRepeater)).OnTapped(e => frame.Content = new ItemsRepeaterPage()),
                     new NavigationViewItem().Content(nameof(Grid)).OnTapped(e => frame.Content = new GridPage()),
+                    new NavigationViewItem().Content(nameof(ItemsRepeater)).OnTapped(e => frame.Content = new ItemsRepeaterPage()),
                     new NavigationViewItem().Content(nameof(RadioButtons)).OnTapped(e => frame.Content = new RadioButtonsPage()),
                     new NavigationViewItem().Content(nameof(RelativePanel)).OnTapped(e => frame.Content = new RelativePanelPage()),
                     new NavigationViewItem().Content(nameof(SplitView)).OnTapped(e => frame.Content = new SplitViewPage()),

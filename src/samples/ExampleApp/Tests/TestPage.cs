@@ -12,22 +12,21 @@ namespace ExampleApp
     using CodeMarkup.WinUI.Styling;
 
 
-    [Bindable]
-    public class CustomButton : Grid, IFrameworkTemplate
+    public class TestPage : Page
     {
-        void IFrameworkTemplate.BuildTemplate(FrameworkElement parent)
+        readonly static ControlTemplate buttonTemplate = new ControlTemplate<Grid>((root, parent) =>
         {
-            this.AddVisualStateGroup(VisualState.CommonStates, new List<VisualState> {
+            root.AddVisualStateGroup(VisualState.CommonStates, new List<VisualState> {
                 new VisualState(VisualState.Button.PointerOver) {
-                    new Setters<Grid>(this, e => e.Background(Colors.Red)),
+                    new Setters<Grid>(root, e => e.Background(Colors.Red)),
                 },
 
                 new VisualState(VisualState.Button.Normal) {
-                    new Setters<Grid>(this, e => e.Background(Colors.Gray))
+                    new Setters<Grid>(root, e => e.Background(Colors.Gray))
                 }
             });
 
-            this.Add( 
+            root.Add(
                 new Grid(e => e
                     .RowDefinitions(e => e.Auto(count: 2))
                     .VerticalAlignment(VerticalAlignment.Center)
@@ -36,12 +35,7 @@ namespace ExampleApp
                     new TextBlock().Text(e => e.Path(nameof(Button.Content)).Source(parent)).Row(0),
                     new TextBlock().Text("Sub title").Row(1).FontSize(20)
                 });
-        }
-    } 
-
-    public class TestPage : Page
-    {
-        readonly static ControlTemplate buttonTemplate = new ControlTemplate<CustomButton>();
+        });
 
         readonly ResourceDictionary res = new() {
             new Style<Button>(e => e.Template(buttonTemplate)),

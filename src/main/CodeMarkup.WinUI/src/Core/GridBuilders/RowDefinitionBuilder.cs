@@ -22,7 +22,7 @@ namespace CodeMarkup.WinUI
             return this;
         }
 
-        public RowDefinitionBuilder Pixel(double height, int count = 1)
+        public RowDefinitionBuilder Absolute(double height, int count = 1)
         {
             for (int i = 0; i < count; i++)
                 Items.Add(new RowDefinition { Height = new GridLength(height, GridUnitType.Pixel) });
