@@ -12,7 +12,7 @@ $@"new ItemsRepeater()
     .Layout(new StackLayout {{Orientation = Orientation.Vertical}})
     .ItemTemplate(dataTemplate) 
 
-// data template declaration (class static property)
+// data template declaration (static field)
 
 readonly static DataTemplate dataTemplate = new DataTemplate<Frame>(root =>
 {{

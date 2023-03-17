@@ -10,6 +10,7 @@ namespace ExampleApp
 {
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
+    using Windows.UI;
 
     public partial class RadioButtonsPage : ExamplesBasePage
     {
@@ -21,7 +22,26 @@ namespace ExampleApp
             {
                 new Example
                 {
-                    
+                    new RadioButtons
+                    {
+                        "Default",
+                        "Red",
+                        "Green",
+                        "Blue",                        
+                    }
+                    .Header("Radio Buttons")
+                    .SelectedIndex(0)
+                    .MaxColumns(4)
+                    .OnSelectionChanged(rb =>
+                    {
+                        this.Background(rb.SelectedIndex switch
+                        {
+                            1 => Colors.Red,
+                            2 => Colors.Green,
+                            3 => Colors.Blue,
+                            _ => Colors.Transparent,
+                        });
+                    })
                 }
                 .Title("")
                 .SourceText(Sources.Sample1),
