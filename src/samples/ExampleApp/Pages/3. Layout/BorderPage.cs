@@ -25,10 +25,12 @@ namespace ExampleApp
                         .BorderThickness(10)
                         .BorderBrush(Colors.Red)
                         .Background(Colors.Black)
-                        .Child(new TextBlock().Text("I'm in border"))
+                        .Child(
+                            new TextBlock().Text("I'm in border")
+                        )
                 }
                 .Title("A simple Border example")
-                .SourceText(Sources.SimpleBorder),
+                .SourceText(Sources.Sample1),
             };
         }
     }

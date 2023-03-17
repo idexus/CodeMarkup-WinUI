@@ -13,9 +13,9 @@ namespace ExampleApp
 
 
     [Bindable]
-    public class CustomButton : Grid, IFrameworkTemplate
+    public class CustomButton : Grid, IFrameworkTemplateWithParent
     {
-        void IFrameworkTemplate.BuildTemplate(FrameworkElement parent)
+        void IFrameworkTemplateWithParent.BuildTemplate(FrameworkElement parent)
         {
             this.AddVisualStateGroup(VisualState.CommonStates, new List<VisualState> {
                 new VisualState(VisualState.Button.PointerOver) {

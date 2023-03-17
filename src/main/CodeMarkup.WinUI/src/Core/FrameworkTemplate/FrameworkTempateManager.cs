@@ -30,7 +30,8 @@ namespace CodeMarkup.WinUI
 
         private static void TemplatedParentCallback(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            if (obj is FrameworkElement root &&
+            if (obj is IFrameworkTemplateWithParent &&
+                obj is FrameworkElement root &&
                 args.NewValue is FrameworkElement parent &&
                 root.GetValue(MethodIdProperty) is string handlerId &&
                 HandlerMethods.TryGetValue(handlerId, out var handlerMethod))
@@ -45,7 +46,7 @@ namespace CodeMarkup.WinUI
             DependencyProperty.RegisterAttached("MethodId",
             typeof(string),
             typeof(FrameworkTempateManager),
-            new PropertyMetadata(default(string)));
+            new PropertyMetadata(default(string), MethodIdCallback));
 
         public static void SetMethodId(DependencyObject obj, string value)
         {
@@ -55,6 +56,17 @@ namespace CodeMarkup.WinUI
         public static string GetMethodId(DependencyObject obj)
         {
             return (string)obj.GetValue(MethodIdProperty);
+        }
+
+        private static void MethodIdCallback(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            if (obj is IFrameworkTemplate && 
+                obj is FrameworkElement root &&
+                args.NewValue is string handlerId &&
+                HandlerMethods.TryGetValue(handlerId, out var handlerMethod))
+            {
+                handlerMethod(null, root);
+            }
         }
     }
 }
