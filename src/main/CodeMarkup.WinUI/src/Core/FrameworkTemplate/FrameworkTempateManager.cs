@@ -8,7 +8,8 @@ namespace CodeMarkup.WinUI
     [Bindable]
     public class FrameworkTempateManager
     {
-        internal static Dictionary<string, Action<FrameworkElement, FrameworkElement>> HandlerMethods = new Dictionary<string, Action<FrameworkElement, FrameworkElement>>();
+        internal static Dictionary<string, Action<FrameworkElement, FrameworkElement>> HandlerMethodsWithParent = new Dictionary<string, Action<FrameworkElement, FrameworkElement>>();
+        internal static Dictionary<string, Action<FrameworkElement>> HandlerMethodsWithoutParent = new Dictionary<string, Action<FrameworkElement>>();
 
         // TemplatedParent
 
@@ -30,13 +31,12 @@ namespace CodeMarkup.WinUI
 
         private static void TemplatedParentCallback(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            if (obj is IFrameworkTemplateWithParent &&
-                obj is FrameworkElement root &&
+            if (obj is FrameworkElement root &&
                 args.NewValue is FrameworkElement parent &&
                 root.GetValue(MethodIdProperty) is string handlerId &&
-                HandlerMethods.TryGetValue(handlerId, out var handlerMethod))
+                HandlerMethodsWithParent.TryGetValue(handlerId, out var handlerMethod))
             {
-                handlerMethod(parent, root);
+                handlerMethod(root, parent);
             }
         }
 
@@ -60,12 +60,11 @@ namespace CodeMarkup.WinUI
 
         private static void MethodIdCallback(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-            if (obj is IFrameworkTemplate && 
-                obj is FrameworkElement root &&
+            if (obj is FrameworkElement root &&
                 args.NewValue is string handlerId &&
-                HandlerMethods.TryGetValue(handlerId, out var handlerMethod))
+                HandlerMethodsWithoutParent.TryGetValue(handlerId, out var handlerMethod))
             {
-                handlerMethod(null, root);
+                handlerMethod(root);
             }
         }
     }

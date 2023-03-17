@@ -17,34 +17,27 @@ namespace ExampleApp
     using CodeMarkup.WinUI.Styling;
     using System.Linq;
 
-    [Bindable]
-    public class PercentTemplate : Frame, IFrameworkTemplate
-    {
-        void IFrameworkTemplate.BuildTemplate()
-        {
-            this.Content = new Border()
-                .Background(e => e.ResourceKey("SystemChromeLowColor").Source(this))
-                .Margin(4)
-                .Size(400, 20)
-                .Child(
-                    new Rectangle()
-                        .HorizontalAlignment(HorizontalAlignment.Left)
-                        .Fill(e => e.ResourceKey("SystemAccentColor").Source(this))
-                        .Width(e => e.Path("Percent").Convert<double>(d => d * 4))
-                );
-        }
-    }
-
     public partial class ItemsRepeaterPage : ExamplesBasePage
     {
-        [Bindable]
         public class PercentData
         {
             public double Percent { get; set; }
         }
 
-        List<PercentData> percentDataList = Enumerable.Range(1, 10).Select(e => new PercentData { Percent = Random.Shared.Next(100) }).ToList();
-        readonly static DataTemplate dataTemplate = new DataTemplate<PercentTemplate>();
+        List<PercentData> percentDataList = Enumerable.Range(1, 5).Select(e => new PercentData { Percent = Random.Shared.Next(100) }).ToList();
+        readonly static DataTemplate dataTemplate = new DataTemplate<Frame>(root =>
+        {
+            root.Content = new Border()
+                .Background(e => e.ResourceKey("SystemChromeLowColor").Source(root))
+                .Margin(4)
+                .Size(400, 20)
+                .Child(
+                    new Rectangle()
+                        .HorizontalAlignment(HorizontalAlignment.Left)
+                        .Fill(e => e.ResourceKey("SystemAccentColor").Source(root))
+                        .Width(e => e.Path("Percent").Convert<double>(d => d * 4))
+                );
+        });
 
         public ItemsRepeaterPage()
         {

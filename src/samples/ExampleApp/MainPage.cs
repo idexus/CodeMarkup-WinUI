@@ -24,6 +24,7 @@ namespace ExampleApp
             this.Content = new NavigationView(out var navigation)
             {
                 new NavigationViewItem().Content("Home").Icon(new SymbolIcon(Symbol.Home)).OnTapped(e => frame.Content = new HomePage()),
+                //new NavigationViewItem().Content("Test").OnTapped(e => frame.Content = new TestPage()),
                 new NavigationViewItem()
                 {
                     e => e.Content("Fundamentals").Icon(new SymbolIcon(Symbol.Priority)),
