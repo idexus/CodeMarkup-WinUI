@@ -21,10 +21,35 @@ namespace ExampleApp
             {
                 new Example
                 {
-                    
+                    new PasswordBox()
+                        .HorizontalAlignment(HorizontalAlignment.Left)
+                        .Width(300)
                 }
-                .Title("")
+                .Title("Simple password box")
                 .SourceText(Sources.Sample1),
+
+                new Example
+                {
+                    new HStack
+                    {
+                        new PasswordBox()
+                            .Assign(out var passBox)
+                            .Width(300)
+                            .PasswordChar("#"),
+
+                        new CheckBox()
+                            .Margin(20, 0)
+                            .Content("Show password")
+                            .InvokeOnElement(checkBox =>
+                            {
+                                passBox.PasswordRevealMode(e => e
+                                    .Path("IsChecked").Source(checkBox)
+                                    .Convert<bool>(isChecked => isChecked ? PasswordRevealMode.Visible : PasswordRevealMode.Hidden));
+                            })
+                    }
+                }
+                .Title("Customized password box")
+                .SourceText(Sources.Sample2),
             };
         }
     }

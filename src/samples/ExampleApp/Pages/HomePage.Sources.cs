@@ -14,7 +14,7 @@
 
     new TextBlock()
         .FontSize(20)
-        .Text(""Welcome to CodeMarkup WinUI Quick Samples Gallery"")
+        .Text(""Welcome to CodeMarkup for WinUI Quick Samples Gallery"")
         .TextAlignment(TextAlignment.Center),
 
     new Button()

@@ -17,13 +17,13 @@ $@"new ItemsRepeater()
 readonly static DataTemplate dataTemplate = new DataTemplate<Frame>(root =>
 {{
     root.Content = new Border()
-        .Background(e => e.ResourceKey(""SystemChromeLowColor"").Source(root))
+        .Background(e => e.ResourceKey(""SystemChromeLowColor""))
         .Margin(4)
         .Size(400, 20)
         .Child(
             new Rectangle()
                 .HorizontalAlignment(HorizontalAlignment.Left)
-                .Fill(e => e.ResourceKey(""SystemAccentColor"").Source(root))
+                .Fill(e => e.ResourceKey(""SystemAccentColor""))
                 .Width(e => e.Path(""Percent"").Convert<double>(d => d * 4))
         );
 }});";
