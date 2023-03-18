@@ -27,7 +27,7 @@ namespace ExampleApp
                 //new NavigationViewItem().Content("Test").OnTapped(e => frame.Content = new TestPage()),
                 new NavigationViewItem
                 {
-                    e => e.Content("Fundamentals").Icon(new SymbolIcon(Symbol.Important)),
+                    e => e.Content("Fundamentals").Icon(new FontIcon { Glyph = "\uE71D" }),
 
                     new NavigationViewItem().Content("Fluent methods").OnTapped(e => frame.Content = new FluentMethodsPage()),
                     new NavigationViewItem().Content("Containers").OnTapped(e => frame.Content = new ContainersPage()),
@@ -37,7 +37,7 @@ namespace ExampleApp
                 },
                 new NavigationViewItem
                 {
-                    e => e.Content("Basic Input").Icon(new SymbolIcon(Symbol.Accept)),
+                    e => e.Content("Basic Input").Icon(new FontIcon { Glyph = "\uF16C" }),
 
                     new NavigationViewItem().Content(nameof(Button)).OnTapped(e => frame.Content = new ButtonPage()),
                     new NavigationViewItem().Content(nameof(CheckBox)).OnTapped(e => frame.Content = new CheckBoxPage()),
