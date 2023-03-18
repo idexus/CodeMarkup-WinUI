@@ -25,9 +25,9 @@ namespace ExampleApp
             {
                 new NavigationViewItem().Content("Home").Icon(new SymbolIcon(Symbol.Home)).OnTapped(e => frame.Content = new HomePage()),
                 //new NavigationViewItem().Content("Test").OnTapped(e => frame.Content = new TestPage()),
-                new NavigationViewItem()
+                new NavigationViewItem
                 {
-                    e => e.Content("Fundamentals").Icon(new SymbolIcon(Symbol.Priority)),
+                    e => e.Content("Fundamentals").Icon(new SymbolIcon(Symbol.Important)),
 
                     new NavigationViewItem().Content("Fluent methods").OnTapped(e => frame.Content = new FluentMethodsPage()),
                     new NavigationViewItem().Content("Containers").OnTapped(e => frame.Content = new ContainersPage()),
@@ -35,9 +35,9 @@ namespace ExampleApp
                     new NavigationViewItem().Content("Resources").OnTapped(e => frame.Content = new ResourcesPage()),
                     new NavigationViewItem().Content("Styling").OnTapped(e => frame.Content = new StylingPage()),
                 },
-                new NavigationViewItem()
+                new NavigationViewItem
                 {
-                    e => e.Content("Basic Input").Icon(new SymbolIcon(Symbol.Target)),
+                    e => e.Content("Basic Input").Icon(new SymbolIcon(Symbol.Accept)),
 
                     new NavigationViewItem().Content(nameof(Button)).OnTapped(e => frame.Content = new ButtonPage()),
                     new NavigationViewItem().Content(nameof(CheckBox)).OnTapped(e => frame.Content = new CheckBoxPage()),
@@ -56,7 +56,7 @@ namespace ExampleApp
                 },
                 new NavigationViewItem
                 {
-                    e => e.Content("Layout").Icon(new SymbolIcon(Symbol.AlignLeft)),
+                    e => e.Content("Layout").Icon(new SymbolIcon(Symbol.ViewAll)),
 
                     new NavigationViewItem().Content(nameof(Border)).OnTapped(e => frame.Content = new BorderPage()),
                     new NavigationViewItem().Content(nameof(Canvas)).OnTapped(e => frame.Content = new CanvasPage()),
@@ -72,7 +72,7 @@ namespace ExampleApp
                 },
                 new NavigationViewItem
                 {
-                    e => e.Content("Text").Icon(new SymbolIcon(Symbol.Character)),
+                    e => e.Content("Text").Icon(new SymbolIcon(Symbol.Font)),
 
                     new NavigationViewItem().Content(nameof(AutoSuggestBox)).OnTapped(e => frame.Content = new AutoSuggestBoxPage()),
                     new NavigationViewItem().Content(nameof(NumberBox)).OnTapped(e => frame.Content = new NumberBoxPage()),

@@ -41,15 +41,16 @@ namespace CodeMarkup.WinUI.Styling
 
         public bool Build()
         {
-            if (key != null && source != null)
+            if (key != null)
             {
                 if (Context.Element is FrameworkElement element)
                 {
-                    var manager = source.GetValue(ThemeResourcesManager.DefaultManagerProperty);
+                    var resourceSource = source ?? element;
+                    var manager = resourceSource.GetValue(ThemeResourcesManager.DefaultManagerProperty);
                     if (manager == null)
                     {
-                        manager = new ThemeResourcesManager { Element = source };
-                        source.SetValue(ThemeResourcesManager.DefaultManagerProperty, manager);
+                        manager = new ThemeResourcesManager { Element = resourceSource };
+                        resourceSource.SetValue(ThemeResourcesManager.DefaultManagerProperty, manager);
                     }
 
                     element.SetBinding(
