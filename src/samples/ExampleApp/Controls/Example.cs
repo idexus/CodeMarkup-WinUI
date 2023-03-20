@@ -21,7 +21,7 @@ namespace ExampleApp
 
         public UIElement ExampleContent { get; set; }
 
-        [PropertyCallbacks(nameof(Example.SourceTextChanged))]
+        [PropertyCallback(nameof(Example.SourceTextChanged))]
         public string SourceText { get; set; }
     }
 

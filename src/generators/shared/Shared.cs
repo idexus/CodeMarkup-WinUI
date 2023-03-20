@@ -10,7 +10,8 @@ namespace CodeMarkup.WinUI.Generator
         public const string ControlsLibPrefix = "CodeMarkup.WinUI.Controls";
         public const string CoreLibPrefix = "CodeMarkup.WinUI";
 
-        public const string DependencyObjectName = "Microsoft.UI.Xaml.DependencyObject";
+        public const string DependencyObjectTypeName = "Microsoft.UI.Xaml.DependencyObject";
+        public const string UIElementTypeName = "Microsoft.UI.Xaml.UIElement";
 
         public static string[] NotGenerateList = { "this[]" };
 
@@ -21,7 +22,7 @@ namespace CodeMarkup.WinUI.Generator
         public const string AttachedInterfacesAttributeString = "AttachedInterfacesAttribute";
         public const string AttachedNameAttributeString = "AttachedNameAttribute";
         public const string DefaultValueAttributeString = "DefaultValueAttribute";
-        public const string PropertyCallbackAttributeString = "PropertyCallbacksAttribute";
+        public const string PropertyCallbackAttributeString = "PropertyCallbackAttribute";
 
         public static AttributeData GetAttachedInterfacesAttributeData(INamedTypeSymbol symbol)
         {
@@ -43,7 +44,7 @@ namespace CodeMarkup.WinUI.Generator
 
             Helpers.LoopDownToObject(symbol, type =>
             {
-                if (type.ToDisplayString().Equals(DependencyObjectName, StringComparison.Ordinal)) isBindable = true;
+                if (type.ToDisplayString().Equals(DependencyObjectTypeName, StringComparison.Ordinal)) isBindable = true;
                 return isBindable;
             });
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using CodeMarkup.WinUI.Styling;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Shapes;
 using System;
@@ -33,6 +34,22 @@ namespace CodeMarkup.WinUI
         {
             self.SetValue(FrameworkElement.WidthProperty, width);
             self.SetValue(FrameworkElement.HeightProperty, height);
+            return self;
+        }
+
+        public static SettersContext<T> Size<T>(this SettersContext<T> self, double width, double height)
+            where T : Microsoft.UI.Xaml.FrameworkElement
+        {
+            if (self.Target != null)
+            {
+                self.XamlSetters.Add(new Setter { Target = new TargetPropertyPath { Path = new PropertyPath("Width"), Target = self.Target }, Value = width });
+                self.XamlSetters.Add(new Setter { Target = new TargetPropertyPath { Path = new PropertyPath("Height"), Target = self.Target }, Value = height });
+            }
+            else
+            {
+                self.XamlSetters.Add(new Setter { Property = Microsoft.UI.Xaml.FrameworkElement.WidthProperty, Value = width });
+                self.XamlSetters.Add(new Setter { Property = Microsoft.UI.Xaml.FrameworkElement.HeightProperty, Value = height });
+            }
             return self;
         }
     }

@@ -188,14 +188,20 @@ using System.Collections.Generic;");
 
         // ------- base string -------
 
+
         string BaseString()
         {
+            var baseString = isCustomized ? "" : $"{mainSymbol.ToDisplayString()}";
             if (containerOfTypeName != null && !isAlreadyContainerOfThis)
             {
-                var baseClass = isCustomized ? "" : $"{mainSymbol.ToDisplayString()}, ";
-                return $" : {baseClass}IEnumerable";               
+                if (baseString != "") baseString += ", ";
+                baseString += $"IEnumerable";
             }
-            return isCustomized ? "" : $" : {mainSymbol.ToDisplayString()}";
+            if (containerOfTypeName != null || isAlreadyContainerOfThis)
+            {
+                if (containerOfTypeName.Equals(Shared.UIElementTypeName)) baseString += $", IUIElementContainer";
+            }
+            return baseString == "" ? "" : $" : {baseString}";
         }
 
         void GenerateClassBody()
