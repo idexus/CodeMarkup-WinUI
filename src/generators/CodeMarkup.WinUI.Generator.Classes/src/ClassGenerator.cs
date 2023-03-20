@@ -222,11 +222,15 @@ using System.Collections.Generic;");
             {
                 var newPrefix = isNewPropertyContainer ? " new" : "";
 
-                builder.AppendLine($@"
+                builder.Append($@"
         // ----- single item container -----
 
         IEnumerator IEnumerable.GetEnumerator() {{ yield return this.{contentPropertyName}; }}
         public{newPrefix} void Add({containerOfTypeName} {contentPropertyName.ToLower()}) => this.{contentPropertyName} = {contentPropertyName.ToLower()};");
+
+                if (containerOfTypeName.Equals(Shared.UIElementTypeName))
+                    builder.AppendLine($@"
+        IEnumerator<Microsoft.UI.Xaml.UIElement> IEnumerable<{containerOfTypeName}>.GetEnumerator() {{ yield return this.{contentPropertyName}; }}");
             }
         }
 
@@ -241,12 +245,15 @@ using System.Collections.Generic;");
             {
                 var prefix = $"this.{contentPropertyName}";
 
-                builder.AppendLine($@"
+                builder.Append($@"
         // ----- collection container -----
 
         IEnumerator IEnumerable.GetEnumerator() => {prefix}.GetEnumerator();
         public void Add({containerOfTypeName} item) => {prefix}.Add(item);");
 
+                if (containerOfTypeName.Equals(Shared.UIElementTypeName))
+                    builder.AppendLine($@"
+        IEnumerator<Microsoft.UI.Xaml.UIElement> IEnumerable<{containerOfTypeName}>.GetEnumerator() => {prefix}.GetEnumerator();");
             }
         }
 
