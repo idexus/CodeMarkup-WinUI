@@ -21,11 +21,11 @@ namespace ExampleApp
 
         public UIElement ExampleContent { get; set; }
 
-        [PropertyCallbacks(nameof(Example.SourceTextChanged))]
+        [PropertyCallback(nameof(Example.SourceTextChanged))]
         public string SourceText { get; set; }
     }
 
-    [MarkupObject]
+    [CodeMarkup]
     [ContainerProperty(nameof(ExampleContent))] 
     public partial class Example : Frame, IExample
     {

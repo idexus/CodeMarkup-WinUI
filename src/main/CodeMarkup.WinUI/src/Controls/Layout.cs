@@ -1,43 +1,43 @@
 ﻿namespace CodeMarkup.WinUI.Controls
 {
-    [MarkupObject]
+    [CodeMarkup]
     [ContainerProperty(nameof(Children))]
     public partial class Grid : Microsoft.UI.Xaml.Controls.Grid { }
 
-    [MarkupObject]
+    [CodeMarkup]
     [ContainerProperty(nameof(Children))]
     public partial class StackPanel : Microsoft.UI.Xaml.Controls.StackPanel { }
 
-    [MarkupObject]
+    [CodeMarkup]
     [ContainerProperty(nameof(Children))]
     public partial class VStack : Microsoft.UI.Xaml.Controls.StackPanel 
     { 
         public VStack() { Orientation = Microsoft.UI.Xaml.Controls.Orientation.Vertical; }
     }
 
-    [MarkupObject]
+    [CodeMarkup]
     [ContainerProperty(nameof(Children))]
     public partial class HStack : Microsoft.UI.Xaml.Controls.StackPanel
     {
         public HStack() { Orientation = Microsoft.UI.Xaml.Controls.Orientation.Horizontal; }
     }
 
-    [MarkupObject]
+    [CodeMarkup]
     [ContainerProperty(nameof(Content))]
     public partial class Expander : Microsoft.UI.Xaml.Controls.Expander { }
 
-    [MarkupObject]
+    [CodeMarkup]
     [ContainerProperty(nameof(Children))]
     public partial class Canvas : Microsoft.UI.Xaml.Controls.Canvas { }
 
-    [MarkupObject]
+    [CodeMarkup]
     [ContainerProperty(nameof(Items))]
     public partial class RadioButtons : Microsoft.UI.Xaml.Controls.RadioButtons { }
 
-    [MarkupObject]
+    [CodeMarkup]
     [ContainerProperty(nameof(Children))]
     public partial class RelativePanel : Microsoft.UI.Xaml.Controls.RelativePanel { }
 
-    [MarkupObject]
+    [CodeMarkup]
     public partial class SplitView : Microsoft.UI.Xaml.Controls.SplitView { }
 }

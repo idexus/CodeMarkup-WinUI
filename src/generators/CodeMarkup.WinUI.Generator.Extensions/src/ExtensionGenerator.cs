@@ -364,6 +364,10 @@ namespace {namespaceName}
                     $"double left, double top, double right, double bottom",
                     $"new {typeName}(left, top, right, bottom)");
 
+                GenerateExtensionMethod_ReplacedType(info,
+                    $"object? _ = null, double left = 0, double top = 0, double right = 0, double bottom = 0",
+                    $"new {typeName}(left, top, right, bottom)");
+
                 if (info.IsDependencyProperty)
                 {
                     GenerateExtensionMethod_Setters_ReplacedType(info,
@@ -376,6 +380,10 @@ namespace {namespaceName}
 
                     GenerateExtensionMethod_Setters_ReplacedType(info,
                         $"double left, double top, double right, double bottom",
+                        $"new {typeName}(left, top, right, bottom)");
+
+                    GenerateExtensionMethod_Setters_ReplacedType(info,
+                        $"object? _ = null, double left = 0, double top = 0, double right = 0, double bottom = 0",
                         $"new {typeName}(left, top, right, bottom)");
                 }
             }

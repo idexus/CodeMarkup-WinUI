@@ -17,17 +17,17 @@ namespace ExampleApp
     [DependencyProperties]
     public interface IExamplesBasePage
     {
-        [PropertyCallbacks(nameof(ExamplesBasePage.TitleChanged))]
+        [PropertyCallback(nameof(ExamplesBasePage.TitleChanged))]
         public string Title { get; set; }
 
-        [PropertyCallbacks(nameof(ExamplesBasePage.TypeChanged))]
+        [PropertyCallback(nameof(ExamplesBasePage.TypeChanged))]
         public Type Type { get; set; }
 
-        [PropertyCallbacks(nameof(ExamplesBasePage.ExamplesChanged))]
+        [PropertyCallback(nameof(ExamplesBasePage.ExamplesChanged))]
         public List<Example> Examples { get; set; }
     }
 
-    [MarkupObject]
+    [CodeMarkup]
     public partial class ExamplesBasePage : Page, IExamplesBasePage
     {
         private readonly VStack vstack;

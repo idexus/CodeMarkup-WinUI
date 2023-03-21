@@ -188,14 +188,20 @@ using System.Collections.Generic;");
 
         // ------- base string -------
 
+
         string BaseString()
         {
+            var baseString = isCustomized ? "" : $"{mainSymbol.ToDisplayString()}";
             if (containerOfTypeName != null && !isAlreadyContainerOfThis)
             {
-                var baseClass = isCustomized ? "" : $"{mainSymbol.ToDisplayString()}, ";
-                return $" : {baseClass}IEnumerable";               
+                if (baseString != "") baseString += ", ";
+                baseString += $"IEnumerable";
             }
-            return isCustomized ? "" : $" : {mainSymbol.ToDisplayString()}";
+            if (containerOfTypeName != null || isAlreadyContainerOfThis)
+            {
+                if (containerOfTypeName.Equals(Shared.UIElementTypeName)) baseString += $", IUIElementContainer";
+            }
+            return baseString == "" ? "" : $" : {baseString}";
         }
 
         void GenerateClassBody()
@@ -216,11 +222,15 @@ using System.Collections.Generic;");
             {
                 var newPrefix = isNewPropertyContainer ? " new" : "";
 
-                builder.AppendLine($@"
+                builder.Append($@"
         // ----- single item container -----
 
         IEnumerator IEnumerable.GetEnumerator() {{ yield return this.{contentPropertyName}; }}
         public{newPrefix} void Add({containerOfTypeName} {contentPropertyName.ToLower()}) => this.{contentPropertyName} = {contentPropertyName.ToLower()};");
+
+                if (containerOfTypeName.Equals(Shared.UIElementTypeName))
+                    builder.AppendLine($@"
+        IEnumerator<Microsoft.UI.Xaml.UIElement> IEnumerable<{containerOfTypeName}>.GetEnumerator() {{ yield return this.{contentPropertyName}; }}");
             }
         }
 
@@ -235,12 +245,15 @@ using System.Collections.Generic;");
             {
                 var prefix = $"this.{contentPropertyName}";
 
-                builder.AppendLine($@"
+                builder.Append($@"
         // ----- collection container -----
 
         IEnumerator IEnumerable.GetEnumerator() => {prefix}.GetEnumerator();
         public void Add({containerOfTypeName} item) => {prefix}.Add(item);");
 
+                if (containerOfTypeName.Equals(Shared.UIElementTypeName))
+                    builder.AppendLine($@"
+        IEnumerator<Microsoft.UI.Xaml.UIElement> IEnumerable<{containerOfTypeName}>.GetEnumerator() => {prefix}.GetEnumerator();");
             }
         }
 

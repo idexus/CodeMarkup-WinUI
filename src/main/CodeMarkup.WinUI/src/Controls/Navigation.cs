@@ -2,11 +2,11 @@
 
 namespace CodeMarkup.WinUI.Controls
 {
-    [MarkupObject]
+    [CodeMarkup]
     [ContainerProperty(nameof(MenuItems))]
     public partial class NavigationView : Microsoft.UI.Xaml.Controls.NavigationView { }
 
-    [MarkupObject]
+    [CodeMarkup]
     [ContainerProperty(nameof(MenuItems))]
     public partial class NavigationViewItem : Microsoft.UI.Xaml.Controls.NavigationViewItem { }
 }

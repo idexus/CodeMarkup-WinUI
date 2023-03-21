@@ -5,7 +5,7 @@ using Windows.UI.ViewManagement;
 
 namespace CodeMarkup.WinUI.Controls
 {
-    [MarkupObject]
+    [CodeMarkup]
     public partial class Frame : Microsoft.UI.Xaml.Controls.Frame, IEnumerable
     { 
         // ----- single item container -----

@@ -33,14 +33,14 @@ namespace ExampleApp
                         new StackPanel
                         {
                             new TextBlock()
-                                .FontSize(60)                                
-                                .Text("Hello, World!")
+                                .FontSize(45)                                
+                                .Text("Code Markup for WinUI")
                                 .TextAlignment(TextAlignment.Center)
                                 .Foreground(e => e.ResourceKey("HeaderColor").Source(this)),
 
                             new TextBlock()
                                 .FontSize(20)
-                                .Text("Welcome to CodeMarkup for WinUI Quick Samples Gallery")
+                                .Text("Welcome to the Quick Samples Gallery")
                                 .TextAlignment(TextAlignment.Center),
 
                             new Button()
