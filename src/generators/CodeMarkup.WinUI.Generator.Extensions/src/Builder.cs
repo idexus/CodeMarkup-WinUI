@@ -51,7 +51,7 @@ namespace CodeMarkup.WinUI.Generator.Extensions
             // [SharpObject] symbols
 
             var sharpSymbols = context.Compilation.GetSymbolsWithName((s) => true, filter: SymbolFilter.Type)
-                .Where(e => !e.IsStatic && e.GetAttributes().FirstOrDefault(e => e.AttributeClass.Name.Equals(Shared.MarkupObjectAttributeString)) != null)
+                .Where(e => !e.IsStatic && e.GetAttributes().FirstOrDefault(e => e.AttributeClass.Name.Equals(Shared.CodeMarkupAttributeString)) != null)
                 .Select(e => e as INamedTypeSymbol);
 
             foreach (var symbol in sharpSymbols)

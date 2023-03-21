@@ -27,7 +27,7 @@ namespace ExampleApp
         public List<Example> Examples { get; set; }
     }
 
-    [MarkupObject]
+    [CodeMarkup]
     public partial class ExamplesBasePage : Page, IExamplesBasePage
     {
         private readonly VStack vstack;

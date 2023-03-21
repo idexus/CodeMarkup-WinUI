@@ -25,7 +25,7 @@ namespace ExampleApp
         public string SourceText { get; set; }
     }
 
-    [MarkupObject]
+    [CodeMarkup]
     [ContainerProperty(nameof(ExampleContent))] 
     public partial class Example : Frame, IExample
     {

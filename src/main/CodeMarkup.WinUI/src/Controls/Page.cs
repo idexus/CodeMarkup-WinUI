@@ -5,7 +5,7 @@ using Windows.UI.ViewManagement;
 
 namespace CodeMarkup.WinUI.Controls
 {
-    [MarkupObject]
+    [CodeMarkup]
     [ContainerProperty(nameof(Content))]
     public partial class Page : Microsoft.UI.Xaml.Controls.Page
     {
