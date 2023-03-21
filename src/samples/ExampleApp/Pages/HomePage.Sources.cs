@@ -9,12 +9,12 @@
 {{
     new TextBlock()
         .FontSize(60)
-        .Text(""Hello, World!"")
+        .Text(""Code Markup for WinUI"")
         .TextAlignment(TextAlignment.Center),
 
     new TextBlock()
         .FontSize(20)
-        .Text(""Welcome to CodeMarkup for WinUI Quick Samples Gallery"")
+        .Text(""Welcome to the Quick Samples Gallery"")
         .TextAlignment(TextAlignment.Center),
 
     new Button()
