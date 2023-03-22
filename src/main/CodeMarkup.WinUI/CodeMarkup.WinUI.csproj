@@ -7,10 +7,10 @@
     <UseWinUI>true</UseWinUI>
 
     <PackageId>CodeMarkup.WinUI</PackageId>
-    <Version>0.2.1-alpha</Version>
+    <Version>0.2.2-alpha</Version>
     <Authors>Pawel Krzywdzinski</Authors>
     <Copyright>Pawel Krzywdzinski</Copyright>
-    <PackageDescription>C# WinUI Markup Library Using Fluent Methods</PackageDescription>
+    <PackageDescription>C# Code Markup Library for WinUI 3: Code-Only UI Development with Fluent Methods</PackageDescription>
     <Company></Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>

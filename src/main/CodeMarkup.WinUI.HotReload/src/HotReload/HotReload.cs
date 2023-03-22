@@ -37,7 +37,7 @@ namespace CodeMarkup.WinUI.HotReload
 
         public static List<IHotReloadHandler> ReloadHandlers { get; } = new List<IHotReloadHandler>();
 
-        public static void UpdateApplicationd(Type[] types)
+        public static void UpdateApplication(Type[] types)
         {
             if (isEnabled)
             {
