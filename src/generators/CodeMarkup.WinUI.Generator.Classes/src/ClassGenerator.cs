@@ -199,7 +199,7 @@ using System.Collections.Generic;");
             }
             if (containerOfTypeName != null || isAlreadyContainerOfThis)
             {
-                if (containerOfTypeName.Equals(Shared.UIElementTypeName)) baseString += $", IUIElementContainer";
+                if (Shared.IsUIElementObject(mainSymbol) && containerOfTypeName.Equals(Shared.UIElementTypeName)) baseString += $", IUIElementContainer";
             }
             return baseString == "" ? "" : $" : {baseString}";
         }
@@ -228,7 +228,7 @@ using System.Collections.Generic;");
         IEnumerator IEnumerable.GetEnumerator() {{ yield return this.{contentPropertyName}; }}
         public{newPrefix} void Add({containerOfTypeName} {contentPropertyName.ToLower()}) => this.{contentPropertyName} = {contentPropertyName.ToLower()};");
 
-                if (containerOfTypeName.Equals(Shared.UIElementTypeName))
+                if (Shared.IsUIElementObject(mainSymbol) && containerOfTypeName.Equals(Shared.UIElementTypeName))
                     builder.AppendLine($@"
         IEnumerator<Microsoft.UI.Xaml.UIElement> IEnumerable<{containerOfTypeName}>.GetEnumerator() {{ yield return this.{contentPropertyName}; }}");
             }
@@ -251,7 +251,7 @@ using System.Collections.Generic;");
         IEnumerator IEnumerable.GetEnumerator() => {prefix}.GetEnumerator();
         public void Add({containerOfTypeName} item) => {prefix}.Add(item);");
 
-                if (containerOfTypeName.Equals(Shared.UIElementTypeName))
+                if (Shared.IsUIElementObject(mainSymbol) && containerOfTypeName.Equals(Shared.UIElementTypeName))
                     builder.AppendLine($@"
         IEnumerator<Microsoft.UI.Xaml.UIElement> IEnumerable<{containerOfTypeName}>.GetEnumerator() => {prefix}.GetEnumerator();");
             }
