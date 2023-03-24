@@ -69,7 +69,7 @@ namespace ExampleApp
 
 # In Your Project
 
-__CodeMarkup for WinUI__ replaces some standard WinUI classes by subclassing them and adding new constructors, which e.g. enables hot reload functionality. To use CodeMarkup controls in your projects, you need to include the `using CodeMarkup.WinUI.Controls` statement inside your app namespace.
+__CodeMarkup for WinUI__ replaces some standard WinUI classes by subclassing them and adding new constructors and `IEnumerable` interface implementation. To use CodeMarkup controls in your projects, you need to include the `using CodeMarkup.WinUI.Controls` statement inside your app namespace.
 
 ```cs
 namespace ExampleApp;
