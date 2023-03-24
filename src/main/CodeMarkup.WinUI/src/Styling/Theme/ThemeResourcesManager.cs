@@ -8,10 +8,10 @@ using Windows.UI.ViewManagement;
 
 namespace CodeMarkup.WinUI.Styling
 {
-    public class ThemeManager
+    public class ThemeResourcesManager
     {
         static readonly UISettings settings;
-        static ThemeManager()
+        static ThemeResourcesManager()
         {
             settings = new UISettings();
             settings.ColorValuesChanged += Settings_ColorValuesChanged;
