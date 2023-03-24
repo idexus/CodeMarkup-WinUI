@@ -43,19 +43,14 @@ namespace CodeMarkup.WinUI.Styling
             Context.Element.SetValue(Context.Property, result);
         }
 
+        static readonly UISettings uiSettings = new();
+
         public bool Build()
         {
             if (key != null)
             {
                 if (Context.Element is FrameworkElement contextElement)
                 {
-                    var uiSettings = contextElement.GetValue(AttachedSettings.UISettingsProperty) as UISettings;
-                    if (uiSettings == null)
-                    {
-                        uiSettings = new UISettings();
-                        contextElement.SetValue(AttachedSettings.UISettingsProperty, uiSettings);
-                    }
-
                     SetPropertyValue();
                     uiSettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
 
@@ -68,7 +63,6 @@ namespace CodeMarkup.WinUI.Styling
         private void RemoveHandler(UISettings settings)
         {
             settings.ColorValuesChanged -= UiSettings_ColorValuesChanged;
-            Context.Element.SetValue(AttachedSettings.UISettingsProperty, null);
         }
 
         private void UiSettings_ColorValuesChanged(UISettings settings, object args)
