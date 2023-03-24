@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -22,13 +23,13 @@ namespace CodeMarkup.WinUI.Styling
             Context = context;
         }
 
-        static void SetPropertyValue(PropertyContext<T> context, FrameworkElement source, string key)
+        void SetPropertyValue()
         {   
             object result;
             if (source == null)
             {
                 Application.Current.Resources.TryGetValue(key, out result);
-                if (result == null) (context.Element as FrameworkElement)?.Resources.TryGetValue(key, out result);
+                if (result == null) (Context.Element as FrameworkElement)?.Resources.TryGetValue(key, out result);
             }
             else
             {
@@ -39,7 +40,7 @@ namespace CodeMarkup.WinUI.Styling
             if (result is Windows.UI.Color color)
                 result = new SolidColorBrush(color);
 
-            context.Element.SetValue(context.Property, result);
+            Context.Element.SetValue(Context.Property, result);
         }
 
         public bool Build()
@@ -48,15 +49,15 @@ namespace CodeMarkup.WinUI.Styling
             {
                 if (Context.Element is FrameworkElement contextElement)
                 {
-                    var uiSettings = contextElement.GetValue(ThemeResourcesManager.UISettingsProperty) as UISettings;
+                    var uiSettings = contextElement.GetValue(AttachedSettings.UISettingsProperty) as UISettings;
                     if (uiSettings == null)
                     {
                         uiSettings = new UISettings();
-                        contextElement.SetValue(ThemeResourcesManager.UISettingsProperty, new UISettings());
+                        contextElement.SetValue(AttachedSettings.UISettingsProperty, uiSettings);
                     }
 
-                    SetPropertyValue(Context, source, key);
-                    uiSettings.ColorValuesChanged += ColorChangedCallback;
+                    SetPropertyValue();
+                    uiSettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
 
                     return true;
                 }
@@ -64,18 +65,26 @@ namespace CodeMarkup.WinUI.Styling
             return false;
         }
 
-        private void ColorChangedCallback(UISettings settings, object args)
+        private void RemoveHandler(UISettings settings)
         {
-            if (Context.Element is FrameworkElement contextElement)
+            settings.ColorValuesChanged -= UiSettings_ColorValuesChanged;
+            Context.Element.SetValue(AttachedSettings.UISettingsProperty, null);
+        }
+
+        private void UiSettings_ColorValuesChanged(UISettings settings, object args)
+        {            
+            Context.Element.DispatcherQueue.TryEnqueue(() =>
             {
-                contextElement.DispatcherQueue.TryEnqueue(() => 
+                if (Context.Element is FrameworkElement element)
                 {
-                    if (contextElement == null)
-                        settings.ColorValuesChanged -= ColorChangedCallback;
+                    if (element.Parent == null)
+                        RemoveHandler(settings);
                     else
-                        SetPropertyValue(Context, source, key);
-                });
-            }
+                        SetPropertyValue();
+                }
+                else
+                    RemoveHandler(settings);
+            });
         }
 
         internal PropertyResourceBuilder<T> ResourceKey(string key) { this.key = key; return this; }
