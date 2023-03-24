@@ -3,7 +3,9 @@
 namespace ExampleApp
 {
     using CodeMarkup.WinUI.Controls;
+    using Microsoft.UI.Xaml.Data;
 
+    [Bindable]
     public partial class ToggleButtonPage : ExamplesBasePage
     {
         public ToggleButtonPage()

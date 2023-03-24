@@ -8,15 +8,15 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using System.Collections.Generic;
 using Microsoft.UI.Xaml.Shapes;
-
+using System.Linq;
 
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
     using CodeMarkup.WinUI.Styling;
-    using System.Linq;
-
+    
+    [Bindable]
     public partial class ItemsRepeaterPage : ExamplesBasePage
     {
         public class PercentData

@@ -5,14 +5,16 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using System.Collections.Generic;
+using Microsoft.UI.Xaml.Data;
 
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
     using CodeMarkup.WinUI.Styling;
-    using System.Collections.Generic;
-
+    
+    [Bindable]
     public partial class SplitViewPage : ExamplesBasePage
     {
         public class NavLink

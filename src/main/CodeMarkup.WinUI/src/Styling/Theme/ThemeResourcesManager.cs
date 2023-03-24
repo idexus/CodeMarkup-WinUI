@@ -11,8 +11,8 @@ namespace CodeMarkup.WinUI.Styling
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public FrameworkElement Element { get; set; }
-        public ResourceDictionary ThemeResources => Element.Resources;
+        public FrameworkElement Element { get; set; }        
+        public ResourceDictionary AttachedResources => Element.Resources;
 
         UISettings _uiSettings;
         public ThemeResourcesManager()
@@ -25,7 +25,7 @@ namespace CodeMarkup.WinUI.Styling
         {
             this.Element?.DispatcherQueue.TryEnqueue(() =>
             {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ThemeResources)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AttachedResources)));
             });
         }
     }

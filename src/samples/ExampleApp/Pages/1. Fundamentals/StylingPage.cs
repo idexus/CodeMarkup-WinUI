@@ -1,14 +1,16 @@
 ﻿using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
+using Windows.UI;
+using Microsoft.UI.Xaml.Data;
 
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
     using CodeMarkup.WinUI.Styling;
-    using Microsoft.UI;
-    using Microsoft.UI.Xaml;
-    using Windows.UI;
-
+    
+    [Bindable]
     public partial class StylingPage : ExamplesBasePage
     {
         public StylingPage()

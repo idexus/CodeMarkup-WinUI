@@ -6,12 +6,14 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Shapes;
+using Microsoft.UI.Xaml.Data;
 
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
-
+    
+    [Bindable]
     public partial class StackPanelPage : ExamplesBasePage
     {
         public StackPanelPage()

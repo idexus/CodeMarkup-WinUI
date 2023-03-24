@@ -27,6 +27,8 @@ namespace CodeMarkup.WinUI.Internal
 
         DataTemplateSelector DataTemplateSelector;
 
+        ContentPresenter ContentPresenter;
+
         // ------ Basic Input -------
 
         Button Button;//

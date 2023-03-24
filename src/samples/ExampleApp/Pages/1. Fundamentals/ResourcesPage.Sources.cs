@@ -14,19 +14,23 @@ $@"this.Resources.MergedDictionaries.Add(new()
     new ThemeValue<Color> {{ Key = ""BackgroundColor"", Light = Colors.Cyan, Dark = Colors.Black }}
 }});
 
-
 // Further in the code
 
-new Grid
+new HStack
 {{
     new Button()
         .Content(""Click me"")
         .FontSize(e => e.ResourceKey(""FontSize"").Source(this))
         .Background(e => e.ResourceKey(""ButtonColor"").Source(this))
-        .Size(100,100)
+        .Size(200, 60),
+
+    new Frame()
+        .Size(200, 60)
+        .Margin(10, 0)
+        .Background(e => e.ResourceKey(""BackgroundColor"").Source(this))
 }}
 .Padding(20)
-.Background(e => e.ResourceKey(""BackgroundColor"").Source(this)),";
+.Background(e => e.ResourceKey(""SystemChromeLowColor"")),  // WinUI resources";
 
         };
     }

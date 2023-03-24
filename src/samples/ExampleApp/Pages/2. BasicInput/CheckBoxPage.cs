@@ -2,13 +2,15 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Data;
 
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
-    using Microsoft.UI.Xaml;
-
+    
+    [Bindable]
     public partial class CheckBoxPage : ExamplesBasePage
     {
         public CheckBoxPage()

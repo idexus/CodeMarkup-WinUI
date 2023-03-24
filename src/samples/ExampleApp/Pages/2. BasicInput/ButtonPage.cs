@@ -3,11 +3,13 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Generic;
 using System;
+using Microsoft.UI.Xaml.Data;
 
 namespace ExampleApp
 {
     using CodeMarkup.WinUI.Controls;
-
+    
+    [Bindable]
     public partial class ButtonPage : ExamplesBasePage
     {
         public ButtonPage()

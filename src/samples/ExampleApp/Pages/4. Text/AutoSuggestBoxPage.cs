@@ -5,14 +5,16 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
-    using System.Collections.Generic;
-    using System.Linq;
-
+     
+    [Bindable]
     public partial class AutoSuggestBoxPage : ExamplesBasePage
     {
         readonly TextBlock selectionText;
