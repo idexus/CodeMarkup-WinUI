@@ -26,7 +26,7 @@ namespace CodeMarkup.WinUI.Styling
 
         public static void UpdateTheme()
         {
-            ThemeChanged();
+            ThemeChanged?.Invoke();
         }
     }
 }
