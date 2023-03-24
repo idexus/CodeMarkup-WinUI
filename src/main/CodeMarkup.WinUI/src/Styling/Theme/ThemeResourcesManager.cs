@@ -4,28 +4,13 @@ using Windows.UI.ViewManagement;
 
 namespace CodeMarkup.WinUI.Styling
 {
-    public class ThemeResourcesManager : INotifyPropertyChanged
+    public class ThemeResourcesManager
     {
-        public readonly static DependencyProperty DefaultManagerProperty =
-            DependencyProperty.RegisterAttached($"DefaultManager", typeof(ThemeResourcesManager), typeof(ThemeResourcesManager), new PropertyMetadata(null));
+        public readonly static DependencyProperty UISettingsProperty =
+            DependencyProperty.RegisterAttached($"UISettings", typeof(UISettings), typeof(ThemeResourcesManager), new PropertyMetadata(null));
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public FrameworkElement Element { get; set; }
 
-        public FrameworkElement AttachedTo { get; set; }        
 
-        UISettings _uiSettings;
-        public ThemeResourcesManager()
-        {
-            _uiSettings = new UISettings();
-            _uiSettings.ColorValuesChanged += _uiSettings_ColorValuesChangedAsync;
-        }
-
-        void _uiSettings_ColorValuesChangedAsync(UISettings sender, object args)
-        {
-            this.AttachedTo?.DispatcherQueue.TryEnqueue(() =>
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AttachedTo)));
-            });
-        }
     }
 }

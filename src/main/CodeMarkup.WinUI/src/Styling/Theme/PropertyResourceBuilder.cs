@@ -3,6 +3,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using System;
+using System.Collections.Generic;
+using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 
@@ -10,44 +12,6 @@ namespace CodeMarkup.WinUI.Styling
 {
     public sealed class PropertyResourceBuilder<T> : IPropertyBuilder<T>
     {
-        class ConverterParameter
-        {
-            public string Key { get; set; }
-            public FrameworkElement Source { get; set; }
-        }
-
-        class DictionaryKeyConverter : IValueConverter
-        {
-            public object Convert(object value, Type targetType, object parameter, string language)
-            {
-                if (value is FrameworkElement element && parameter is ConverterParameter converterParameter)
-                {
-                    object result;
-                    if (converterParameter.Source == null)
-                    {
-                        Application.Current.Resources.TryGetValue(converterParameter.Key, out result);
-                        if (result == null) element.Resources.TryGetValue(converterParameter.Key, out result);
-                    }
-                    else
-                    {
-                        element.Resources.TryGetValue(converterParameter.Key, out result);
-                        if (result == null) Application.Current.Resources.TryGetValue(converterParameter.Key, out result);
-                    }
-                    
-                    if (result is Windows.UI.Color color)
-                        return new SolidColorBrush(color);
-
-                    return result;
-                }
-                return null;
-            }
-
-            public object ConvertBack(object value, Type targetType, object parameter, string language)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public PropertyContext<T> Context { get; set; }
 
         string key = null;
@@ -58,35 +22,60 @@ namespace CodeMarkup.WinUI.Styling
             Context = context;
         }
 
+        static void SetPropertyValue(PropertyContext<T> context, FrameworkElement source, string key)
+        {   
+            object result;
+            if (source == null)
+            {
+                Application.Current.Resources.TryGetValue(key, out result);
+                if (result == null) (context.Element as FrameworkElement)?.Resources.TryGetValue(key, out result);
+            }
+            else
+            {
+                source.Resources.TryGetValue(key, out result);
+                if (result == null) Application.Current.Resources.TryGetValue(key, out result);
+            }
+
+            if (result is Windows.UI.Color color)
+                result = new SolidColorBrush(color);
+
+            context.Element.SetValue(context.Property, result);
+        }
+
         public bool Build()
         {
             if (key != null)
             {
                 if (Context.Element is FrameworkElement contextElement)
-                {                    
-                    var element = source ?? contextElement;
-                    var manager = element.GetValue(ThemeResourcesManager.DefaultManagerProperty);
-                    if (manager == null)
+                {
+                    var uiSettings = contextElement.GetValue(ThemeResourcesManager.UISettingsProperty) as UISettings;
+                    if (uiSettings == null)
                     {
-                        manager = new ThemeResourcesManager { AttachedTo = element };
-                        element.SetValue(ThemeResourcesManager.DefaultManagerProperty, manager);
+                        uiSettings = new UISettings();
+                        contextElement.SetValue(ThemeResourcesManager.UISettingsProperty, new UISettings());
                     }
 
-                    contextElement.SetBinding(
-                        dp: Context.Property,
-                        binding: new Binding
-                        {
-                            Path = new PropertyPath(nameof(ThemeResourcesManager.AttachedTo)),
-                            Mode = Microsoft.UI.Xaml.Data.BindingMode.OneWay,
-                            Converter = new DictionaryKeyConverter(),
-                            ConverterParameter = new ConverterParameter { Key = key, Source = source },
-                            ConverterLanguage = null,
-                            Source = manager
-                        });
+                    SetPropertyValue(Context, source, key);
+                    uiSettings.ColorValuesChanged += ColorChangedCallback;
+
                     return true;
                 }
             }
             return false;
+        }
+
+        private void ColorChangedCallback(UISettings settings, object args)
+        {
+            if (Context.Element is FrameworkElement contextElement)
+            {
+                contextElement.DispatcherQueue.TryEnqueue(() => 
+                {
+                    if (contextElement == null)
+                        settings.ColorValuesChanged -= ColorChangedCallback;
+                    else
+                        SetPropertyValue(Context, source, key);
+                });
+            }
         }
 
         internal PropertyResourceBuilder<T> ResourceKey(string key) { this.key = key; return this; }
