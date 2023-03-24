@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using Windows.UI;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml;
-using Windows.UI;
 using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI;
-using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace ExampleApp
 {
     using CodeMarkup.WinUI.Controls;
-    using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Styling;
+    using CodeMarkup.WinUI;
 
     [Bindable]
     public partial class HomePage : Page
