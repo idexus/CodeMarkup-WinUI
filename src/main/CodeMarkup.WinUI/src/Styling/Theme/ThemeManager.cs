@@ -8,10 +8,10 @@ using Windows.UI.ViewManagement;
 
 namespace CodeMarkup.WinUI.Styling
 {
-    public class ResourcesManager
+    public class ThemeManager
     {
         static readonly UISettings settings;
-        static ResourcesManager()
+        static ThemeManager()
         {
             settings = new UISettings();
             settings.ColorValuesChanged += Settings_ColorValuesChanged;
@@ -24,7 +24,7 @@ namespace CodeMarkup.WinUI.Styling
 
         internal static event Action ThemeChanged;
 
-        public static void UpdateTheme()
+        public static void Refresh()
         {
             ThemeChanged?.Invoke();
         }

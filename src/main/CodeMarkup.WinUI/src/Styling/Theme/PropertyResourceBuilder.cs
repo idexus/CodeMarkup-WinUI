@@ -50,7 +50,7 @@ namespace CodeMarkup.WinUI.Styling
                 if (Context.Element is FrameworkElement contextElement)
                 {
                     SetPropertyValue();
-                    ResourcesManager.ThemeChanged += ResourcesManager_ThemeChanged;
+                    ThemeManager.ThemeChanged += ResourcesManager_ThemeChanged;
 
                     return true;
                 }
@@ -76,7 +76,7 @@ namespace CodeMarkup.WinUI.Styling
 
         private void RemoveHandler()
         {
-            ResourcesManager.ThemeChanged -= ResourcesManager_ThemeChanged;
+            ThemeManager.ThemeChanged -= ResourcesManager_ThemeChanged;
         }
 
         internal PropertyResourceBuilder<T> ResourceKey(string key) { this.key = key; return this; }
