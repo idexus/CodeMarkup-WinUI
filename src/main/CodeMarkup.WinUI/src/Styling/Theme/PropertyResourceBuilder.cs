@@ -10,15 +10,29 @@ namespace CodeMarkup.WinUI.Styling
 {
     public sealed class PropertyResourceBuilder<T> : IPropertyBuilder<T>
     {
+        class ConverterParameter
+        {
+            public string Key { get; set; }
+            public FrameworkElement Source { get; set; }
+        }
+
         class DictionaryKeyConverter : IValueConverter
         {
             public object Convert(object value, Type targetType, object parameter, string language)
             {
-                if (parameter is string key)
+                if (value is FrameworkElement element && parameter is ConverterParameter converterParameter)
                 {
-                    object result = null;
-                    if (value is ResourceDictionary dictionary) dictionary.TryGetValue(key, out result);
-                    if (result == null) Application.Current.Resources.TryGetValue(key, out result);
+                    object result;
+                    if (converterParameter.Source == null)
+                    {
+                        Application.Current.Resources.TryGetValue(converterParameter.Key, out result);
+                        if (result == null) element.Resources.TryGetValue(converterParameter.Key, out result);
+                    }
+                    else
+                    {
+                        element.Resources.TryGetValue(converterParameter.Key, out result);
+                        if (result == null) Application.Current.Resources.TryGetValue(converterParameter.Key, out result);
+                    }
                     
                     if (result is Windows.UI.Color color)
                         return new SolidColorBrush(color);
@@ -48,24 +62,24 @@ namespace CodeMarkup.WinUI.Styling
         {
             if (key != null)
             {
-                if (Context.Element is FrameworkElement element)
-                {
-                    var resourceSource = source ?? element;
-                    var manager = resourceSource.GetValue(ThemeResourcesManager.DefaultManagerProperty);
+                if (Context.Element is FrameworkElement contextElement)
+                {                    
+                    var element = source ?? contextElement;
+                    var manager = element.GetValue(ThemeResourcesManager.DefaultManagerProperty);
                     if (manager == null)
                     {
-                        manager = new ThemeResourcesManager { Element = resourceSource };
-                        resourceSource.SetValue(ThemeResourcesManager.DefaultManagerProperty, manager);
+                        manager = new ThemeResourcesManager { AttachedTo = element };
+                        element.SetValue(ThemeResourcesManager.DefaultManagerProperty, manager);
                     }
 
-                    element.SetBinding(
+                    contextElement.SetBinding(
                         dp: Context.Property,
                         binding: new Binding
                         {
-                            Path = new PropertyPath(nameof(ThemeResourcesManager.AttachedResources)),
+                            Path = new PropertyPath(nameof(ThemeResourcesManager.AttachedTo)),
                             Mode = Microsoft.UI.Xaml.Data.BindingMode.OneWay,
                             Converter = new DictionaryKeyConverter(),
-                            ConverterParameter = key,
+                            ConverterParameter = new ConverterParameter { Key = key, Source = source },
                             ConverterLanguage = null,
                             Source = manager
                         });

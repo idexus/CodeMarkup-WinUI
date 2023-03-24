@@ -22,7 +22,7 @@ namespace ExampleApp
                 { "FontSize", 28 },
 
                 new ThemeValue<Color> { Key = "ButtonColor", Light = Colors.LightPink, Dark = Colors.Red },
-                new ThemeValue<Color> { Key = "BackgroundColor", Light = Colors.LightCoral, Dark = Colors.Blue }
+                new ThemeValue<Color> { Key = "BackgroundColor", Light = Colors.LightCoral, Dark = Colors.Blue },
             });
 
             Examples = new()

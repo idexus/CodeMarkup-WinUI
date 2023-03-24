@@ -1,14 +1,15 @@
-﻿using Microsoft.UI.Xaml.Controls.Primitives;
+﻿using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml;
+using Microsoft.UI;
+using Windows.UI;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Controls;
-using CodeMarkup.WinUI;
+
 namespace ExampleApp
 {
+    using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
     using CodeMarkup.WinUI.Styling;
-    using Microsoft.UI.Xaml.Media;
-    using Microsoft.UI.Xaml;
-    using Microsoft.UI;
-    using Windows.UI;
 
     internal class MainPage : Page
     {
