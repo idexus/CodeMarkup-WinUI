@@ -7,7 +7,7 @@
     <UseWinUI>true</UseWinUI>
 
     <PackageId>CodeMarkup.WinUI</PackageId>
-    <Version>0.2.2-alpha</Version>
+    <Version>0.2.3-alpha</Version>
     <Authors>Pawel Krzywdzinski</Authors>
     <Copyright>Pawel Krzywdzinski</Copyright>
     <PackageDescription>C# Code Markup Library for WinUI 3: Code-Only UI Development with Fluent Methods</PackageDescription>
