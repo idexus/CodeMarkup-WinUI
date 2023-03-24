@@ -9,6 +9,7 @@ namespace ExampleApp
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
     using CodeMarkup.WinUI.Styling;
+    using Microsoft.UI.Xaml.Media;
 
     [Bindable]
     public partial class ResourcesPage : ExamplesBasePage
@@ -22,7 +23,7 @@ namespace ExampleApp
                 { "FontSize", 28 },
 
                 new ThemeValue<Color> { Key = "ButtonColor", Light = Colors.LightPink, Dark = Colors.Red },
-                new ThemeValue<Color> { Key = "BackgroundColor", Light = Colors.LightCoral, Dark = Colors.Blue }
+                new ThemeValue<Color> { Key = "BackgroundColor", Light = Colors.LightCoral, Dark = Colors.Blue },
             });
 
             Examples = new()
@@ -35,7 +36,11 @@ namespace ExampleApp
                             .Content("Click me")
                             .FontSize(e => e.ResourceKey("FontSize").Source(this))
                             .Background(e => e.ResourceKey("ButtonColor").Source(this))
-                            .Size(200, 60),
+                            .Size(200, 60)
+                            .OnClick(b =>
+                            {
+                                Application.Current.Resources["SystemChromeLowColor"] = new SolidColorBrush(Colors.Yellow);
+                            }),
 
                         new Frame()
                             .Size(200, 60)

@@ -3,6 +3,9 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using System;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 
@@ -10,30 +13,6 @@ namespace CodeMarkup.WinUI.Styling
 {
     public sealed class PropertyResourceBuilder<T> : IPropertyBuilder<T>
     {
-        class DictionaryKeyConverter : IValueConverter
-        {
-            public object Convert(object value, Type targetType, object parameter, string language)
-            {
-                if (parameter is string key)
-                {
-                    object result = null;
-                    if (value is ResourceDictionary dictionary) dictionary.TryGetValue(key, out result);
-                    if (result == null) Application.Current.Resources.TryGetValue(key, out result);
-                    
-                    if (result is Windows.UI.Color color)
-                        return new SolidColorBrush(color);
-
-                    return result;
-                }
-                return null;
-            }
-
-            public object ConvertBack(object value, Type targetType, object parameter, string language)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public PropertyContext<T> Context { get; set; }
 
         string key = null;
@@ -44,35 +23,62 @@ namespace CodeMarkup.WinUI.Styling
             Context = context;
         }
 
+        void SetPropertyValue()
+        {   
+            object result;
+            if (source == null)
+            {
+                Application.Current.Resources.TryGetValue(key, out result);
+                if (result == null) (Context.Element as FrameworkElement)?.Resources.TryGetValue(key, out result);
+            }
+            else
+            {
+                source.Resources.TryGetValue(key, out result);
+                if (result == null) Application.Current.Resources.TryGetValue(key, out result);
+            }
+
+            if (result is Windows.UI.Color color)
+                result = new SolidColorBrush(color);
+
+            Context.Element.SetValue(Context.Property, result);
+        }
+
+        static readonly UISettings uiSettings = new();
+
         public bool Build()
         {
             if (key != null)
             {
-                if (Context.Element is FrameworkElement element)
+                if (Context.Element is FrameworkElement contextElement)
                 {
-                    var resourceSource = source ?? element;
-                    var manager = resourceSource.GetValue(ThemeResourcesManager.DefaultManagerProperty);
-                    if (manager == null)
-                    {
-                        manager = new ThemeResourcesManager { Element = resourceSource };
-                        resourceSource.SetValue(ThemeResourcesManager.DefaultManagerProperty, manager);
-                    }
+                    SetPropertyValue();
+                    uiSettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
 
-                    element.SetBinding(
-                        dp: Context.Property,
-                        binding: new Binding
-                        {
-                            Path = new PropertyPath(nameof(ThemeResourcesManager.AttachedResources)),
-                            Mode = Microsoft.UI.Xaml.Data.BindingMode.OneWay,
-                            Converter = new DictionaryKeyConverter(),
-                            ConverterParameter = key,
-                            ConverterLanguage = null,
-                            Source = manager
-                        });
                     return true;
                 }
             }
             return false;
+        }
+
+        private void RemoveHandler(UISettings settings)
+        {
+            settings.ColorValuesChanged -= UiSettings_ColorValuesChanged;
+        }
+
+        private void UiSettings_ColorValuesChanged(UISettings settings, object args)
+        {            
+            Context.Element.DispatcherQueue.TryEnqueue(() =>
+            {
+                if (Context.Element is FrameworkElement element)
+                {
+                    if (element.Parent == null)
+                        RemoveHandler(settings);
+                    else
+                        SetPropertyValue();
+                }
+                else
+                    RemoveHandler(settings);
+            });
         }
 
         internal PropertyResourceBuilder<T> ResourceKey(string key) { this.key = key; return this; }
