@@ -14,10 +14,10 @@ namespace CodeMarkup.WinUI.Styling
         static ResourcesManager()
         {
             settings = new UISettings();
-            settings.ColorValuesChanged += settings_ColorValuesChanged;
+            settings.ColorValuesChanged += Settings_ColorValuesChanged;
         }
 
-        private static void settings_ColorValuesChanged(UISettings sender, object args)
+        private static void Settings_ColorValuesChanged(UISettings sender, object args)
         {
             ThemeChanged?.Invoke();
         }
