@@ -50,5 +50,18 @@ namespace CodeMarkup.WinUI.Generator
 
             return isBindable;
         }
+
+        public static bool IsUIElementObject(INamedTypeSymbol symbol)
+        {
+            var isBindable = false;
+
+            Helpers.LoopDownToObject(symbol, type =>
+            {
+                if (type.ToDisplayString().Equals(UIElementTypeName, StringComparison.Ordinal)) isBindable = true;
+                return isBindable;
+            });
+
+            return isBindable;
+        }
     }
 }

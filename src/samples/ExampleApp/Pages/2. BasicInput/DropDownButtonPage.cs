@@ -3,13 +3,14 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Generic;
 using Microsoft.UI.Xaml.Data;
 using System;
+using Microsoft.UI.Xaml.Media;
 
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
     using CodeMarkup.WinUI.Controls;
-    using Microsoft.UI.Xaml.Media;
-
+    
+    [Bindable]
     public partial class DropDownButtonPage : ExamplesBasePage
     {
         public DropDownButtonPage()

@@ -3,22 +3,27 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using System;
+using Windows.UI;
 using Windows.UI.ViewManagement;
 
 namespace CodeMarkup.WinUI.Styling
 {
-    public sealed class PropertyThemeBuilder<T> : IPropertyBuilder<T>
+    public sealed class PropertyResourceBuilder<T> : IPropertyBuilder<T>
     {
         class DictionaryKeyConverter : IValueConverter
         {
             public object Convert(object value, Type targetType, object parameter, string language)
             {
-                if (value is ResourceDictionary dictionary && parameter is string key)
+                if (parameter is string key)
                 {
-                    var obj = dictionary[key];
-                    if (obj is Windows.UI.Color color)
+                    object result = null;
+                    if (value is ResourceDictionary dictionary) dictionary.TryGetValue(key, out result);
+                    if (result == null) Application.Current.Resources.TryGetValue(key, out result);
+                    
+                    if (result is Windows.UI.Color color)
                         return new SolidColorBrush(color);
-                    return obj;
+
+                    return result;
                 }
                 return null;
             }
@@ -34,7 +39,7 @@ namespace CodeMarkup.WinUI.Styling
         string key = null;
         FrameworkElement source = null;
 
-        public PropertyThemeBuilder(PropertyContext<T> context)
+        public PropertyResourceBuilder(PropertyContext<T> context)
         {
             Context = context;
         }
@@ -56,8 +61,8 @@ namespace CodeMarkup.WinUI.Styling
                     element.SetBinding(
                         dp: Context.Property,
                         binding: new Binding
-                        {                           
-                            Path = new PropertyPath("ThemeResources"),
+                        {
+                            Path = new PropertyPath(nameof(ThemeResourcesManager.AttachedResources)),
                             Mode = Microsoft.UI.Xaml.Data.BindingMode.OneWay,
                             Converter = new DictionaryKeyConverter(),
                             ConverterParameter = key,
@@ -70,7 +75,7 @@ namespace CodeMarkup.WinUI.Styling
             return false;
         }
 
-        internal PropertyThemeBuilder<T> ResourceKey(string key) { this.key = key; return this; }
-        public PropertyThemeBuilder<T> Source(FrameworkElement source) { this.source = source; return this; }
+        internal PropertyResourceBuilder<T> ResourceKey(string key) { this.key = key; return this; }
+        public PropertyResourceBuilder<T> Source(FrameworkElement source) { this.source = source; return this; }
     }
 }

@@ -17,7 +17,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeMarkup.WinUI", "main\Co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "main", "main", "{DE639D41-0E3F-46D7-B02A-2428DBED3979}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeMarkup.WinUI.HotReload", "main\CodeMarkup.WinUI.HotReload\CodeMarkup.WinUI.HotReload.csproj", "{4B4FE44F-91DD-47D6-947E-DAD7C5F88A36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeMarkup.WinUI.HotReload", "main\CodeMarkup.WinUI.HotReload\CodeMarkup.WinUI.HotReload.csproj", "{4B4FE44F-91DD-47D6-947E-DAD7C5F88A36}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{E641571E-4CE5-445B-8177-FD490EBEB89C}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
