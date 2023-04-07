@@ -1,7 +1,4 @@
-﻿//
-// MIT License
-// Copyright Pawel Krzywdzinski
-//
+﻿
 
 using System.Collections.Generic;
 using System.Linq;

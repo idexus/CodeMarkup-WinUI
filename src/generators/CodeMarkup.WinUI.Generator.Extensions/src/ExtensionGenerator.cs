@@ -1,7 +1,4 @@
-﻿//
-// Apache 2.0 License
-// Copyright Pawel Krzywdzinski
-//
+﻿
 
 using System;
 using System.Collections.Generic;
