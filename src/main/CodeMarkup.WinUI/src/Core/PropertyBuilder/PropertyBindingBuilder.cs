@@ -52,15 +52,15 @@ namespace CodeMarkup.WinUI
                 if (Context.Element is FrameworkElement element)
                 {
                     element.SetBinding(
-                        dp: Context.Property,
+                        dp: Context.Property,                        
                         binding: new Binding
                         {
                             Path = new PropertyPath(path),
                             Mode = bindingMode,
                             Converter = converter,
                             ConverterParameter = converterParameter,
-                            ConverterLanguage = converterLanguage,
-                            Source = source
+                            ConverterLanguage = converterLanguage,                           
+                            Source = source,                                
                         });
                     return true;
                 }
