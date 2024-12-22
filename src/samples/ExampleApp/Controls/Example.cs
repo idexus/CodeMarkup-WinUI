@@ -4,14 +4,12 @@ using CodeMarkup.WinUI;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Media;
 using ColorCode;
+using Windows.UI;
 
 
 namespace ExampleApp
 {
-    using CodeMarkup.WinUI.Controls;
-    using CodeMarkup.WinUI.Styling;
-    using System;
-    using Windows.UI;
+    using CodeMarkup.WinUI;
 
     [DependencyProperties]
     public interface IExample

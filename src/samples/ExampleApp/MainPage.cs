@@ -8,8 +8,6 @@ using Microsoft.UI.Xaml.Controls;
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
-    using CodeMarkup.WinUI.Controls;
-    using CodeMarkup.WinUI.Styling;
 
     internal class MainPage : Page
     {

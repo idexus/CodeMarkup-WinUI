@@ -3,7 +3,7 @@ using Microsoft.UI.Xaml;
 using System.ComponentModel;
 using Windows.UI.ViewManagement;
 
-namespace CodeMarkup.WinUI.Controls
+namespace CodeMarkup.WinUI
 {
     [CodeMarkup]
     [ContainerProperty(nameof(Content))]

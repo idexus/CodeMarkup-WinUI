@@ -1,6 +1,5 @@
 ﻿using Microsoft.UI.Xaml;
 using System.Collections.Generic;
-using CodeMarkup.WinUI.Internal;
 using Microsoft.UI.Xaml.Controls;
 using System;
 

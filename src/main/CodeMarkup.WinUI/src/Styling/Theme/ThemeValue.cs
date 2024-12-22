@@ -1,6 +1,6 @@
 ﻿using Windows.UI;
 
-namespace CodeMarkup.WinUI.Styling
+namespace CodeMarkup.WinUI
 {
     public class ThemeValue<T>
     {

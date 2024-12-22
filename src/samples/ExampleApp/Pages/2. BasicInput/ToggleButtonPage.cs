@@ -2,7 +2,7 @@
 
 namespace ExampleApp
 {
-    using CodeMarkup.WinUI.Controls;
+    using CodeMarkup.WinUI;
     using Microsoft.UI.Xaml.Data;
 
     [Bindable]

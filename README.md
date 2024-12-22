@@ -15,8 +15,6 @@ using Microsoft.UI.Xaml.Data;
 
 namespace ExampleApp
 {
-    using CodeMarkup.WinUI.Controls;
-    using CodeMarkup.WinUI.Styling;
     using CodeMarkup.WinUI;
 
     [Bindable]
@@ -69,7 +67,7 @@ namespace ExampleApp
 
 # In Your Project
 
-__CodeMarkup for WinUI__ replaces some standard WinUI classes by subclassing them and adding new constructors and `IEnumerable` interface implementation. To use CodeMarkup controls in your projects, you need to include the `using CodeMarkup.WinUI.Controls` statement inside your app namespace.
+__CodeMarkup for WinUI__ replaces some standard WinUI classes by subclassing them and adding new constructors and `IEnumerable` interface implementation. To use CodeMarkup controls in your projects, you need to include the `using CodeMarkup.WinUI` statement inside your app namespace.
 
 ```cs
 using Windows.UI;
@@ -79,7 +77,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 
 namespace ExampleApp;
-using CodeMarkup.WinUI.Controls;
+using CodeMarkup.WinUI;
 
 ...
 ```
@@ -95,7 +93,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace ExampleApp
 {
-    using CodeMarkup.WinUI.Controls;
+    using CodeMarkup.WinUI;
     ...
 }
 ```

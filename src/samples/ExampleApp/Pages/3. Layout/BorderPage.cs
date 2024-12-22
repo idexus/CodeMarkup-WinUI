@@ -10,7 +10,6 @@ using Microsoft.UI;
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
-    using CodeMarkup.WinUI.Controls;
      
     [Bindable]
     public partial class BorderPage : ExamplesBasePage

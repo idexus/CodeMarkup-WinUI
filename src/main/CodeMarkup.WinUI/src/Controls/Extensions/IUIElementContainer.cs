@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace CodeMarkup.WinUI.Controls
+namespace CodeMarkup.WinUI
 {
     public interface IUIElementContainer : IEnumerable<UIElement>
     {

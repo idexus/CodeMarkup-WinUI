@@ -12,7 +12,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Shapes;
 
-namespace CodeMarkup.WinUI.Internal
+namespace CodeMarkup.Internal
 {
     class WinUISymbols
 	{

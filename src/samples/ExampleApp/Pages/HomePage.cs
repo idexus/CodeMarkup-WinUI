@@ -6,8 +6,6 @@ using Microsoft.UI;
 
 namespace ExampleApp
 {
-    using CodeMarkup.WinUI.Controls;
-    using CodeMarkup.WinUI.Styling;
     using CodeMarkup.WinUI;
 
     [Bindable]

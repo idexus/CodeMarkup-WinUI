@@ -3,7 +3,7 @@ using System.Collections;
 using System.ComponentModel;
 using Windows.UI.ViewManagement;
 
-namespace CodeMarkup.WinUI.Controls
+namespace CodeMarkup.WinUI
 {
     [CodeMarkup]
     public partial class Frame : Microsoft.UI.Xaml.Controls.Frame, IEnumerable

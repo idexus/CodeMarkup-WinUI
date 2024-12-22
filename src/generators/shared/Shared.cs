@@ -7,7 +7,7 @@ namespace CodeMarkup.WinUI.Generator
 	public class Shared
 	{
         public const string WinUIPrefix = "Microsoft.UI.Xaml";
-        public const string ControlsLibPrefix = "CodeMarkup.WinUI.Controls";
+        public const string ControlsLibPrefix = "CodeMarkup.WinUI";
         public const string CoreLibPrefix = "CodeMarkup.WinUI";
 
         public const string DependencyObjectTypeName = "Microsoft.UI.Xaml.DependencyObject";

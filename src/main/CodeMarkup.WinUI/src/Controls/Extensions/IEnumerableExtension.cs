@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace CodeMarkup.WinUI.Controls
+namespace CodeMarkup.WinUI
 {
 
     public static partial class IEnumerableExtension

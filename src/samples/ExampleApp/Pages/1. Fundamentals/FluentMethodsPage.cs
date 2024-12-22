@@ -3,7 +3,6 @@
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
-    using CodeMarkup.WinUI.Controls;
 
     [Bindable]
     public partial class FluentMethodsPage : ExamplesBasePage

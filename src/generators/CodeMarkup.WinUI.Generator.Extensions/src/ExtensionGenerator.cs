@@ -78,7 +78,6 @@ namespace CodeMarkup.WinUI.Generator.Extensions
             builder.Append($@"
 namespace {namespaceName}
 {{
-    using {Shared.CoreLibPrefix}.Styling;
     {GetUsingString()}
     public static partial class {className}
     {{");

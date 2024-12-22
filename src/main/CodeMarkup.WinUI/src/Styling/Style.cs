@@ -1,9 +1,8 @@
-﻿using CodeMarkup.WinUI.Internal;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using System;
 using System.Collections;
 
-namespace CodeMarkup.WinUI.Styling
+namespace CodeMarkup.WinUI
 {
     public partial class Style<T> : IEnumerable
         where T : FrameworkElement

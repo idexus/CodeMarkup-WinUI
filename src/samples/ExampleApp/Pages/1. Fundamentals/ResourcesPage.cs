@@ -3,14 +3,12 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Windows.UI;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media;
 
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
-    using CodeMarkup.WinUI.Controls;
-    using CodeMarkup.WinUI.Styling;
-    using Microsoft.UI.Xaml.Media;
-
+    
     [Bindable]
     public partial class ResourcesPage : ExamplesBasePage
     {

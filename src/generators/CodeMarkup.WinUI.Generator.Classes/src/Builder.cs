@@ -29,7 +29,7 @@ namespace CodeMarkup.WinUI.Generator.SharpObjects
             }
 
             var winUISymbolsClass = context.Compilation.GetSymbolsWithName(s => true, filter: SymbolFilter.Type)
-                .Where(e => e.ToDisplayString().Equals($"{Shared.CoreLibPrefix}.Internal.WinUISymbols"))
+                .Where(e => e.ToDisplayString().Equals($"CodeMarkup.Internal.WinUISymbols"))
                 .ToList()
                 .FirstOrDefault() as INamedTypeSymbol;
 

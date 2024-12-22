@@ -5,15 +5,13 @@ using Microsoft.UI;
 using System;
 using System.ComponentModel;
 using Windows.UI.Text;
+using Windows.UI;
 
 
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
-    using CodeMarkup.WinUI.Controls;
-    using CodeMarkup.WinUI.Styling;
-    using Windows.UI;
-
+    
     [DependencyProperties]
     public interface IExamplesBasePage
     {

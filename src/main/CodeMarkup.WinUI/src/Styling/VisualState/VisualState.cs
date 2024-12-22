@@ -1,10 +1,9 @@
-﻿using CodeMarkup.WinUI.Internal;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
 using System;
 using System.Collections;
 
-namespace CodeMarkup.WinUI.Styling
+namespace CodeMarkup.WinUI
 {
     public partial class VisualState : IEnumerable
     {

@@ -1,4 +1,4 @@
-﻿using CodeMarkup.WinUI.Controls;
+﻿using CodeMarkup.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
@@ -9,7 +9,7 @@ using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 
-namespace CodeMarkup.WinUI.Styling
+namespace CodeMarkup.WinUI
 {
     public sealed class PropertyResourceBuilder<T> : IPropertyBuilder<T>
     {

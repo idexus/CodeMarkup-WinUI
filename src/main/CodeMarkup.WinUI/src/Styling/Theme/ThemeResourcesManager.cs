@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
 
-namespace CodeMarkup.WinUI.Styling
+namespace CodeMarkup.WinUI
 {
     public class ThemeResourcesManager
     {
