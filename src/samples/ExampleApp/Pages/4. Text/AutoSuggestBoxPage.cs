@@ -12,7 +12,6 @@ using System.Linq;
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
-    using CodeMarkup.WinUI.Controls;
      
     [Bindable]
     public partial class AutoSuggestBoxPage : ExamplesBasePage

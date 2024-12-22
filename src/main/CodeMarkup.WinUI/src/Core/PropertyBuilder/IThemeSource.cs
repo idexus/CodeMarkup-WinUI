@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using System.ComponentModel;
 
-namespace CodeMarkup.WinUI.Controls
+namespace CodeMarkup.WinUI
 {
     public interface IThemeSource : INotifyPropertyChanged
     {

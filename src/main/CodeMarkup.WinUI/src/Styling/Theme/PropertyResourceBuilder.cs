@@ -1,4 +1,4 @@
-﻿using CodeMarkup.WinUI.Controls;
+﻿using CodeMarkup.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
@@ -9,7 +9,7 @@ using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 
-namespace CodeMarkup.WinUI.Styling
+namespace CodeMarkup.WinUI
 {
     public sealed class PropertyResourceBuilder<T> : IPropertyBuilder<T>
     {
@@ -43,8 +43,6 @@ namespace CodeMarkup.WinUI.Styling
             Context.Element.SetValue(Context.Property, result);
         }
 
-        static readonly UISettings uiSettings = new();
-
         public bool Build()
         {
             if (key != null)
@@ -52,7 +50,7 @@ namespace CodeMarkup.WinUI.Styling
                 if (Context.Element is FrameworkElement contextElement)
                 {
                     SetPropertyValue();
-                    uiSettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
+                    ThemeResourcesManager.ThemeChanged += ThemeResourcesManager_ThemeChanged;
 
                     return true;
                 }
@@ -60,25 +58,25 @@ namespace CodeMarkup.WinUI.Styling
             return false;
         }
 
-        private void RemoveHandler(UISettings settings)
+        private void ThemeResourcesManager_ThemeChanged()
         {
-            settings.ColorValuesChanged -= UiSettings_ColorValuesChanged;
-        }
-
-        private void UiSettings_ColorValuesChanged(UISettings settings, object args)
-        {            
             Context.Element.DispatcherQueue.TryEnqueue(() =>
             {
                 if (Context.Element is FrameworkElement element)
                 {
                     if (element.Parent == null)
-                        RemoveHandler(settings);
+                        RemoveHandler();
                     else
                         SetPropertyValue();
                 }
                 else
-                    RemoveHandler(settings);
+                    RemoveHandler();
             });
+        }
+
+        private void RemoveHandler()
+        {
+            ThemeResourcesManager.ThemeChanged -= ThemeResourcesManager_ThemeChanged;
         }
 
         internal PropertyResourceBuilder<T> ResourceKey(string key) { this.key = key; return this; }

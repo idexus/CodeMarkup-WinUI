@@ -6,7 +6,7 @@ using Windows.Graphics;
 
 namespace ExampleApp
 {
-    using CodeMarkup.WinUI.Controls;
+    using CodeMarkup.WinUI;
 
     internal class MainWindow : Window
     {

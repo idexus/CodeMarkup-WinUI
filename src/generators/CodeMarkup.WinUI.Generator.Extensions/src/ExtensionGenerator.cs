@@ -1,7 +1,4 @@
-﻿//
-// Apache 2.0 License
-// Copyright Pawel Krzywdzinski
-//
+﻿
 
 using System;
 using System.Collections.Generic;
@@ -81,7 +78,6 @@ namespace CodeMarkup.WinUI.Generator.Extensions
             builder.Append($@"
 namespace {namespaceName}
 {{
-    using {Shared.CoreLibPrefix}.Styling;
     {GetUsingString()}
     public static partial class {className}
     {{");

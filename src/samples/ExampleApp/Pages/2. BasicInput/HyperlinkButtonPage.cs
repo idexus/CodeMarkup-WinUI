@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace ExampleApp
 {
-    using CodeMarkup.WinUI.Controls;
+    using CodeMarkup.WinUI;
     
     [Bindable]
     public partial class HyperlinkButtonPage : ExamplesBasePage

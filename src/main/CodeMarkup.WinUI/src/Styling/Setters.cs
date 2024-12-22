@@ -1,11 +1,10 @@
-﻿using CodeMarkup.WinUI.Internal;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CodeMarkup.WinUI.Styling
+namespace CodeMarkup.WinUI
 {
     public partial class Setters<T> : IEnumerable
         where T : FrameworkElement

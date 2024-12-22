@@ -6,8 +6,6 @@ using Microsoft.UI.Xaml.Data;
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
-    using CodeMarkup.WinUI.Controls;
-    using CodeMarkup.WinUI.Styling;
 
     [Bindable]
     public partial class ContainersPage : ExamplesBasePage

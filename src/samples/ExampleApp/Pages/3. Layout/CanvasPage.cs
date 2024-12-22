@@ -5,11 +5,11 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI;
 
 namespace ExampleApp
 {
-    using CodeMarkup.WinUI.Controls;
-    using Microsoft.UI;
+    using CodeMarkup.WinUI;
     
     [Bindable]
     public partial class CanvasPage : ExamplesBasePage

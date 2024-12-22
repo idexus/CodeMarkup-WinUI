@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Data;
 namespace ExampleApp
 {
     using CodeMarkup.WinUI;
-    using CodeMarkup.WinUI.Controls;
     
     [Bindable]
     public partial class RatingControlPage : ExamplesBasePage

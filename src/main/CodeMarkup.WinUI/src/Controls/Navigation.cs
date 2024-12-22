@@ -1,6 +1,6 @@
 ﻿using CodeMarkup.WinUI.HotReload;
 
-namespace CodeMarkup.WinUI.Controls
+namespace CodeMarkup.WinUI
 {
     [CodeMarkup]
     [ContainerProperty(nameof(MenuItems))]
